@@ -43,6 +43,10 @@ export interface AgentPlugin {
 
 ## Key Conventions
 
+### Node.js & Package Manager
+- **Node 24** is required. The project uses **nvm** — run `nvm use` in the repo root to activate the correct version (pinned in `.nvmrc`).
+- Package manager: **npm** workspaces.
+
 ### TypeScript
 - `module: nodenext`, `moduleResolution: nodenext` — use `.js` extensions in imports even for `.ts` source files
 - `strict: true`, `noUnusedLocals: true`, `noImplicitReturns: true`
@@ -50,11 +54,32 @@ export interface AgentPlugin {
 - Custom condition: `@coreai/source` (see `tsconfig.base.json`)
 
 ### Nx Workspace
+**Always prefer Nx first-party plugins over manual configuration.** Use `npx nx add <plugin>` to install and wire up plugins — they integrate with the Nx task graph, caching, and affected commands automatically.
+
+Installed plugins and what they provide:
+- `@nx/js` — `build`, `typecheck`, `build-deps`, `watch-deps` targets (inferred from `tsconfig.lib.json`)
+- `@nx/eslint` — `lint` target (inferred from `.eslintrc.*` presence)
+- `@nx/jest` — `test` target (inferred from `jest.config.*` presence)
+- Nx core — `npx nx format:check` / `npx nx format:write` (Prettier, no plugin needed)
+
+Common commands:
 - Build: `npx nx build <project>`
 - Typecheck: `npx nx typecheck <project>`
-- Run any target: `npx nx <target> <project>`
+- Lint: `npx nx lint <project>`
+- Test: `npx nx test <project>`
+- Format check: `npx nx format:check`
+- Format write: `npx nx format:write`
+- Run all quality checks: `npx nx run-many -t typecheck,lint,test --projects=<project>`
+- Run a single test file: `npx nx test <project> --testFile=src/lib/foo.spec.ts`
+- Run affected only: `npx nx affected -t typecheck,lint,test`
 - Sync TypeScript project references: `npx nx sync`
 - Generate a new publishable library: `npx nx g @nx/js:lib packages/<name> --publishable --importPath=@coreai/<name>`
+- Add a new Nx plugin: `npx nx add @nx/<plugin>`
+
+When generating a new package, apply Jest and ESLint config using the same pattern as `packages/agent-types`:
+- `jest.config.cts` with `passWithNoTests: true` and `preset: '../../jest.preset.js'`
+- `.eslintrc.json` extending `../../.eslintrc.js`
+- `tsconfig.spec.json` must set `"customConditions": null` when using `moduleResolution: node10` (Jest/CommonJS) to avoid TS5098 conflict with the base config
 
 ### Controlled File Writes
 Hooks and agents may only write to:
