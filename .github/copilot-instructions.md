@@ -71,13 +71,13 @@ main
    git checkout -b feat/e{N}-t{M}-{task-name}
    ```
 
-3. **Complete a task** — commit with conventional commit message, merge back into epic branch:
+3. **Complete a task** — commit with conventional commit message, push and open a PR to the epic branch:
    ```bash
    git add . && git commit -m "feat(e{N}-t{M}): description"
-   git checkout feat/e{N}-{epic-name}
-   git merge feat/e{N}-t{M}-{task-name} --no-ff
-   git branch -d feat/e{N}-t{M}-{task-name}
+   git push -u origin feat/e{N}-t{M}-{task-name}
+   gh pr create --base feat/e{N}-{epic-name} --title "feat(e{N}-t{M}): description"
    ```
+   **Human reviews the PR** — only merge when satisfied. Do not self-merge task branches.
 
 4. **Complete an epic** — push epic branch and open a PR to `main`:
    ```bash
