@@ -119,6 +119,20 @@ Scope: epic/task ID or package name, e.g. e2-t1, agent-core
 
 > **Note:** `git-cliff` is installed globally via brew. `cliff.toml` is at the repo root.
 
+### Code Quality & CI Tools
+
+| Tool | Purpose | Runs on |
+|------|---------|---------|
+| **Nx** (`typecheck`, `lint`, `test`, `build`) | Local quality gates | Every task branch, pre-PR |
+| **Sourcery AI** | Automated PR code review, architecture diagrams | Every PR (GitHub bot) |
+| **SonarCloud** | Static analysis, security hotspots, coverage gates, duplication | Every PR + main (cloud) |
+
+When SonarCloud flags issues on a PR:
+- **Bugs / Vulnerabilities** — must be fixed before merge
+- **Security Hotspots** — review and either fix or mark as reviewed with justification
+- **Code Smells** — fix if straightforward; log as a follow-up task if complex
+- **Coverage** — once E2-T5 unit tests are in place, coverage gates will apply
+
 ### Package Versioning
 
 All packages in this monorepo are versioned **in lockstep** (same version across all packages).
