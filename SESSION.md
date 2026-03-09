@@ -132,11 +132,28 @@ Standalone manifest-driven skills/instructions sync CLI (independent of other ep
 
 ---
 
+### CI/CD — GitHub Actions ⬜
+| ID | Task | Status |
+|----|------|--------|
+| CI-T1 | GitHub Actions CI workflow — `nx affected` (typecheck, lint, test, build) on every PR + integration tests post-Epic 3 | ⬜ |
+
+---
+
 ## Build Order
 ```
 E1 ✅ → E2 ⬜ → E3, E4, E5, E6, E7 (parallel) → E8
 E9 (independent, can run in parallel with any epic)
+CI-T1 (after E3 merges — adds GitHub Actions + integration tests)
 ```
+
+## Quality Gates Per PR (current)
+| Gate | Tool | Status |
+|------|------|--------|
+| typecheck, lint, test, build | Nx (local, before push) | ✅ manual |
+| Automated code review | Sourcery AI | ✅ active |
+| Security analysis | CodeQL | ✅ active |
+| Static analysis + coverage | SonarCloud | ✅ active |
+| GitHub Actions CI | Nx affected on every PR | ⬜ CI-T1 (post-E3) |
 
 ## References
 - Architecture specs: `docs/specs/agent_architecture_documentation_pack/`
