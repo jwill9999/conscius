@@ -88,7 +88,9 @@ taskCmd
     ),
   );
 
-program.parseAsync(process.argv).catch((err: unknown) => {
+try {
+  await program.parseAsync(process.argv);
+} catch (err: unknown) {
   console.error('agent:', err instanceof Error ? err.message : String(err));
   process.exit(1);
-});
+}
