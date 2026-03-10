@@ -29,6 +29,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Format check
+        run: npx nx format:check
+
       - name: Typecheck
         run: npx nx run-many -t typecheck --all
 

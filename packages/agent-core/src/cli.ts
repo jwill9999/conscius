@@ -26,7 +26,13 @@ async function bootstrap(opts: BootstrapOptions = {}) {
     conversation: [] as never[],
     compressionSummaries: [] as never[],
     ...(opts.taskId
-      ? { activeTask: { id: opts.taskId, title: opts.taskId, status: 'in_progress' as const } }
+      ? {
+          activeTask: {
+            id: opts.taskId,
+            title: opts.taskId,
+            status: 'in_progress' as const,
+          },
+        }
       : {}),
   };
 
@@ -35,7 +41,10 @@ async function bootstrap(opts: BootstrapOptions = {}) {
 
 async function runLifecycle(
   hook: HookName,
-  loaderFn: (loader: PluginLoader, ctx: Awaited<ReturnType<typeof bootstrap>>['context']) => Promise<void>,
+  loaderFn: (
+    loader: PluginLoader,
+    ctx: Awaited<ReturnType<typeof bootstrap>>['context'],
+  ) => Promise<void>,
   opts?: BootstrapOptions,
 ): Promise<void> {
   const { context, loader, runner } = await bootstrap(opts);
@@ -49,7 +58,9 @@ function toMessage(err: unknown): string {
   return JSON.stringify(err);
 }
 
-function wrapAction<Args extends unknown[]>(fn: (...args: Args) => Promise<void>): (...args: Args) => void {
+function wrapAction<Args extends unknown[]>(
+  fn: (...args: Args) => Promise<void>,
+): (...args: Args) => void {
   return (...args: Args) => {
     fn(...args).catch((err: unknown) => {
       console.error('agent:', toMessage(err));
@@ -60,17 +71,18 @@ function wrapAction<Args extends unknown[]>(fn: (...args: Args) => Promise<void>
 
 const program = new Command();
 
-program
-  .name('agent')
-  .description('coreai agent CLI')
-  .version('0.1.0-alpha.0');
+program.name('agent').description('coreai agent CLI').version('0.1.0-alpha.0');
 
 program
   .command('start')
-  .description('Start an agent session — loads config, runs onSessionStart hooks')
+  .description(
+    'Start an agent session — loads config, runs onSessionStart hooks',
+  )
   .action(
     wrapAction(() =>
-      runLifecycle('onSessionStart', (loader, ctx) => loader.runSessionStart(ctx)),
+      runLifecycle('onSessionStart', (loader, ctx) =>
+        loader.runSessionStart(ctx),
+      ),
     ),
   );
 
@@ -87,10 +99,14 @@ const taskCmd = program.command('task').description('Task-level commands');
 
 taskCmd
   .command('start <id>')
-  .description('Mark a task as started — runs onTaskStart hooks with the given task id')
+  .description(
+    'Mark a task as started — runs onTaskStart hooks with the given task id',
+  )
   .action(
     wrapAction((id: string) =>
-      runLifecycle('onTaskStart', (loader, ctx) => loader.runTaskStart(ctx), { taskId: id }),
+      runLifecycle('onTaskStart', (loader, ctx) => loader.runTaskStart(ctx), {
+        taskId: id,
+      }),
     ),
   );
 

@@ -1,10 +1,13 @@
 # Session Context
 
 ## Current Objective
+
 Build the coreai agent ecosystem — a layered AI-assisted engineering workflow platform — as an Nx monorepo with 8 publishable packages.
 
 ## Active Task
+
 **Epic 2 — `@coreai/agent-core`** (in progress)
+
 - ✅ E2-T1 complete — context builder merged into `feat/e2-agent-core`
 - ✅ E2-T2 complete — plugin loader merged into `feat/e2-agent-core`
 - ✅ E2-T3 complete — hook runner merged into `feat/e2-agent-core`
@@ -12,6 +15,7 @@ Build the coreai agent ecosystem — a layered AI-assisted engineering workflow 
 - ⬜ E2-T5 next — unit tests (context builder, plugin loader, hook runner, CLI)
 
 ## Progress Since Last Session
+
 - ✅ **Epic 1 complete** — `@coreai/agent-types` scaffolded and pushed to GitHub
 - ✅ Nx plugin tooling configured: `@nx/eslint`, `@nx/jest`, `@nx/js` (all targets inferred)
 - ✅ Node 24 / nvm pinned in `.nvmrc`
@@ -40,6 +44,7 @@ Build the coreai agent ecosystem — a layered AI-assisted engineering workflow 
   - Merged into `feat/e2-agent-core` ✅
 
 ## Decisions Made
+
 - Nx monorepo — always prefer `npx nx add @nx/<plugin>` over manual config
 - TypeScript: `module: nodenext`, strict mode, `.js` extensions in imports
 - `tsconfig.spec.json` must set `"customConditions": null` (avoids TS5098 with Jest/node10)
@@ -52,9 +57,11 @@ Build the coreai agent ecosystem — a layered AI-assisted engineering workflow 
 - Unit tests written at end of each epic (E2-T5), not per task
 
 ## Open Issues
+
 - None currently.
 
 ## Next Steps
+
 1. Create `feat/e2-t5-unit-tests` from `feat/e2-agent-core`
 2. Implement E2-T5 — unit tests for context builder, plugin loader, hook runner, and CLI
 3. Once merged: run full suite on epic branch, open PR to `main`, bump version to `0.2.0-alpha.0`
@@ -66,12 +73,14 @@ Build the coreai agent ecosystem — a layered AI-assisted engineering workflow 
 Legend: ✅ done | ⬜ pending
 
 ### Epic 1 — Monorepo Foundation & Shared Types ✅
-| ID | Task | Status |
-|----|------|--------|
-| E1-T1 | Scaffold `@coreai/agent-types` — all shared TS interfaces/types | ✅ |
-| E1-T2 | Configure Nx targets and Prettier across all packages | ✅ |
+
+| ID    | Task                                                            | Status |
+| ----- | --------------------------------------------------------------- | ------ |
+| E1-T1 | Scaffold `@coreai/agent-types` — all shared TS interfaces/types | ✅     |
+| E1-T2 | Configure Nx targets and Prettier across all packages           | ✅     |
 
 ### Epic 2 — `@coreai/agent-core` ⬜
+
 Runtime orchestration: context builder, plugin loader, hook runner, CLI.
 | ID | Task | Status |
 |----|------|--------|
@@ -82,6 +91,7 @@ Runtime orchestration: context builder, plugin loader, hook runner, CLI.
 | E2-T5 | Unit tests for context builder and plugin loader | ⬜ |
 
 ### Epic 3 — `@coreai/agent-plugin-beads` ⬜
+
 Wraps `bd` CLI to inject Beads task context.
 | ID | Task | Status |
 |----|------|--------|
@@ -91,6 +101,7 @@ Wraps `bd` CLI to inject Beads task context.
 | E3-T4 | Unit tests with mocked `bd` CLI output | ⬜ |
 
 ### Epic 4 — `@coreai/agent-plugin-mulch` ⬜
+
 Wraps `mulch` CLI to surface experience lessons.
 | ID | Task | Status |
 |----|------|--------|
@@ -100,6 +111,7 @@ Wraps `mulch` CLI to surface experience lessons.
 | E4-T4 | Unit tests with mocked `mulch` CLI | ⬜ |
 
 ### Epic 5 — `@coreai/agent-plugin-session` ⬜
+
 Manages `SESSION.md` lifecycle.
 | ID | Task | Status |
 |----|------|--------|
@@ -109,6 +121,7 @@ Manages `SESSION.md` lifecycle.
 | E5-T4 | Unit tests | ⬜ |
 
 ### Epic 6 — `@coreai/agent-plugin-compression` ⬜
+
 Ephemeral conversation compression — no file writes ever.
 | ID | Task | Status |
 |----|------|--------|
@@ -118,6 +131,7 @@ Ephemeral conversation compression — no file writes ever.
 | E6-T4 | Unit tests for segmentation and compression logic | ⬜ |
 
 ### Epic 7 — `@coreai/agent-plugin-guardrails` ⬜
+
 Validation pipeline triggered when a task enters `review`.
 | ID | Task | Status |
 |----|------|--------|
@@ -128,6 +142,7 @@ Validation pipeline triggered when a task enters `review`.
 | E7-T5 | Unit tests | ⬜ |
 
 ### Epic 8 — `@coreai/agent-stack-standard` ⬜
+
 Convenience bundle — installs all plugins + agent-core.
 | ID | Task | Status |
 |----|------|--------|
@@ -136,6 +151,7 @@ Convenience bundle — installs all plugins + agent-core.
 | E8-T3 | README and usage documentation | ⬜ |
 
 ### Epic 9 — `@coreai/skillshare` ⬜
+
 Standalone manifest-driven skills/instructions sync CLI (independent of other epics).
 | ID | Task | Status |
 |----|------|--------|
@@ -152,13 +168,15 @@ Standalone manifest-driven skills/instructions sync CLI (independent of other ep
 ---
 
 ### CI/CD — GitHub Actions ⬜
-| ID | Task | Status |
-|----|------|--------|
-| CI-T1 | GitHub Actions CI workflow — `nx affected` (typecheck, lint, test, build) on every PR + integration tests post-Epic 3 | ⬜ |
+
+| ID    | Task                                                                                                                  | Status |
+| ----- | --------------------------------------------------------------------------------------------------------------------- | ------ |
+| CI-T1 | GitHub Actions CI workflow — `nx affected` (typecheck, lint, test, build) on every PR + integration tests post-Epic 3 | ⬜     |
 
 ---
 
 ## Build Order
+
 ```
 E1 ✅ → E2 ⬜ → E3, E4, E5, E6, E7 (parallel) → E8
 E9 (independent, can run in parallel with any epic)
@@ -166,15 +184,17 @@ CI-T1 (after E3 merges — adds GitHub Actions + integration tests)
 ```
 
 ## Quality Gates Per PR (current)
-| Gate | Tool | Status |
-|------|------|--------|
-| typecheck, lint, test, build | Nx (local, before push) | ✅ manual |
-| Automated code review | Sourcery AI | ✅ active |
-| Security analysis | CodeQL | ✅ active |
-| Static analysis + coverage | SonarCloud | ✅ active |
-| GitHub Actions CI | Nx affected on every PR | ⬜ CI-T1 (post-E3) |
+
+| Gate                         | Tool                    | Status             |
+| ---------------------------- | ----------------------- | ------------------ |
+| typecheck, lint, test, build | Nx (local, before push) | ✅ manual          |
+| Automated code review        | Sourcery AI             | ✅ active          |
+| Security analysis            | CodeQL                  | ✅ active          |
+| Static analysis + coverage   | SonarCloud              | ✅ active          |
+| GitHub Actions CI            | Nx affected on every PR | ⬜ CI-T1 (post-E3) |
 
 ## References
+
 - Architecture specs: `docs/specs/agent_architecture_documentation_pack/`
 - Copilot instructions: `.github/copilot-instructions.md`
 - Repo: https://github.com/jwill9999/coreai

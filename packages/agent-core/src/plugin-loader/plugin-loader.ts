@@ -78,7 +78,10 @@ export class PluginLoader {
 
     if (errors.length > 1) {
       const summary = errors
-        .map(({ plugin, error }) => `  [${plugin}]: ${error instanceof Error ? error.message : String(error)}`)
+        .map(
+          ({ plugin, error }) =>
+            `  [${plugin}]: ${error instanceof Error ? error.message : String(error)}`,
+        )
         .join('\n');
       throw new AggregateError(
         errors.map(({ error }) => error),

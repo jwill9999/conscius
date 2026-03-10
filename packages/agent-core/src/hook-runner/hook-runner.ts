@@ -1,4 +1,8 @@
-import type { AgentConfig, AgentContext, AgentPlugin } from '@coreai/agent-types';
+import type {
+  AgentConfig,
+  AgentContext,
+  AgentPlugin,
+} from '@coreai/agent-types';
 import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createInterface } from 'node:readline';
 import { spawn } from 'node:child_process';
@@ -57,7 +61,8 @@ export class HookRunner {
       this.repoRoot,
       this.config.hooks?.repoHooksDir ?? DEFAULT_REPO_HOOKS_DIR,
     );
-    const rawGlobal = this.config.hooks?.globalHooksDir ?? DEFAULT_GLOBAL_HOOKS_DIR;
+    const rawGlobal =
+      this.config.hooks?.globalHooksDir ?? DEFAULT_GLOBAL_HOOKS_DIR;
     const globalHooksDir = rawGlobal.replace(/^~(?=$|\/)/, homedir());
 
     for (const dir of [repoHooksDir, globalHooksDir]) {
@@ -127,9 +132,8 @@ export class HookRunner {
       return JSON.parse(raw) as AgentConfig;
     } catch {
       // First run — prompt and persist.
-      const approvedPaths = await HookRunner.promptWritePermissions(
-        DEFAULT_ALLOW_WRITE,
-      );
+      const approvedPaths =
+        await HookRunner.promptWritePermissions(DEFAULT_ALLOW_WRITE);
 
       const config: AgentConfig = {
         ...DEFAULT_AGENT_CONFIG,
@@ -137,7 +141,11 @@ export class HookRunner {
       };
 
       await mkdir(join(repoRoot, '.agent'), { recursive: true });
-      await writeFile(configPath, JSON.stringify(config, null, 2) + '\n', 'utf8');
+      await writeFile(
+        configPath,
+        JSON.stringify(config, null, 2) + '\n',
+        'utf8',
+      );
 
       return config;
     }
@@ -152,7 +160,11 @@ export class HookRunner {
         ? this.repoRoot
         : dirname(hookPath);
 
-      const child = spawn(cmd, args, { env, cwd, stdio: ['ignore', 'inherit', 'inherit'] });
+      const child = spawn(cmd, args, {
+        env,
+        cwd,
+        stdio: ['ignore', 'inherit', 'inherit'],
+      });
 
       child.on('error', rej);
       child.on('close', (code) => {
@@ -172,13 +184,18 @@ export class HookRunner {
     return rel.startsWith('..' + sep) || rel === '..' ? abs : rel;
   }
 
-  private static promptWritePermissions(defaultPaths: string[]): Promise<string[]> {
+  private static promptWritePermissions(
+    defaultPaths: string[],
+  ): Promise<string[]> {
     // In non-interactive environments (CI, redirected stdin) avoid blocking on readline.
     if (!process.stdin.isTTY || !process.stdout.isTTY) {
       return Promise.resolve([]);
     }
     return new Promise((res) => {
-      const rl = createInterface({ input: process.stdin, output: process.stdout });
+      const rl = createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
       const list = defaultPaths.join(', ');
       rl.question(
         `agent-core: Allow hooks to write to approved paths (${list})? [y/N] `,
