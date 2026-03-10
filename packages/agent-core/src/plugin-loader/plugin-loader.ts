@@ -59,11 +59,31 @@ export class PluginLoader {
     hook: keyof Omit<AgentPlugin, 'name'>,
     context: AgentContext,
   ): Promise<void> {
+    const errors: Array<{ plugin: string; error: unknown }> = [];
+
     for (const plugin of this.plugins) {
       const fn = plugin[hook];
       if (typeof fn === 'function') {
-        await fn.call(plugin, context);
+        try {
+          await fn.call(plugin, context);
+        } catch (error) {
+          errors.push({ plugin: plugin.name, error });
+        }
       }
+    }
+
+    if (errors.length === 1) {
+      throw errors[0].error;
+    }
+
+    if (errors.length > 1) {
+      const summary = errors
+        .map(({ plugin, error }) => `  [${plugin}]: ${error instanceof Error ? error.message : String(error)}`)
+        .join('\n');
+      throw new AggregateError(
+        errors.map(({ error }) => error),
+        `${errors.length} plugin(s) failed during "${hook}":\n${summary}`,
+      );
     }
   }
 }
