@@ -6,9 +6,14 @@ Build the coreai agent ecosystem — a layered AI-assisted engineering workflow 
 
 ## Active Task
 
-**Epic 3 — `@coreai/agent-plugin-beads`** — not yet started
+**Epic 3 — `@coreai/agent-plugin-beads`** — epic PR #10 open, awaiting human review and merge to `main`.
 
-Next: create epic branch `feat/e3-agent-plugin-beads` from `main`, then start E3-T1.
+- PR #8 ✅ merged into epic branch
+- PR #9 ✅ merged into epic branch
+- Full suite passes on epic branch (typecheck, lint, test, build — all 3 projects)
+- **PR #10** `feat/e3-agent-plugin-beads` → `main` — CI pending, awaiting human review
+
+Next: human reviews and merges PR #10, then generate CHANGELOG and bump to `0.3.0-alpha.0`.
 
 ## Progress Since Last Session
 
@@ -20,6 +25,7 @@ Next: create epic branch `feat/e3-agent-plugin-beads` from `main`, then start E3
 - ✅ **SonarCloud hotspots** addressed: pinned GitHub Actions to commit SHAs, path validation added to hook-runner, `/tmp` hardcode removed from spec
 - ✅ **Sourcery fix** — `compressionTriggered` renamed to `compressionApplied`
 - ✅ **58 unit tests** passing (57 → 58 after additional security test)
+- ✅ **Epic 3 (E3-T1 → E3-T4)** — `@coreai/agent-plugin-beads` fully implemented (27 tests)
 
 ## Decisions Made
 
@@ -37,18 +43,27 @@ Next: create epic branch `feat/e3-agent-plugin-beads` from `main`, then start E3
 - Build intentionally CI-only (too slow for local hooks)
 - SonarCloud automatic analysis mode — coverage via Codecov only
 - CodeQL via GitHub-native Settings (not codeql.yml workflow file)
+- **lint-staged**: `.mjs` files get prettier-only (no ESLint) to avoid "File ignored by default" warnings
+- **`tsconfig.spec.json` with relative imports**: must include `src/**/*.ts` AND `references: [{path: './tsconfig.lib.json'}]` — see agent-plugin-beads as pattern
+- **`promisify(execFile)` + Jest mocks**: don't use — loses `util.promisify.custom` symbol; use manual Promise wrapper instead
 
 ## Open Issues
 
-None.
+None. All Epic 3 task PRs merged cleanly. Full suite passes on epic branch. Epic PR #10 is open and awaiting human review.
 
 ## Next Steps
 
-1. **Create epic branch**: `git checkout main && git pull && git checkout -b feat/e3-agent-plugin-beads`
-2. **E3-T1**: Create task branch `feat/e3-t1-beads-adapter`, scaffold `@coreai/agent-plugin-beads` package, implement `beadsAdapter.ts` (calls `bd show <task-id>`, parses into `BeadsTask`)
-3. **E3-T2**: `hooks.ts` — `onTaskStart` injects task metadata + spec path
-4. **E3-T3**: `contextLoader.ts` — loads spec file content from task metadata
-5. **E3-T4**: Unit tests with mocked `bd` CLI output
+1. **Review and merge PR #10** (`feat/e3-agent-plugin-beads` → `main`) — full suite ✅
+2. After merge to `main`:
+   ```bash
+   git checkout main && git pull
+   git-cliff --output CHANGELOG.md
+   # Bump all packages/*/package.json to 0.3.0-alpha.0
+   git add CHANGELOG.md packages/*/package.json
+   git commit -m "chore: update CHANGELOG.md and bump to 0.3.0-alpha.0"
+   git push
+   ```
+3. **Epic 4** — `@coreai/agent-plugin-mulch`
 
 ---
 
@@ -74,15 +89,15 @@ Runtime orchestration: context builder, plugin loader, hook runner, CLI.
 | E2-T4 | CLI — `agent start`, `agent end`, `agent task start <id>` using `commander` | ✅ |
 | E2-T5 | Unit tests for context builder, plugin loader, hook runner, CLI (57 tests) | ✅ |
 
-### Epic 3 — `@coreai/agent-plugin-beads` ⬜
+### Epic 3 — `@coreai/agent-plugin-beads` ✅ (epic PR #10 open → main)
 
 Wraps `bd` CLI to inject Beads task context.
 | ID | Task | Status |
 |----|------|--------|
-| E3-T1 | `beadsAdapter.ts` — calls `bd show <task-id>`, parses into `BeadsTask` | ⬜ |
-| E3-T2 | `hooks.ts` — `onTaskStart` injects task metadata + spec path | ⬜ |
-| E3-T3 | `contextLoader.ts` — loads spec file content from task metadata | ⬜ |
-| E3-T4 | Unit tests with mocked `bd` CLI output | ⬜ |
+| E3-T1 | `beadsAdapter.ts` — calls `bd show <task-id>`, parses into `BeadsTask` | ✅ |
+| E3-T2 | `hooks.ts` — `onTaskStart` injects task metadata + spec path | ✅ |
+| E3-T3 | `contextLoader.ts` — loads spec file content from task metadata | ✅ |
+| E3-T4 | Unit tests with mocked `bd` CLI output | ✅ |
 
 ### Epic 4 — `@coreai/agent-plugin-mulch` ⬜
 
