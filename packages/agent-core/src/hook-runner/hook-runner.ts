@@ -170,6 +170,10 @@ export class HookRunner {
   }
 
   private static promptWritePermissions(defaultPaths: string[]): Promise<string[]> {
+    // In non-interactive environments (CI, redirected stdin) avoid blocking on readline.
+    if (!process.stdin.isTTY || !process.stdout.isTTY) {
+      return Promise.resolve([]);
+    }
     return new Promise((res) => {
       const rl = createInterface({ input: process.stdin, output: process.stdout });
       const list = defaultPaths.join(', ');
