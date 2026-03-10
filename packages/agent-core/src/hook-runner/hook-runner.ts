@@ -3,7 +3,7 @@ import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createInterface } from 'node:readline';
 import { spawn } from 'node:child_process';
 import { homedir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { join, relative, resolve, sep } from 'node:path';
 
 /** Maps AgentPlugin lifecycle method names to their hook script file names. */
 export const HOOK_NAMES: Record<keyof Omit<AgentPlugin, 'name'>, string> = {
@@ -159,9 +159,10 @@ export class HookRunner {
   }
 
   private normalizeWritePath(filePath: string): string {
-    const abs = resolve(this.repoRoot, filePath);
     const repoAbs = resolve(this.repoRoot);
-    return abs.startsWith(repoAbs + '/') ? abs.slice(repoAbs.length + 1) : abs;
+    const abs = resolve(repoAbs, filePath);
+    const rel = relative(repoAbs, abs);
+    return rel.startsWith('..' + sep) || rel === '..' ? abs : rel;
   }
 
   private static promptWritePermissions(defaultPaths: string[]): Promise<string[]> {
