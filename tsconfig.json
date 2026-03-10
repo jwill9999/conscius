@@ -8,6 +8,9 @@
     },
     {
       "path": "./packages/agent-core"
+    },
+    {
+      "path": "./packages/agent-plugin-beads"
     }
   ]
 }
