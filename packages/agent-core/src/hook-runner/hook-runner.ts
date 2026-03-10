@@ -16,6 +16,10 @@ export const HOOK_NAMES: Record<keyof Omit<AgentPlugin, 'name'>, string> = {
 /** Extensions tried in order when resolving a hook script. */
 const HOOK_EXTENSIONS = ['.sh', '.js', '.mjs', '.cjs'] as const;
 
+const DEFAULT_REPO_HOOKS_DIR = '.agent/hooks';
+const DEFAULT_GLOBAL_HOOKS_DIR = '~/.agent/hooks';
+const DEFAULT_ALLOW_WRITE = ['SESSION.md', '.mulch/mulch.jsonl'];
+
 /** Executor to use based on file extension. */
 function resolveExecutor(hookPath: string): { cmd: string; args: string[] } {
   if (hookPath.endsWith('.sh')) return { cmd: 'sh', args: [hookPath] };
@@ -25,11 +29,11 @@ function resolveExecutor(hookPath: string): { cmd: string; args: string[] } {
 export const DEFAULT_AGENT_CONFIG: AgentConfig = {
   plugins: [],
   hooks: {
-    repoHooksDir: '.agent/hooks',
-    globalHooksDir: '~/.agent/hooks',
+    repoHooksDir: DEFAULT_REPO_HOOKS_DIR,
+    globalHooksDir: DEFAULT_GLOBAL_HOOKS_DIR,
   },
   permissions: {
-    allowWrite: ['SESSION.md', '.mulch/mulch.jsonl'],
+    allowWrite: DEFAULT_ALLOW_WRITE,
   },
   approvedWrites: {},
 };
@@ -51,10 +55,9 @@ export class HookRunner {
   async resolveHook(hookName: string): Promise<string | null> {
     const repoHooksDir = join(
       this.repoRoot,
-      this.config.hooks?.repoHooksDir ?? DEFAULT_AGENT_CONFIG.hooks!.repoHooksDir!,
+      this.config.hooks?.repoHooksDir ?? DEFAULT_REPO_HOOKS_DIR,
     );
-    const rawGlobal =
-      this.config.hooks?.globalHooksDir ?? DEFAULT_AGENT_CONFIG.hooks!.globalHooksDir!;
+    const rawGlobal = this.config.hooks?.globalHooksDir ?? DEFAULT_GLOBAL_HOOKS_DIR;
     const globalHooksDir = rawGlobal.replace(/^~(?=$|\/)/, homedir());
 
     for (const dir of [repoHooksDir, globalHooksDir]) {
@@ -125,7 +128,7 @@ export class HookRunner {
     } catch {
       // First run — prompt and persist.
       const approvedPaths = await HookRunner.promptWritePermissions(
-        DEFAULT_AGENT_CONFIG.permissions!.allowWrite!,
+        DEFAULT_ALLOW_WRITE,
       );
 
       const config: AgentConfig = {
