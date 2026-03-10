@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "server",
+  "dolt_database": "coreai",
+  "project_id": "29034df0-e495-40c0-b810-89c932c420ee"
+}
