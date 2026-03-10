@@ -3,8 +3,8 @@
 [![CI](https://github.com/jwill9999/conscius/actions/workflows/ci.yml/badge.svg)](https://github.com/jwill9999/conscius/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/jwill9999/conscius/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/jwill9999/conscius/actions/workflows/github-code-scanning/codeql)
 [![codecov](https://codecov.io/gh/jwill9999/conscius/graph/badge.svg)](https://codecov.io/gh/jwill9999/conscius)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jwill9999_conscius&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=jwill9999_conscius)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=jwill9999_conscius&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=jwill9999_conscius)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=jwill9999_coreai&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=jwill9999_coreai)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=jwill9999_coreai&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=jwill9999_coreai)
 
 **Conscius** is a plugin-based framework that gives AI agents persistent cognition — memory, session awareness, task context, and reusable skills that survive across sessions.
 
