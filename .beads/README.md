@@ -8,6 +8,21 @@ Beads is issue tracking that lives in your repo, making it perfect for AI coding
 
 **Learn more:** [github.com/steveyegge/beads](https://github.com/steveyegge/beads)
 
+## New Developer Setup
+
+If you've just cloned this repo, run this once to load the current issue state:
+
+```bash
+bd init --from-jsonl
+```
+
+This seeds your local Dolt database from `.beads/issues.jsonl` (committed to the repo).
+After that, `bd list` will show all open epics and tasks.
+
+> **Note:** `issues.jsonl` is regenerated and committed whenever issues change. Pull the latest `main` before running `bd init --from-jsonl` to get the most current state.
+
+---
+
 ## Quick Start
 
 ### Essential Commands
@@ -33,6 +48,7 @@ bd dolt push
 ### Working with Issues
 
 Issues in Beads are:
+
 - **Git-native**: Stored in Dolt database with version control and branching
 - **AI-friendly**: CLI-first design works perfectly with AI coding agents
 - **Branch-aware**: Issues can follow your branch workflow
@@ -41,16 +57,19 @@ Issues in Beads are:
 ## Why Beads?
 
 ✨ **AI-Native Design**
+
 - Built specifically for AI-assisted development workflows
 - CLI-first interface works seamlessly with AI coding agents
 - No context switching to web UIs
 
 🚀 **Developer Focused**
+
 - Issues live in your repo, right next to your code
 - Works offline, syncs when you push
 - Fast, lightweight, and stays out of your way
 
 🔧 **Git Integration**
+
 - Automatic sync with git commits
 - Branch-aware issue tracking
 - Dolt-native three-way merge resolution
@@ -78,4 +97,4 @@ bd create "Try out Beads"
 
 ---
 
-*Beads: Issue tracking that moves at the speed of thought* ⚡
+_Beads: Issue tracking that moves at the speed of thought_ ⚡
