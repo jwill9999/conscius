@@ -77,3 +77,6 @@
 - *(git-workflow)* Include root package.json in version bump commands
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
+- *(changelog)* Update CHANGELOG.md [skip ci]
+- Fix remaining coreai references in cliff.toml and package-lock
+- *(vscode)* Add SonarLint connected mode configuration
