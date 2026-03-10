@@ -14,6 +14,7 @@ Epic 3 is fully complete and merged to `main`. Version bumped to `0.3.0-alpha.0`
 
 - ✅ **Epic 3 merged to `main`** — PR #10 merged, all CI green (32 tests)
 - ✅ **Version bump** — all packages → `0.3.0-alpha.0`
+- ✅ **Nx Cloud setup merged to `main`** — PR #11 merged (self-healing CI + nx.json config)
 - ✅ **CHANGELOG.md** generated with `git-cliff`
 - ✅ **Version bump** — all packages → `0.2.0-alpha.0`
 - ✅ **Husky git hooks** — pre-commit (lint-staged), pre-push (nx affected)
