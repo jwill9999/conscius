@@ -22,4 +22,18 @@ describe('toMessage()', () => {
   it('handles numbers', () => {
     expect(toMessage(404)).toBe('404');
   });
+
+  it('falls back to String() for non-serialisable values (circular reference)', () => {
+    const circular: Record<string, unknown> = {};
+    circular['self'] = circular;
+    const result = toMessage(circular);
+    expect(typeof result).toBe('string');
+    expect(result.length).toBeGreaterThan(0);
+  });
+
+  it('falls back to String() for BigInt', () => {
+    const result = toMessage(BigInt(9007199254740991));
+    expect(typeof result).toBe('string');
+    expect(result.length).toBeGreaterThan(0);
+  });
 });
