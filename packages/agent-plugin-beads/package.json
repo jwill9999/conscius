@@ -1,5 +1,5 @@
 {
-  "name": "@coreai/agent-plugin-beads",
+  "name": "@conscius/agent-plugin-beads",
   "version": "0.3.0-alpha.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -8,7 +8,7 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "@coreai/source": "./src/index.ts",
+      "@conscius/source": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
@@ -19,7 +19,7 @@
     "!**/*.tsbuildinfo"
   ],
   "dependencies": {
-    "@coreai/agent-types": "*",
+    "@conscius/agent-types": "*",
     "tslib": "^2.3.0"
   }
 }

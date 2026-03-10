@@ -1,4 +1,4 @@
-import type { AgentContext, AgentPlugin } from '@coreai/agent-types';
+import type { AgentContext, AgentPlugin } from '@conscius/agent-types';
 import { fetchBeadsTask } from './beadsAdapter.js';
 import { loadSpecContent } from './contextLoader.js';
 

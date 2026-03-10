@@ -1,5 +1,5 @@
 import { execFile } from 'node:child_process';
-import type { BeadsTask, BeadsTaskStatus } from '@coreai/agent-types';
+import type { BeadsTask, BeadsTaskStatus } from '@conscius/agent-types';
 
 /** Raw shape returned by `bd show --json <id>`. */
 interface BdShowResult {

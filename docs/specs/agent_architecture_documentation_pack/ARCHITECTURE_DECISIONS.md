@@ -198,7 +198,7 @@ tool was selected.
 
 Implement as a **single Nx monorepo** with all packages under `packages/`:
 
-    coreai/
+    conscius/
         packages/
             agent-types/
             agent-core/
@@ -225,7 +225,7 @@ Use `packages/` (not Nx's default `libs/`) to signal these are
 
 ## What changes from the original spec
 
-- no separate repos; one repo at https://github.com/jwill9999/coreai
+- no separate repos; one repo at https://github.com/jwill9999/conscius
 - each package's internal `src/` structure is preserved as designed
 - the `apps/` folder is not used — all packages are libraries with
   optional CLI entry points, not standalone runnable applications

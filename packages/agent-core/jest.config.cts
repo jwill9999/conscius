@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: '@coreai/agent-core',
+  displayName: '@conscius/agent-core',
   preset: '../../jest.preset.js',
   coverageDirectory: 'test-output/jest/coverage',
   coverageReporters: ['lcov', 'text-summary'],

@@ -1,20 +1,20 @@
 # Conversation Summary
 
-> **Purpose:** Compressed context for new agent sessions. Manually maintained until `@coreai/agent-core` automates this at conversation threshold (~30 messages).
-> Each entry maps to a `CompressionSummary` segment as defined in `@coreai/agent-types`.
+> **Purpose:** Compressed context for new agent sessions. Manually maintained until `@conscius/agent-core` automates this at conversation threshold (~30 messages).
+> Each entry maps to a `CompressionSummary` segment as defined in `@conscius/agent-types`.
 
 ---
 
 ## Segment 1 — Project Initialisation & Architecture Review
 
-**Topic:** Understanding the coreai project goals and architecture
+**Topic:** Understanding the Conscius project goals and architecture
 
 **Key Decisions:**
 
-- Build coreai as an Nx monorepo with 8 publishable TypeScript packages
+- Build Conscius as an Nx monorepo with 8 publishable TypeScript packages
 - Follow a 7-layer architecture: types → core → plugins (session, mulch, beads, copilot) → CLI
 - Do NOT fork `bd` (Beads task runner) or `mulch` — build adapter plugins only
-- Use `@coreai/source` custom TS condition for in-monorepo source resolution
+- Use `@conscius/source` custom TS condition for in-monorepo source resolution
 
 **Constraints:**
 
@@ -28,13 +28,13 @@
 
 ## Segment 2 — Monorepo Foundation & Tooling (Epic 1)
 
-**Topic:** Scaffolding the Nx workspace and `@coreai/agent-types`
+**Topic:** Scaffolding the Nx workspace and `@conscius/agent-types`
 
 **Key Decisions:**
 
 - Nx plugins only — always use `npx nx add @nx/<plugin>` over manual config
 - ESLint 8 (not 9) — legacy `.eslintrc.*` format, NOT flat `eslint.config.js`
-- `tsconfig.spec.json` must set `"customConditions": null` to avoid TS5098 (Jest uses `moduleResolution: node10` which conflicts with base config's `customConditions: ["@coreai/source"]`)
+- `tsconfig.spec.json` must set `"customConditions": null` to avoid TS5098 (Jest uses `moduleResolution: node10` which conflicts with base config's `customConditions: ["@conscius/source"]`)
 - `passWithNoTests: true` in every `jest.config.cts` (prevents CI failures on packages with no tests yet)
 - Omit `parserOptions.project` from package `.eslintrc.json` unless type-aware rules are explicitly needed
 - Node 24 via nvm — pinned in `.nvmrc`; always run `source ~/.nvm/nvm.sh && nvm use 24` in bash
@@ -46,7 +46,7 @@
 - Root `tsconfig.json` must NOT reference `tsconfig.spec.json`
 - Do NOT point `parserOptions.project` at a tsconfig that excludes linted files
 
-**Outcome:** Epic 1 complete. `@coreai/agent-types` published. All quality checks passing: `typecheck` ✅ `lint` ✅ `test` ✅ `format:check` ✅. Repo live at https://github.com/jwill9999/coreai.
+**Outcome:** Epic 1 complete. `@conscius/agent-types` published. All quality checks passing: `typecheck` ✅ `lint` ✅ `test` ✅ `format:check` ✅. Repo live at https://github.com/jwill9999/conscius.
 
 ---
 
@@ -60,7 +60,7 @@
 - `SUMMARY.md` = compressed conversation history (this file) — manual until Epic 5/6 automates it
 - `.github/copilot-instructions.md` = standing conventions, commands, architecture rules (permanent)
 - `SESSION.md` update triggers documented in `copilot-instructions.md`: after each epic/task, before breaks, after every commit, when asked
-- `SUMMARY.md` naming is intentional — matches the `CompressionSummary` type in `@coreai/agent-types` that will power automation later
+- `SUMMARY.md` naming is intentional — matches the `CompressionSummary` type in `@conscius/agent-types` that will power automation later
 
 **Constraints:**
 
@@ -115,7 +115,7 @@
 
 ## Segment 3 — Epic 2 Completion: Unit Tests, CI/CD & Quality Gates
 
-**Topic:** Completing Epic 2 (`@coreai/agent-core`) — unit tests, CI pipeline, and local quality hooks
+**Topic:** Completing Epic 2 (`@conscius/agent-core`) — unit tests, CI pipeline, and local quality hooks
 
 **Key Decisions:**
 

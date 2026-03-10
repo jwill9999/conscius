@@ -1,8 +1,8 @@
-# Copilot Instructions — coreai
+# Copilot Instructions — conscius
 
 ## Project Overview
 
-This is an **Nx monorepo** (`@coreai/source`) that houses the **agent ecosystem** — a layered architecture for AI-assisted engineering workflows. Packages live in `packages/`.
+This is an **Nx monorepo** (`@conscius/source`) that houses the **agent ecosystem** — a layered architecture for AI-assisted engineering workflows. Packages live in `packages/`.
 
 The system separates concerns across 7 layers:
 
@@ -177,7 +177,7 @@ When bumping versions, update **all** `packages/*/package.json` files together. 
 - `module: nodenext`, `moduleResolution: nodenext` — use `.js` extensions in imports even for `.ts` source files
 - `strict: true`, `noUnusedLocals: true`, `noImplicitReturns: true`
 - `target: es2022`, `lib: ["es2022"]`
-- Custom condition: `@coreai/source` (see `tsconfig.base.json`)
+- Custom condition: `@conscius/source` (see `tsconfig.base.json`)
 
 ### Nx Workspace
 
@@ -202,7 +202,7 @@ Common commands:
 - Run a single test file: `npx nx test <project> --testFile=src/lib/foo.spec.ts`
 - Run affected only: `npx nx affected -t typecheck,lint,test`
 - Sync TypeScript project references: `npx nx sync`
-- Generate a new publishable library: `npx nx g @nx/js:lib packages/<name> --publishable --importPath=@coreai/<name>`
+- Generate a new publishable library: `npx nx g @nx/js:lib packages/<name> --publishable --importPath=@conscius/<name>`
 - Add a new Nx plugin: `npx nx add @nx/<plugin>`
 
 When generating a new package, apply Jest and ESLint config using the same pattern as `packages/agent-types`:
@@ -270,7 +270,7 @@ git add SESSION.md && git commit -m "chore: update SESSION.md" && git push
 
 `SUMMARY.md` is the **compressed conversation history** at the repo root. It is **append-only** — new segments are added; past segments are never edited.
 
-Each segment maps to the `CompressionSummary` interface in `@coreai/agent-types` (topic, keyDecisions, constraints, outcome). This is the manual equivalent of what `agent-core`'s context builder will auto-generate once built (Epic 5/6).
+Each segment maps to the `CompressionSummary` interface in `@conscius/agent-types` (topic, keyDecisions, constraints, outcome). This is the manual equivalent of what `agent-core`'s context builder will auto-generate once built (Epic 5/6).
 
 #### When to add a new segment to SUMMARY.md
 

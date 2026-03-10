@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: '@coreai/agent-plugin-beads',
+  displayName: '@conscius/agent-plugin-beads',
   preset: '../../jest.preset.js',
   coverageDirectory: 'test-output/jest/coverage',
   passWithNoTests: true,

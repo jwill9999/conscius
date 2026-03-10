@@ -2,11 +2,11 @@
 
 ## Current Objective
 
-Build the coreai agent ecosystem — a layered AI-assisted engineering workflow platform — as an Nx monorepo with 8 publishable packages.
+Build the Conscius agent ecosystem — a layered AI-assisted engineering workflow platform — as an Nx monorepo with 8 publishable packages.
 
 ## Active Task
 
-**Epic 4 — `@coreai/agent-plugin-mulch`** — not yet started.
+**Epic 4 — `@conscius/agent-plugin-mulch`** — not yet started.
 
 Epic 3 is fully complete and merged to `main`. Version bumped to `0.3.0-alpha.0`.
 
@@ -22,7 +22,7 @@ Epic 3 is fully complete and merged to `main`. Version bumped to `0.3.0-alpha.0`
 - ✅ **SonarCloud hotspots** addressed: pinned GitHub Actions to commit SHAs, path validation added to hook-runner, `/tmp` hardcode removed from spec
 - ✅ **Sourcery fix** — `compressionTriggered` renamed to `compressionApplied`
 - ✅ **58 unit tests** passing (57 → 58 after additional security test)
-- ✅ **Epic 3 (E3-T1 → E3-T4)** — `@coreai/agent-plugin-beads` fully implemented (27 tests)
+- ✅ **Epic 3 (E3-T1 → E3-T4)** — `@conscius/agent-plugin-beads` fully implemented (27 tests)
 
 ## Decisions Made
 
@@ -50,7 +50,7 @@ None.
 
 ## Next Steps
 
-1. **Start Epic 4** — `@coreai/agent-plugin-mulch`
+1. **Start Epic 4** — `@conscius/agent-plugin-mulch`
    ```bash
    git checkout main && git pull
    git checkout -b feat/e4-agent-plugin-mulch
@@ -69,12 +69,12 @@ Legend: ✅ done | ⬜ pending
 
 ### Epic 1 — Monorepo Foundation & Shared Types ✅
 
-| ID    | Task                                                            | Status |
-| ----- | --------------------------------------------------------------- | ------ |
-| E1-T1 | Scaffold `@coreai/agent-types` — all shared TS interfaces/types | ✅     |
-| E1-T2 | Configure Nx targets and Prettier across all packages           | ✅     |
+| ID    | Task                                                              | Status |
+| ----- | ----------------------------------------------------------------- | ------ |
+| E1-T1 | Scaffold `@conscius/agent-types` — all shared TS interfaces/types | ✅     |
+| E1-T2 | Configure Nx targets and Prettier across all packages             | ✅     |
 
-### Epic 2 — `@coreai/agent-core` ✅
+### Epic 2 — `@conscius/agent-core` ✅
 
 Runtime orchestration: context builder, plugin loader, hook runner, CLI.
 | ID | Task | Status |
@@ -85,7 +85,7 @@ Runtime orchestration: context builder, plugin loader, hook runner, CLI.
 | E2-T4 | CLI — `agent start`, `agent end`, `agent task start <id>` using `commander` | ✅ |
 | E2-T5 | Unit tests for context builder, plugin loader, hook runner, CLI (57 tests) | ✅ |
 
-### Epic 3 — `@coreai/agent-plugin-beads` ✅
+### Epic 3 — `@conscius/agent-plugin-beads` ✅
 
 Wraps `bd` CLI to inject Beads task context.
 | ID | Task | Status |
@@ -95,7 +95,7 @@ Wraps `bd` CLI to inject Beads task context.
 | E3-T3 | `contextLoader.ts` — loads spec file content from task metadata | ✅ |
 | E3-T4 | Unit tests with mocked `bd` CLI output | ✅ |
 
-### Epic 4 — `@coreai/agent-plugin-mulch` ⬜
+### Epic 4 — `@conscius/agent-plugin-mulch` ⬜
 
 Wraps `mulch` CLI to surface experience lessons.
 | ID | Task | Status |
@@ -105,7 +105,7 @@ Wraps `mulch` CLI to surface experience lessons.
 | E4-T3 | `lessonWriter.ts` — calls `mulch add` to persist new lessons at session end | ⬜ |
 | E4-T4 | Unit tests with mocked `mulch` CLI | ⬜ |
 
-### Epic 5 — `@coreai/agent-plugin-session` ⬜
+### Epic 5 — `@conscius/agent-plugin-session` ⬜
 
 Manages `SESSION.md` lifecycle.
 | ID | Task | Status |
@@ -115,7 +115,7 @@ Manages `SESSION.md` lifecycle.
 | E5-T3 | `hooks.ts` — `onSessionStart` (load), `onSessionEnd` (write) | ⬜ |
 | E5-T4 | Unit tests | ⬜ |
 
-### Epic 6 — `@coreai/agent-plugin-compression` ⬜
+### Epic 6 — `@conscius/agent-plugin-compression` ⬜
 
 Ephemeral conversation compression — no file writes ever.
 | ID | Task | Status |
@@ -125,7 +125,7 @@ Ephemeral conversation compression — no file writes ever.
 | E6-T3 | `hooks.ts` — `onConversationThreshold`: compress and replace older messages | ⬜ |
 | E6-T4 | Unit tests for segmentation and compression logic | ⬜ |
 
-### Epic 7 — `@coreai/agent-plugin-guardrails` ⬜
+### Epic 7 — `@conscius/agent-plugin-guardrails` ⬜
 
 Validation pipeline triggered when a task enters `review`.
 | ID | Task | Status |
@@ -136,7 +136,7 @@ Validation pipeline triggered when a task enters `review`.
 | E7-T4 | Task state transitions: pass → `done`; fail → `in_progress` via Beads | ⬜ |
 | E7-T5 | Unit tests | ⬜ |
 
-### Epic 8 — `@coreai/agent-stack-standard` ⬜
+### Epic 8 — `@conscius/agent-stack-standard` ⬜
 
 Convenience bundle — installs all plugins + agent-core.
 | ID | Task | Status |
@@ -145,7 +145,7 @@ Convenience bundle — installs all plugins + agent-core.
 | E8-T2 | `agent-stack-standard init` — default config generator | ⬜ |
 | E8-T3 | README and usage documentation | ⬜ |
 
-### Epic 9 — `@coreai/skillshare` ⬜
+### Epic 9 — `@conscius/skillshare` ⬜
 
 Standalone manifest-driven skills/instructions sync CLI (independent of other epics).
 | ID | Task | Status |
@@ -195,4 +195,4 @@ CI-T1 ✅
 
 - Architecture specs: `docs/specs/agent_architecture_documentation_pack/`
 - Copilot instructions: `.github/copilot-instructions.md`
-- Repo: https://github.com/jwill9999/coreai
+- Repo: https://github.com/jwill9999/conscius

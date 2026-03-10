@@ -1,4 +1,4 @@
-import type { AgentContext } from '@coreai/agent-types';
+import type { AgentContext } from '@conscius/agent-types';
 import {
   COMPRESSION_THRESHOLD,
   RECENT_MESSAGES_TO_KEEP,

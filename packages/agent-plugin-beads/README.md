@@ -1,9 +1,9 @@
-# @coreai/agent-plugin-beads
+# @conscius/agent-plugin-beads
 
 Wraps the `bd` CLI to inject [Beads](https://github.com/bead-tools/beads) task context into an agent session.
 
-[![CI](https://github.com/jwill9999/coreai/actions/workflows/ci.yml/badge.svg)](https://github.com/jwill9999/coreai/actions/workflows/ci.yml)
-[![npm version](https://img.shields.io/npm/v/@coreai/agent-plugin-beads)](https://www.npmjs.com/package/@coreai/agent-plugin-beads)
+[![CI](https://github.com/jwill9999/conscius/actions/workflows/ci.yml/badge.svg)](https://github.com/jwill9999/conscius/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/@conscius/agent-plugin-beads)](https://www.npmjs.com/package/@conscius/agent-plugin-beads)
 
 ## What it does
 
@@ -17,13 +17,13 @@ When `onTaskStart` fires, the plugin:
 ## Usage
 
 ```ts
-import { beadsPlugin } from '@coreai/agent-plugin-beads';
+import { beadsPlugin } from '@conscius/agent-plugin-beads';
 
 // Register via agent-core plugin loader
 export default beadsPlugin;
 ```
 
-Or add `@coreai/agent-plugin-beads` to your `.agent/config.json` plugins list.
+Or add `@conscius/agent-plugin-beads` to your `.agent/config.json` plugins list.
 
 ## Environment
 

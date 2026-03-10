@@ -2,7 +2,7 @@ import type {
   AgentConfig,
   AgentContext,
   AgentPlugin,
-} from '@coreai/agent-types';
+} from '@conscius/agent-types';
 import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createInterface } from 'node:readline';
 import { spawn } from 'node:child_process';

@@ -1,9 +1,9 @@
-# @coreai/agent-types
+# @conscius/agent-types
 
-Shared TypeScript types and interfaces for the coreai agent ecosystem.
+Shared TypeScript types and interfaces for the Conscius agent ecosystem.
 
-[![CI](https://github.com/jwill9999/coreai/actions/workflows/ci.yml/badge.svg)](https://github.com/jwill9999/coreai/actions/workflows/ci.yml)
-[![npm version](https://img.shields.io/npm/v/@coreai/agent-types)](https://www.npmjs.com/package/@coreai/agent-types)
+[![CI](https://github.com/jwill9999/conscius/actions/workflows/ci.yml/badge.svg)](https://github.com/jwill9999/conscius/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/@conscius/agent-types)](https://www.npmjs.com/package/@conscius/agent-types)
 
 ---
 
@@ -20,13 +20,13 @@ Shared TypeScript types and interfaces for the coreai agent ecosystem.
 This package is consumed internally within the monorepo. Once published:
 
 ```bash
-npm install @coreai/agent-types
+npm install @conscius/agent-types
 ```
 
 ## Usage
 
 ```ts
-import type { AgentContext, AgentPlugin } from '@coreai/agent-types';
+import type { AgentContext, AgentPlugin } from '@conscius/agent-types';
 
 export const myPlugin: AgentPlugin = {
   name: 'my-plugin',
@@ -38,5 +38,5 @@ export const myPlugin: AgentPlugin = {
 
 ## Related packages
 
-- [`@coreai/agent-core`](../agent-core/README.md) — runtime engine that consumes these types
-- [`@coreai/agent-plugin-beads`](../agent-plugin-beads/README.md) — Beads task context plugin
+- [`@conscius/agent-core`](../agent-core/README.md) — runtime engine that consumes these types
+- [`@conscius/agent-plugin-beads`](../agent-plugin-beads/README.md) — Beads task context plugin

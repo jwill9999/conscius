@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 import { HookRunner, DEFAULT_AGENT_CONFIG, HOOK_NAMES } from './hook-runner';
-import type { AgentContext } from '@coreai/agent-types';
+import type { AgentContext } from '@conscius/agent-types';
 
 // ─── Module mocks ─────────────────────────────────────────────────────────────
 
@@ -190,14 +190,14 @@ describe('HookRunner.ensureConfig()', () => {
 
   it('reads and parses an existing config file', async () => {
     const stored = {
-      plugins: ['@coreai/plugin-beads'],
+      plugins: ['@conscius/plugin-beads'],
       hooks: {},
       permissions: {},
       approvedWrites: {},
     };
     (readFile as jest.Mock).mockResolvedValue(JSON.stringify(stored));
     const config = await HookRunner.ensureConfig(REPO);
-    expect(config.plugins).toEqual(['@coreai/plugin-beads']);
+    expect(config.plugins).toEqual(['@conscius/plugin-beads']);
   });
 
   it('returns default config in non-TTY environment when no config file exists', async () => {

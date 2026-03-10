@@ -1,11 +1,11 @@
-import type { AgentContext, AgentPlugin } from '@coreai/agent-types';
+import type { AgentContext, AgentPlugin } from '@conscius/agent-types';
 
 export class PluginLoader {
   private plugins: AgentPlugin[] = [];
 
   /**
    * Dynamically imports and registers plugins from the provided module paths.
-   * Each path can be an npm package name (e.g. `@coreai/agent-plugin-beads`)
+   * Each path can be an npm package name (e.g. `@conscius/agent-plugin-beads`)
    * or a file path (e.g. `./plugins/my-plugin.js`).
    *
    * Expects each module to export either:

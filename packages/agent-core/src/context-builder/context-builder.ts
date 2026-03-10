@@ -2,7 +2,7 @@ import type {
   AgentContext,
   CompressionSummary,
   ConversationMessage,
-} from '@coreai/agent-types';
+} from '@conscius/agent-types';
 
 /** Threshold at which older conversation segments are compressed. */
 export const COMPRESSION_THRESHOLD = 30;

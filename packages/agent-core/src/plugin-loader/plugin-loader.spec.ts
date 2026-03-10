@@ -1,21 +1,21 @@
-import type { AgentContext, AgentPlugin } from '@coreai/agent-types';
+import type { AgentContext, AgentPlugin } from '@conscius/agent-types';
 import { PluginLoader } from './plugin-loader';
 
 // Virtual modules used by load() tests
 jest.mock(
-  '@coreai/test-plugin-default',
+  '@conscius/test-plugin-default',
   () => ({ default: { name: 'default-plugin', onSessionStart: jest.fn() } }),
   { virtual: true },
 );
 jest.mock(
-  '@coreai/test-plugin-named',
+  '@conscius/test-plugin-named',
   () => ({ plugin: { name: 'named-plugin', onTaskStart: jest.fn() } }),
   { virtual: true },
 );
-jest.mock('@coreai/test-plugin-invalid', () => ({ default: null }), {
+jest.mock('@conscius/test-plugin-invalid', () => ({ default: null }), {
   virtual: true,
 });
-jest.mock('@coreai/test-plugin-no-name', () => ({ default: { name: 42 } }), {
+jest.mock('@conscius/test-plugin-no-name', () => ({ default: { name: 42 } }), {
   virtual: true,
 });
 
@@ -43,35 +43,35 @@ function setPlugins(loader: PluginLoader, plugins: AgentPlugin[]): void {
 describe('PluginLoader.load()', () => {
   it('registers a plugin with a default export', async () => {
     const loader = new PluginLoader();
-    await loader.load(['@coreai/test-plugin-default']);
+    await loader.load(['@conscius/test-plugin-default']);
     expect(loader.getPlugins()).toHaveLength(1);
     expect(loader.getPlugins()[0].name).toBe('default-plugin');
   });
 
   it('registers a plugin with a named "plugin" export', async () => {
     const loader = new PluginLoader();
-    await loader.load(['@coreai/test-plugin-named']);
+    await loader.load(['@conscius/test-plugin-named']);
     expect(loader.getPlugins()[0].name).toBe('named-plugin');
   });
 
   it('throws for a module with no valid export', async () => {
     const loader = new PluginLoader();
-    await expect(loader.load(['@coreai/test-plugin-invalid'])).rejects.toThrow(
-      'does not export a valid AgentPlugin',
-    );
+    await expect(
+      loader.load(['@conscius/test-plugin-invalid']),
+    ).rejects.toThrow('does not export a valid AgentPlugin');
   });
 
   it('throws when the plugin name is not a string', async () => {
     const loader = new PluginLoader();
-    await expect(loader.load(['@coreai/test-plugin-no-name'])).rejects.toThrow(
-      'does not export a valid AgentPlugin',
-    );
+    await expect(
+      loader.load(['@conscius/test-plugin-no-name']),
+    ).rejects.toThrow('does not export a valid AgentPlugin');
   });
 
   it('resets plugins on each load call', async () => {
     const loader = new PluginLoader();
-    await loader.load(['@coreai/test-plugin-default']);
-    await loader.load(['@coreai/test-plugin-named']);
+    await loader.load(['@conscius/test-plugin-default']);
+    await loader.load(['@conscius/test-plugin-named']);
     expect(loader.getPlugins()).toHaveLength(1);
     expect(loader.getPlugins()[0].name).toBe('named-plugin');
   });

@@ -1,9 +1,9 @@
-# @coreai/agent-core
+# @conscius/agent-core
 
-The runtime orchestration engine for the coreai agent ecosystem. It assembles prompt context, loads plugins, runs lifecycle hooks, and exposes a CLI for managing agent sessions and tasks.
+The runtime orchestration engine for the Conscius agent ecosystem. It assembles prompt context, loads plugins, runs lifecycle hooks, and exposes a CLI for managing agent sessions and tasks.
 
-[![CI](https://github.com/jwill9999/coreai/actions/workflows/ci.yml/badge.svg)](https://github.com/jwill9999/coreai/actions/workflows/ci.yml)
-[![npm version](https://img.shields.io/npm/v/@coreai/agent-core)](https://www.npmjs.com/package/@coreai/agent-core)
+[![CI](https://github.com/jwill9999/conscius/actions/workflows/ci.yml/badge.svg)](https://github.com/jwill9999/conscius/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/@conscius/agent-core)](https://www.npmjs.com/package/@conscius/agent-core)
 
 ---
 
@@ -24,7 +24,7 @@ The runtime orchestration engine for the coreai agent ecosystem. It assembles pr
 
 ## What it does
 
-`agent-core` is the central runtime that powers all coreai agent workflows:
+`agent-core` is the central runtime that powers all Conscius agent workflows:
 
 | Responsibility           | Details                                                                                                         |
 | ------------------------ | --------------------------------------------------------------------------------------------------------------- |
@@ -39,10 +39,10 @@ The runtime orchestration engine for the coreai agent ecosystem. It assembles pr
 ## Installation
 
 ```bash
-npm install @coreai/agent-core
+npm install @conscius/agent-core
 ```
 
-> **Requires:** Node 24+. Peer dependency: `@coreai/agent-types`.
+> **Requires:** Node 24+. Peer dependency: `@conscius/agent-types`.
 
 ---
 
@@ -71,7 +71,7 @@ On first run, `agent start` creates `.agent/config.json` in your repo root:
 
 ```jsonc
 {
-  "plugins": ["@coreai/agent-plugin-beads", "@coreai/agent-plugin-mulch"],
+  "plugins": ["@conscius/agent-plugin-beads", "@conscius/agent-plugin-mulch"],
   "hooks": {
     "repoHooksDir": ".agent/hooks",
     "globalHooksDir": "~/.agent/hooks",
@@ -102,7 +102,7 @@ import {
   getMessagesToCompress,
   HOOK_NAMES,
   DEFAULT_AGENT_CONFIG,
-} from '@coreai/agent-core';
+} from '@conscius/agent-core';
 ```
 
 ### `PluginLoader`
@@ -111,7 +111,7 @@ Loads and invokes plugins by lifecycle hook:
 
 ```typescript
 const loader = new PluginLoader();
-await loader.load(['@coreai/agent-plugin-beads']);
+await loader.load(['@conscius/agent-plugin-beads']);
 await loader.runHook('onSessionStart', context);
 ```
 
@@ -152,10 +152,10 @@ if (shouldCompress(context)) {
 
 ## Plugin interface
 
-Implement `AgentPlugin` from `@coreai/agent-types` — all lifecycle hooks are optional:
+Implement `AgentPlugin` from `@conscius/agent-types` — all lifecycle hooks are optional:
 
 ```typescript
-import type { AgentPlugin, AgentContext } from '@coreai/agent-types';
+import type { AgentPlugin, AgentContext } from '@conscius/agent-types';
 
 export const myPlugin: AgentPlugin = {
   name: 'my-plugin',
@@ -265,7 +265,7 @@ npx nx run-many -t typecheck,lint,test,build --projects=agent-core
 
 ## Related packages
 
-| Package                                                         | Description                                                        |
-| --------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [`@coreai/agent-types`](../agent-types/README.md)               | Shared TypeScript interfaces (`AgentPlugin`, `AgentContext`, etc.) |
-| [`@coreai/agent-plugin-beads`](../agent-plugin-beads/README.md) | Injects Beads task context via `bd` CLI                            |
+| Package                                                           | Description                                                        |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------ |
+| [`@conscius/agent-types`](../agent-types/README.md)               | Shared TypeScript interfaces (`AgentPlugin`, `AgentContext`, etc.) |
+| [`@conscius/agent-plugin-beads`](../agent-plugin-beads/README.md) | Injects Beads task context via `bd` CLI                            |

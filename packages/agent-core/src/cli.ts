@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import type { AgentPlugin } from '@coreai/agent-types';
+import type { AgentPlugin } from '@conscius/agent-types';
 import { Command } from 'commander';
 import { HookRunner, HOOK_NAMES } from './hook-runner/index.js';
 import { PluginLoader } from './plugin-loader/index.js';
@@ -66,7 +66,10 @@ function wrapAction<Args extends unknown[]>(
 
 const program = new Command();
 
-program.name('agent').description('coreai agent CLI').version('0.1.0-alpha.0');
+program
+  .name('agent')
+  .description('conscius agent CLI')
+  .version('0.1.0-alpha.0');
 
 program
   .command('start')
