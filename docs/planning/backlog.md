@@ -21,7 +21,7 @@ Items not yet promoted to an active epic. Managed by the `planning` skill — us
 ### Epic 5 — agent-plugin-session
 
 **Planning ID:** backlog-2026-03-10-002
-**Beads ID:** —
+**Beads ID:** coreai-vq3
 **Status:** not started
 **Created:** 10/03/2026 (GMT)
 **Priority:** high
@@ -31,36 +31,23 @@ Items not yet promoted to an active epic. Managed by the `planning` skill — us
 
 ---
 
-### Epic 6 — context injection hooks
+### Epic 6 — agent-plugin-compression
 
 **Planning ID:** backlog-2026-03-10-003
-**Beads ID:** —
+**Beads ID:** coreai-mbp
 **Status:** not started
 **Created:** 10/03/2026 (GMT)
 **Priority:** high
 **Effort:** medium
-**Description:** Hook resolution system — discovers and runs hooks from `.agent/hooks/` (repo-level) and `~/.agent/hooks/` (global). Provides the context injection pipeline.
-**Related Docs:** [Context injection hooks spec](../specs/agent_architecture_documentation_pack/layer6_context_injection_hooks_spec.md)
-
----
-
-### Epic 7 — agent-plugin-compression
-
-**Planning ID:** backlog-2026-03-10-004
-**Beads ID:** —
-**Status:** not started
-**Created:** 10/03/2026 (GMT)
-**Priority:** medium
-**Effort:** medium
-**Description:** Plugin implementing ephemeral conversation compression — summarises older segments to reduce prompt size while preserving decision history.
+**Description:** Plugin implementing ephemeral conversation compression — summarises older segments to reduce prompt size while preserving decision history. Never writes to disk.
 **Related Docs:** [Conversation compression spec](../specs/agent_architecture_documentation_pack/layer4_conversation_compression_spec.md)
 
 ---
 
-### Epic 8 — agent-plugin-guardrails
+### Epic 7 — agent-plugin-guardrails
 
-**Planning ID:** backlog-2026-03-10-005
-**Beads ID:** —
+**Planning ID:** backlog-2026-03-10-004
+**Beads ID:** coreai-7mm
 **Status:** not started
 **Created:** 10/03/2026 (GMT)
 **Priority:** medium
@@ -70,10 +57,23 @@ Items not yet promoted to an active epic. Managed by the `planning` skill — us
 
 ---
 
-### Epic 9 — agent-stack-standard
+### Epic 8 — agent-stack-standard
+
+**Planning ID:** backlog-2026-03-10-005
+**Beads ID:** coreai-zsh
+**Status:** not started
+**Created:** 10/03/2026 (GMT)
+**Priority:** low
+**Effort:** small
+**Description:** Bundle package that installs all common plugins in one dependency — simplifies consumer setup.
+**Related Docs:** [Ecosystem structure](../specs/agent_architecture_documentation_pack/ECOSYSTEM_REPO_STRUCTURE.md)
+
+---
+
+### Epic 9 — skillshare
 
 **Planning ID:** backlog-2026-03-10-006
-**Beads ID:** —
+**Beads ID:** coreai-yfl
 **Status:** not started
 **Created:** 10/03/2026 (GMT)
 **Priority:** low

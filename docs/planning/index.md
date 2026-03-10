@@ -9,7 +9,7 @@ Active epics and features for the Conscius project. Managed by the `planning` sk
 ### Epic 1 — Monorepo scaffold (`e1-scaffold`)
 
 **Planning ID:** feature-2026-01-01-001
-**Beads ID:** —
+**Beads ID:** coreai-1ra
 **Status:** done
 **Created:** 01/01/2026 (GMT)
 **Completed:** 15/01/2026 (GMT)
@@ -22,7 +22,7 @@ Active epics and features for the Conscius project. Managed by the `planning` sk
 ### Epic 2 — agent-core (`e2-agent-core`)
 
 **Planning ID:** feature-2026-01-02-001
-**Beads ID:** —
+**Beads ID:** coreai-nsn
 **Status:** done
 **Created:** 20/01/2026 (GMT)
 **Completed:** 10/02/2026 (GMT)
@@ -43,7 +43,7 @@ Active epics and features for the Conscius project. Managed by the `planning` sk
 ### Epic 3 — agent-plugin-beads (`e3-agent-plugin-beads`)
 
 **Planning ID:** feature-2026-02-01-001
-**Beads ID:** —
+**Beads ID:** coreai-e2o
 **Status:** done
 **Created:** 01/02/2026 (GMT)
 **Completed:** 10/03/2026 (GMT)
@@ -63,7 +63,7 @@ Active epics and features for the Conscius project. Managed by the `planning` sk
 ### Epic 4 — agent-plugin-mulch (`e4-agent-plugin-mulch`)
 
 **Planning ID:** feature-2026-03-01-001
-**Beads ID:** —
+**Beads ID:** coreai-x3b
 **Status:** not started
 **Created:** 10/03/2026 (GMT)
 **Mode:** sequential
