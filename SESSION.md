@@ -1,33 +1,66 @@
 # Session Context
 
 ## Current Objective
+
 Build the coreai agent ecosystem — a layered AI-assisted engineering workflow platform — as an Nx monorepo with 8 publishable packages.
 
 ## Active Task
-**Epic 2 — `@coreai/agent-core`** (next to start — not yet begun)
+
+**Epic 2 — `@coreai/agent-core`** — all tasks complete, epic PR #3 open → `main`
+
+- ✅ E2-T1 complete — context builder
+- ✅ E2-T2 complete — plugin loader
+- ✅ E2-T3 complete — hook runner
+- ✅ E2-T4 complete — CLI
+- ✅ E2-T5 complete — 57 unit tests (57/57 passing)
+- ✅ CI-T1 complete — GitHub Actions, Codecov, Husky hooks
+
+**Blocker before merging epic PR #3 → `main`:**  
+SonarCloud reports 1 Security Hotspot on PR #3. Must be reviewed at:  
+https://sonarcloud.io/project/security_hotspots?id=jwill9999_coreai&pullRequest=3  
+Either fix the code or mark as reviewed with justification.
 
 ## Progress Since Last Session
-- ✅ **Epic 1 complete** — `@coreai/agent-types` scaffolded and pushed to GitHub
-- ✅ Nx plugin tooling configured: `@nx/eslint`, `@nx/jest`, `@nx/js` (all targets inferred)
-- ✅ Node 24 / nvm pinned in `.nvmrc`
-- ✅ All quality checks passing: `typecheck` ✅ `lint` ✅ `test` ✅ `format:check` ✅
-- ✅ Repo live at https://github.com/jwill9999/coreai (`main`)
+
+- ✅ **E2-T5** — 57 unit tests across all agent-core modules (57/57 passing)
+  - context-builder (18), plugin-loader (18), hook-runner (17), cli/utils (5 → 7 after fixes)
+  - Fixed: `jest.resetAllMocks()` wiping `homedir` mock; `tsconfig.lib.json` excluding spec files; `tsconfig.spec.json` referencing lib project
+- ✅ **CI-T1** — GitHub Actions CI pipeline (format, typecheck, lint, test+coverage, build)
+  - Codecov integration with lcov reports and badge
+  - SonarCloud, CodeQL, Sourcery AI all active
+  - Badges added to README (CI, CodeQL, Codecov, SonarCloud Quality Gate, Security Rating)
+- ✅ **Husky git hooks** — pre-commit (lint-staged: Prettier + ESLint on staged files), pre-push (nx affected typecheck + test)
+- ✅ **utils.ts fix** — `toMessage()` guards `JSON.stringify` with try/catch for circular refs and BigInt
+- ✅ **PR #7** merged into `feat/e2-agent-core`
+- ✅ **Epic PR #3** (`feat/e2-agent-core` → `main`) open — CI mostly green
+- ⚠️ **SonarCloud security hotspot** on PR #3 — 1 hotspot flagged, must be reviewed before merge
 
 ## Decisions Made
+
 - Nx monorepo — always prefer `npx nx add @nx/<plugin>` over manual config
 - TypeScript: `module: nodenext`, strict mode, `.js` extensions in imports
 - `tsconfig.spec.json` must set `"customConditions": null` (avoids TS5098 with Jest/node10)
 - Node 24 via nvm; ESLint 8 using legacy `.eslintrc.*` format
 - Do NOT fork `bd` (Beads) or `mulch` — adapter plugins only
 - Hooks may only write to `SESSION.md` and `.mulch/mulch.jsonl`
-- Pushing directly to `main` during early scaffolding phase
-- New package pattern: `jest.config.cts` (`passWithNoTests: true`) + `.eslintrc.json` extending root
+- Branching: task PR → human review → epic branch → local test → epic PR → main
+- All packages versioned in lockstep at `0.1.0-alpha.0`
+- GitHub Actions CI active from Epic 2 (CI-T1 completed, not deferred)
+- Unit tests written at end of each epic (E2-T5), not per task
+- Husky pre-commit (lint-staged) + pre-push (nx affected) for local quality gates
+- Build intentionally CI-only (too slow for local hooks)
+- SonarCloud automatic analysis mode — coverage via Codecov only (cannot push to SonarCloud in auto mode)
 
 ## Open Issues
-None
+
+- ⚠️ **SonarCloud security hotspot** on epic PR #3 — 1 hotspot must be reviewed/resolved before merging to `main`. Check: https://sonarcloud.io/project/security_hotspots?id=jwill9999_coreai&pullRequest=3
 
 ## Next Steps
-Start **E2-T1** — scaffold `@coreai/agent-core` and implement the context builder
+
+1. **Review SonarCloud security hotspot** on PR #3 — fix or mark as reviewed with justification at https://sonarcloud.io/project/security_hotspots?id=jwill9999_coreai&pullRequest=3
+2. **Merge epic PR #3** (`feat/e2-agent-core` → `main`) once SonarCloud passes
+3. **Post-merge**: run `git-cliff --output CHANGELOG.md`, bump all packages to `0.2.0-alpha.0`, commit and push
+4. **Start Epic 3** — `@coreai/agent-plugin-beads` (branch: `feat/e3-agent-plugin-beads`)
 
 ---
 
@@ -36,22 +69,25 @@ Start **E2-T1** — scaffold `@coreai/agent-core` and implement the context buil
 Legend: ✅ done | ⬜ pending
 
 ### Epic 1 — Monorepo Foundation & Shared Types ✅
-| ID | Task | Status |
-|----|------|--------|
-| E1-T1 | Scaffold `@coreai/agent-types` — all shared TS interfaces/types | ✅ |
-| E1-T2 | Configure Nx targets and Prettier across all packages | ✅ |
 
-### Epic 2 — `@coreai/agent-core` ⬜
+| ID    | Task                                                            | Status |
+| ----- | --------------------------------------------------------------- | ------ |
+| E1-T1 | Scaffold `@coreai/agent-types` — all shared TS interfaces/types | ✅     |
+| E1-T2 | Configure Nx targets and Prettier across all packages           | ✅     |
+
+### Epic 2 — `@coreai/agent-core` ✅
+
 Runtime orchestration: context builder, plugin loader, hook runner, CLI.
 | ID | Task | Status |
 |----|------|--------|
-| E2-T1 | Context builder — assembles prompt in injection order; triggers compression at 30–40 messages | ⬜ |
-| E2-T2 | Plugin loader — loads plugins from config, calls all lifecycle hooks | ⬜ |
-| E2-T3 | Hook runner — resolves `repo/.agent/hooks/` then `~/.agent/hooks/`; enforces write permissions; first-run prompt → `.agent/config.json` | ⬜ |
-| E2-T4 | CLI — `agent start`, `agent end`, `agent task start <id>` using `commander` | ⬜ |
-| E2-T5 | Unit tests for context builder and plugin loader | ⬜ |
+| E2-T1 | Context builder — assembles prompt in injection order; triggers compression at 30–40 messages | ✅ |
+| E2-T2 | Plugin loader — loads plugins from config, calls all lifecycle hooks | ✅ |
+| E2-T3 | Hook runner — resolves `repo/.agent/hooks/` then `~/.agent/hooks/`; enforces write permissions; first-run prompt → `.agent/config.json` | ✅ |
+| E2-T4 | CLI — `agent start`, `agent end`, `agent task start <id>` using `commander` | ✅ |
+| E2-T5 | Unit tests for context builder, plugin loader, hook runner, CLI (57 tests) | ✅ |
 
 ### Epic 3 — `@coreai/agent-plugin-beads` ⬜
+
 Wraps `bd` CLI to inject Beads task context.
 | ID | Task | Status |
 |----|------|--------|
@@ -61,6 +97,7 @@ Wraps `bd` CLI to inject Beads task context.
 | E3-T4 | Unit tests with mocked `bd` CLI output | ⬜ |
 
 ### Epic 4 — `@coreai/agent-plugin-mulch` ⬜
+
 Wraps `mulch` CLI to surface experience lessons.
 | ID | Task | Status |
 |----|------|--------|
@@ -70,6 +107,7 @@ Wraps `mulch` CLI to surface experience lessons.
 | E4-T4 | Unit tests with mocked `mulch` CLI | ⬜ |
 
 ### Epic 5 — `@coreai/agent-plugin-session` ⬜
+
 Manages `SESSION.md` lifecycle.
 | ID | Task | Status |
 |----|------|--------|
@@ -79,6 +117,7 @@ Manages `SESSION.md` lifecycle.
 | E5-T4 | Unit tests | ⬜ |
 
 ### Epic 6 — `@coreai/agent-plugin-compression` ⬜
+
 Ephemeral conversation compression — no file writes ever.
 | ID | Task | Status |
 |----|------|--------|
@@ -88,6 +127,7 @@ Ephemeral conversation compression — no file writes ever.
 | E6-T4 | Unit tests for segmentation and compression logic | ⬜ |
 
 ### Epic 7 — `@coreai/agent-plugin-guardrails` ⬜
+
 Validation pipeline triggered when a task enters `review`.
 | ID | Task | Status |
 |----|------|--------|
@@ -98,6 +138,7 @@ Validation pipeline triggered when a task enters `review`.
 | E7-T5 | Unit tests | ⬜ |
 
 ### Epic 8 — `@coreai/agent-stack-standard` ⬜
+
 Convenience bundle — installs all plugins + agent-core.
 | ID | Task | Status |
 |----|------|--------|
@@ -106,6 +147,7 @@ Convenience bundle — installs all plugins + agent-core.
 | E8-T3 | README and usage documentation | ⬜ |
 
 ### Epic 9 — `@coreai/skillshare` ⬜
+
 Standalone manifest-driven skills/instructions sync CLI (independent of other epics).
 | ID | Task | Status |
 |----|------|--------|
@@ -121,13 +163,37 @@ Standalone manifest-driven skills/instructions sync CLI (independent of other ep
 
 ---
 
+### CI/CD — GitHub Actions ✅
+
+| ID    | Task                                                                                                                 | Status |
+| ----- | -------------------------------------------------------------------------------------------------------------------- | ------ |
+| CI-T1 | GitHub Actions CI workflow — format, typecheck, lint, test+coverage (Codecov), build on every PR + Husky local hooks | ✅     |
+
+---
+
 ## Build Order
+
 ```
-E1 ✅ → E2 ⬜ → E3, E4, E5, E6, E7 (parallel) → E8
+E1 ✅ → E2 ✅ → E3, E4, E5, E6, E7 (parallel) → E8
 E9 (independent, can run in parallel with any epic)
+CI-T1 ✅
 ```
 
+## Quality Gates Per PR (current)
+
+| Gate                                    | Tool                    | Status    |
+| --------------------------------------- | ----------------------- | --------- |
+| typecheck, lint, test, build            | Nx (local, before push) | ✅ manual |
+| Pre-commit format + lint                | Husky + lint-staged     | ✅ active |
+| Pre-push typecheck + test               | Husky + nx affected     | ✅ active |
+| CI format, typecheck, lint, test, build | GitHub Actions          | ✅ active |
+| Coverage reporting                      | Codecov                 | ✅ active |
+| Automated code review                   | Sourcery AI             | ✅ active |
+| Security analysis                       | CodeQL                  | ✅ active |
+| Static analysis                         | SonarCloud              | ✅ active |
+
 ## References
+
 - Architecture specs: `docs/specs/agent_architecture_documentation_pack/`
 - Copilot instructions: `.github/copilot-instructions.md`
 - Repo: https://github.com/jwill9999/coreai

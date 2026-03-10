@@ -7,45 +7,45 @@ functionality.
 
 Examples include:
 
--   beads integration
--   mulch integration
--   session management
--   conversation compression
--   guardrails
+- beads integration
+- mulch integration
+- session management
+- conversation compression
+- guardrails
 
-------------------------------------------------------------------------
+---
 
 ## Minimal Plugin Interface (TypeScript)
 
-``` ts
+```ts
 export interface AgentPlugin {
-  name: string
+  name: string;
 
-  onSessionStart?(context: AgentContext): Promise<void>
+  onSessionStart?(context: AgentContext): Promise<void>;
 
-  onTaskStart?(context: AgentContext): Promise<void>
+  onTaskStart?(context: AgentContext): Promise<void>;
 
-  onConversationThreshold?(context: AgentContext): Promise<void>
+  onConversationThreshold?(context: AgentContext): Promise<void>;
 
-  onSessionEnd?(context: AgentContext): Promise<void>
+  onSessionEnd?(context: AgentContext): Promise<void>;
 }
 ```
 
-------------------------------------------------------------------------
+---
 
 ## Responsibilities
 
 Plugins may:
 
--   inject context
--   read repository artifacts
--   trigger automation tasks
--   integrate external tools
+- inject context
+- read repository artifacts
+- trigger automation tasks
+- integrate external tools
 
 Plugins must **not modify repository files outside their defined
 scope**.
 
-------------------------------------------------------------------------
+---
 
 ## Example Plugins
 
@@ -55,10 +55,10 @@ agent-plugin-session\
 agent-plugin-compression\
 agent-plugin-guardrails
 
-------------------------------------------------------------------------
+---
 
 ## Plugin Goals
 
--   modular design
--   independent evolution
--   ecosystem extensibility
+- modular design
+- independent evolution
+- ecosystem extensibility

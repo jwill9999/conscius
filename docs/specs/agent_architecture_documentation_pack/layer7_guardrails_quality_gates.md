@@ -8,7 +8,7 @@ meets engineering quality standards before being marked complete.
 This layer prevents unfinished or unsafe work from being committed or
 marked as done.
 
-------------------------------------------------------------------------
+---
 
 ## Trigger
 
@@ -20,7 +20,7 @@ todo → in_progress → review → done
 
 When entering **review**, the guardrail pipeline runs.
 
-------------------------------------------------------------------------
+---
 
 ## Typical Validation Pipeline
 
@@ -31,7 +31,7 @@ If any step fails:
 
 agent fixes issues → pipeline reruns.
 
-------------------------------------------------------------------------
+---
 
 ## Example Checks
 
@@ -43,7 +43,7 @@ Testing - unit tests - integration tests
 
 Build Validation - docker build - compile checks
 
-------------------------------------------------------------------------
+---
 
 ## Integration With Beads
 
@@ -58,22 +58,22 @@ If checks fail:
 
 review → in_progress
 
-------------------------------------------------------------------------
+---
 
 ## Output Artifacts
 
 Possible artifacts include:
 
--   test output
--   lint reports
--   review summaries
+- test output
+- lint reports
+- review summaries
 
 These may optionally be summarised in SESSION.md.
 
-------------------------------------------------------------------------
+---
 
 ## Benefits
 
--   protects code quality
--   enables safe agent autonomy
--   aligns with CI/CD pipelines
+- protects code quality
+- enables safe agent autonomy
+- aligns with CI/CD pipelines

@@ -1,4 +1,3 @@
-
 # AGENT_RUNTIME_FLOW.md
 
 This document explains the runtime lifecycle of the AI engineering agent system.
@@ -47,6 +46,7 @@ Triggered by:
 ```
 agent start
 ```
+
 or when an AI tool opens a new session.
 
 Actions:
@@ -187,15 +187,15 @@ These remain **ephemeral** and are not written to the repository.
 
 # System Responsibilities
 
-| Layer | Responsibility |
-|------|---------------|
-Execution | Beads |
-Experience | Mulch |
-Knowledge | Skills |
-Conversation | Compression |
-Session Memory | SESSION.md |
-Orchestration | Hooks |
-Validation | Guardrails |
+| Layer          | Responsibility |
+| -------------- | -------------- |
+| Execution      | Beads          |
+| Experience     | Mulch          |
+| Knowledge      | Skills         |
+| Conversation   | Compression    |
+| Session Memory | SESSION.md     |
+| Orchestration  | Hooks          |
+| Validation     | Guardrails     |
 
 ---
 

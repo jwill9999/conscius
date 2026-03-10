@@ -18,7 +18,7 @@ The prompt context sent to the model becomes:
 This preserves reasoning continuity while dramatically reducing token
 usage.
 
-------------------------------------------------------------------------
+---
 
 # Key Design Principle
 
@@ -28,18 +28,20 @@ It does **not write files to the repository**.
 
 Unlike other architecture layers:
 
-  Layer                      Persistence
-  -------------------------- -------------
-  Beads execution layer      persistent
-  Mulch experience layer     persistent
-  SESSION.md                 persistent
-  Skills / instructions      persistent
-  Conversation compression   ephemeral
+Layer Persistence
+
+---
+
+Beads execution layer persistent
+Mulch experience layer persistent
+SESSION.md persistent
+Skills / instructions persistent
+Conversation compression ephemeral
 
 The compression summaries exist **only inside the running agent
 session**.
 
-------------------------------------------------------------------------
+---
 
 # Trigger Conditions
 
@@ -55,7 +57,7 @@ When the threshold is reached:
     replace earlier messages
     retain most recent messages
 
-------------------------------------------------------------------------
+---
 
 # Segmented Compression Strategy
 
@@ -81,7 +83,7 @@ Final prompt context becomes:
     +
     recent messages from active segment
 
-------------------------------------------------------------------------
+---
 
 # Segment Summary Structure
 
@@ -107,7 +109,7 @@ Recommended length per segment:
 
     100–200 words
 
-------------------------------------------------------------------------
+---
 
 # Compression Algorithm
 
@@ -118,6 +120,7 @@ Recommended length per segment:
 ```{=html}
 <!-- -->
 ```
+
     send full conversation history
 
 3.  If threshold is exceeded:
@@ -125,13 +128,14 @@ Recommended length per segment:
 ```{=html}
 <!-- -->
 ```
+
     identify logical conversation segments
     summarise older segments
     retain most recent messages
 
 4.  Replace earlier conversation turns with the segment summaries.
 
-------------------------------------------------------------------------
+---
 
 # Resulting Prompt Context
 
@@ -148,7 +152,7 @@ The context builder injects:
     beads task context
     specification
 
-------------------------------------------------------------------------
+---
 
 # Token Efficiency
 
@@ -166,7 +170,7 @@ Expected reduction:
 
     >90% token savings
 
-------------------------------------------------------------------------
+---
 
 # Relationship to Other Layers
 
@@ -189,7 +193,7 @@ Architecture position:
             ↓
     Implementation
 
-------------------------------------------------------------------------
+---
 
 # When Compression Should Run
 
@@ -210,7 +214,7 @@ Example:
 Compression should always run before assembling the final prompt for the
 LLM.
 
-------------------------------------------------------------------------
+---
 
 # Implementation Location
 
@@ -228,7 +232,7 @@ Example runtime flow:
             ↓
     LLM request
 
-------------------------------------------------------------------------
+---
 
 # Context Builder Responsibilities
 
@@ -243,7 +247,7 @@ The context builder performs the following steps:
 7.  Load specification file.
 8.  Construct final prompt.
 
-------------------------------------------------------------------------
+---
 
 # Benefits
 
@@ -265,7 +269,7 @@ Works with:
     Claude
     custom LLM runtimes
 
-------------------------------------------------------------------------
+---
 
 # Summary
 

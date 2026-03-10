@@ -3,9 +3,9 @@
 This document records the key architectural decisions made while
 designing the AI‑assisted engineering system. It acts as a lightweight
 **Architecture Decision Record (ADR)** so future engineers and AI agents
-understand *why* certain decisions were made.
+understand _why_ certain decisions were made.
 
-------------------------------------------------------------------------
+---
 
 # Decision 1 --- Layered Agent Architecture
 
@@ -32,12 +32,12 @@ Adopt a **7‑layer architecture** separating responsibilities.
 
 Benefits:
 
--   clear separation of concerns
--   extensible architecture
--   tool independence
--   easier reasoning for AI agents
+- clear separation of concerns
+- extensible architecture
+- tool independence
+- easier reasoning for AI agents
 
-------------------------------------------------------------------------
+---
 
 # Decision 2 --- External Tool Integration (Beads & Mulch)
 
@@ -58,11 +58,11 @@ agent-plugin-mulch → wraps `mulch` CLI
 
 ## Rationale
 
--   avoids maintenance burden
--   stays compatible with upstream
--   leverages existing ecosystems
+- avoids maintenance burden
+- stays compatible with upstream
+- leverages existing ecosystems
 
-------------------------------------------------------------------------
+---
 
 # Decision 3 --- Core + Plugin Architecture
 
@@ -80,19 +80,19 @@ Implement the runtime as:
 
 Example plugins:
 
--   agent-plugin-beads
--   agent-plugin-mulch
--   agent-plugin-session
--   agent-plugin-compression
--   agent-plugin-guardrails
+- agent-plugin-beads
+- agent-plugin-mulch
+- agent-plugin-session
+- agent-plugin-compression
+- agent-plugin-guardrails
 
 ## Rationale
 
--   modular architecture
--   easier upgrades
--   third‑party plugin ecosystem possible
+- modular architecture
+- easier upgrades
+- third‑party plugin ecosystem possible
 
-------------------------------------------------------------------------
+---
 
 # Decision 4 --- Library + CLI Distribution
 
@@ -100,9 +100,9 @@ Example plugins:
 
 The system should work with:
 
--   CLI agents
--   VS Code extensions
--   custom runtimes
+- CLI agents
+- VS Code extensions
+- custom runtimes
 
 ## Decision
 
@@ -119,11 +119,11 @@ Example:
 
 ## Rationale
 
--   programmatic integration
--   flexible tooling
--   easier automation
+- programmatic integration
+- flexible tooling
+- easier automation
 
-------------------------------------------------------------------------
+---
 
 # Decision 5 --- Ephemeral Conversation Compression
 
@@ -142,11 +142,11 @@ No repository files are created.
 
 ## Rationale
 
--   avoids repo noise
--   reduces token usage
--   improves runtime performance
+- avoids repo noise
+- reduces token usage
+- improves runtime performance
 
-------------------------------------------------------------------------
+---
 
 # Decision 6 --- Hybrid Hook Locations
 
@@ -165,10 +165,10 @@ Resolution order:
 
 Allows:
 
--   project customization
--   reusable global automation
+- project customization
+- reusable global automation
 
-------------------------------------------------------------------------
+---
 
 # Decision 7 --- Controlled File Writes
 
@@ -183,7 +183,7 @@ All other repository files are read‑only.
 
 Prevents unsafe modifications by automated agents.
 
-------------------------------------------------------------------------
+---
 
 # Decision 8 --- Nx Monorepo over Separate Repositories
 
@@ -215,30 +215,65 @@ Use `packages/` (not Nx's default `libs/`) to signal these are
 
 ## Rationale
 
--   shared tooling (ESLint, Jest, Prettier, TypeScript) configured once
--   atomic commits across packages
--   cross-package type-checking via TypeScript project references
--   Nx cache and task pipeline work across all packages together
--   `agent-types` (shared interfaces) is immediately available to all
-    other packages without a publish/install cycle
--   easier to enforce conventions consistently
+- shared tooling (ESLint, Jest, Prettier, TypeScript) configured once
+- atomic commits across packages
+- cross-package type-checking via TypeScript project references
+- Nx cache and task pipeline work across all packages together
+- `agent-types` (shared interfaces) is immediately available to all
+  other packages without a publish/install cycle
+- easier to enforce conventions consistently
 
 ## What changes from the original spec
 
--   no separate repos; one repo at https://github.com/jwill9999/coreai
--   each package's internal `src/` structure is preserved as designed
--   the `apps/` folder is not used — all packages are libraries with
-    optional CLI entry points, not standalone runnable applications
+- no separate repos; one repo at https://github.com/jwill9999/coreai
+- each package's internal `src/` structure is preserved as designed
+- the `apps/` folder is not used — all packages are libraries with
+  optional CLI entry points, not standalone runnable applications
 
-------------------------------------------------------------------------
+---
+
+# Decision 9 --- Pre-release Versioning Strategy
+
+## Context
+
+All packages in the monorepo are published to npm. Anyone cloning,
+forking, or installing them needs to understand the project is in active
+development and the API is not yet stable.
+
+## Decision
+
+Use **semver pre-release identifiers** throughout development:
+
+| Stage                         | Version         | Trigger             |
+| ----------------------------- | --------------- | ------------------- |
+| Active alpha development      | `0.x.0-alpha.0` | Now                 |
+| Feature complete, stabilising | `0.x.0-beta.0`  | All 9 epics done    |
+| Release candidate             | `1.0.0-rc.0`    | Tested + documented |
+| Stable                        | `1.0.0`         | Production ready    |
+
+All packages share the **same version in lockstep**. The minor version
+(`0.x`) increments each time an epic is merged to `main`.
+
+Starting version: **`0.1.0-alpha.0`** (set at start of Epic 2).
+
+## Rationale
+
+- `major: 0` — semver spec signals unstable/breaking API changes allowed
+- `-alpha` — pre-release tag makes incomplete state explicit to any
+  consumer
+- lockstep versioning — avoids compatibility matrix complexity across
+  tightly coupled packages
+- minor-per-epic — gives meaningful progression visible in release history
+
+---
 
 # Future Evolution
 
 Possible future layers:
 
--   vector knowledge memory
--   multi‑agent orchestration
--   distributed task execution
+- vector knowledge memory
+- multi‑agent orchestration
+- distributed task execution
 
 This document should be updated whenever a major design decision
 changes.
