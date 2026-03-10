@@ -31,6 +31,7 @@
 - Rewrite root README, add planning docs and workflow guide
 - *(publishing)* Add npm version badge step to post-publish checklist
 - Replace original specs with per-epic source-of-truth specs
+- *(session)* Fix stale version reference 0.2.0 → 0.3.0-alpha.0
 
 ### 🎨 Styling
 
@@ -80,3 +81,5 @@
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - Fix remaining coreai references in cliff.toml and package-lock
 - *(vscode)* Add SonarLint connected mode configuration
+- *(changelog)* Update CHANGELOG.md [skip ci]
+- *(beads)* Export issue snapshot for new developer onboarding
