@@ -63,3 +63,6 @@
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(context)* Add USE WHEN triggers to session+pr-review skills, trim copilot-instructions.md
+- *(changelog)* Update CHANGELOG.md [skip ci]
+- Update SESSION.md - document context optimisation work
+- *(context)* Add git-workflow and guardrails skills with USE WHEN triggers
