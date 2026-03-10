@@ -38,7 +38,15 @@ function makeContext(taskId?: string): AgentContext {
     promptSegments: [],
     conversation: [],
     compressionSummaries: [],
-    ...(taskId ? { activeTask: { id: taskId, title: taskId, status: 'in_progress' as const } } : {}),
+    ...(taskId
+      ? {
+          activeTask: {
+            id: taskId,
+            title: taskId,
+            status: 'in_progress' as const,
+          },
+        }
+      : {}),
   };
 }
 
@@ -80,8 +88,12 @@ describe('DEFAULT_AGENT_CONFIG', () => {
   });
 
   it('allows writing to SESSION.md and .mulch/mulch.jsonl', () => {
-    expect(DEFAULT_AGENT_CONFIG.permissions?.allowWrite).toContain('SESSION.md');
-    expect(DEFAULT_AGENT_CONFIG.permissions?.allowWrite).toContain('.mulch/mulch.jsonl');
+    expect(DEFAULT_AGENT_CONFIG.permissions?.allowWrite).toContain(
+      'SESSION.md',
+    );
+    expect(DEFAULT_AGENT_CONFIG.permissions?.allowWrite).toContain(
+      '.mulch/mulch.jsonl',
+    );
   });
 });
 
@@ -113,7 +125,9 @@ describe('HookRunner.resolveHook()', () => {
   it('falls back to the global hook when no repo hook exists', async () => {
     const globalHook = '/home/user/.agent/hooks/session-start.sh';
     (access as jest.Mock).mockImplementation((p: string) =>
-      p === globalHook ? Promise.resolve() : Promise.reject(new Error('ENOENT')),
+      p === globalHook
+        ? Promise.resolve()
+        : Promise.reject(new Error('ENOENT')),
     );
     const runner = new HookRunner(REPO, DEFAULT_AGENT_CONFIG);
     const result = await runner.resolveHook('session-start');
@@ -135,17 +149,23 @@ describe('HookRunner.resolveHook()', () => {
 
 describe('HookRunner.isApprovedWrite()', () => {
   it('returns true for a path explicitly approved in approvedWrites', () => {
-    const runner = new HookRunner(REPO, { approvedWrites: { 'SESSION.md': true } });
+    const runner = new HookRunner(REPO, {
+      approvedWrites: { 'SESSION.md': true },
+    });
     expect(runner.isApprovedWrite('SESSION.md')).toBe(true);
   });
 
   it('returns false for a path explicitly denied in approvedWrites', () => {
-    const runner = new HookRunner(REPO, { approvedWrites: { 'SESSION.md': false } });
+    const runner = new HookRunner(REPO, {
+      approvedWrites: { 'SESSION.md': false },
+    });
     expect(runner.isApprovedWrite('SESSION.md')).toBe(false);
   });
 
   it('falls back to permissions.allowWrite when not in approvedWrites', () => {
-    const runner = new HookRunner(REPO, { permissions: { allowWrite: ['.mulch/mulch.jsonl'] } });
+    const runner = new HookRunner(REPO, {
+      permissions: { allowWrite: ['.mulch/mulch.jsonl'] },
+    });
     expect(runner.isApprovedWrite('.mulch/mulch.jsonl')).toBe(true);
   });
 
@@ -169,22 +189,35 @@ describe('HookRunner.ensureConfig()', () => {
   });
 
   it('reads and parses an existing config file', async () => {
-    const stored = { plugins: ['@coreai/plugin-beads'], hooks: {}, permissions: {}, approvedWrites: {} };
+    const stored = {
+      plugins: ['@coreai/plugin-beads'],
+      hooks: {},
+      permissions: {},
+      approvedWrites: {},
+    };
     (readFile as jest.Mock).mockResolvedValue(JSON.stringify(stored));
     const config = await HookRunner.ensureConfig(REPO);
     expect(config.plugins).toEqual(['@coreai/plugin-beads']);
   });
 
   it('returns default config in non-TTY environment when no config file exists', async () => {
-    Object.defineProperty(process.stdin, 'isTTY', { value: false, configurable: true });
-    Object.defineProperty(process.stdout, 'isTTY', { value: false, configurable: true });
+    Object.defineProperty(process.stdin, 'isTTY', {
+      value: false,
+      configurable: true,
+    });
+    Object.defineProperty(process.stdout, 'isTTY', {
+      value: false,
+      configurable: true,
+    });
     (readFile as jest.Mock).mockRejectedValue(new Error('ENOENT'));
     (mkdir as jest.Mock).mockResolvedValue(undefined);
     (writeFile as jest.Mock).mockResolvedValue(undefined);
 
     const config = await HookRunner.ensureConfig(REPO);
 
-    expect(mkdir).toHaveBeenCalledWith(join(REPO, '.agent'), { recursive: true });
+    expect(mkdir).toHaveBeenCalledWith(join(REPO, '.agent'), {
+      recursive: true,
+    });
     expect(writeFile).toHaveBeenCalled();
     expect(config.plugins).toEqual([]);
     expect(config.approvedWrites).toEqual({});
@@ -202,7 +235,9 @@ describe('HookRunner.runHook()', () => {
   it('resolves silently when no hook script is found', async () => {
     (access as jest.Mock).mockRejectedValue(new Error('ENOENT'));
     const runner = new HookRunner(REPO, DEFAULT_AGENT_CONFIG);
-    await expect(runner.runHook('session-start', makeContext())).resolves.toBeUndefined();
+    await expect(
+      runner.runHook('session-start', makeContext()),
+    ).resolves.toBeUndefined();
     expect(spawn).not.toHaveBeenCalled();
   });
 
@@ -242,9 +277,9 @@ describe('HookRunner.runHook()', () => {
     mockSpawnFailure(2);
 
     const runner = new HookRunner(REPO, DEFAULT_AGENT_CONFIG);
-    await expect(runner.runHook('session-start', makeContext())).rejects.toThrow(
-      'exited with code 2',
-    );
+    await expect(
+      runner.runHook('session-start', makeContext()),
+    ).rejects.toThrow('exited with code 2');
   });
 
   it('uses node to execute .js hooks', async () => {

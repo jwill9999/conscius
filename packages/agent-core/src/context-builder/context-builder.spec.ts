@@ -19,8 +19,10 @@ function makeContext(overrides: Partial<AgentContext> = {}): AgentContext {
 }
 
 describe('constants', () => {
-  it('COMPRESSION_THRESHOLD is 30', () => expect(COMPRESSION_THRESHOLD).toBe(30));
-  it('RECENT_MESSAGES_TO_KEEP is 10', () => expect(RECENT_MESSAGES_TO_KEEP).toBe(10));
+  it('COMPRESSION_THRESHOLD is 30', () =>
+    expect(COMPRESSION_THRESHOLD).toBe(30));
+  it('RECENT_MESSAGES_TO_KEEP is 10', () =>
+    expect(RECENT_MESSAGES_TO_KEEP).toBe(10));
 });
 
 describe('buildContext', () => {
@@ -32,7 +34,9 @@ describe('buildContext', () => {
   });
 
   it('includes prompt segments', () => {
-    const result = buildContext(makeContext({ promptSegments: ['## Skills', '## Session'] }));
+    const result = buildContext(
+      makeContext({ promptSegments: ['## Skills', '## Session'] }),
+    );
     expect(result.prompt).toContain('## Skills');
     expect(result.prompt).toContain('## Session');
   });
@@ -41,7 +45,13 @@ describe('buildContext', () => {
     const result = buildContext(
       makeContext({
         compressionSummaries: [
-          { segmentIndex: 0, topic: 'Auth', keyDecisions: ['Use JWT'], constraints: [], outcome: 'Done' },
+          {
+            segmentIndex: 0,
+            topic: 'Auth',
+            keyDecisions: ['Use JWT'],
+            constraints: [],
+            outcome: 'Done',
+          },
         ],
       }),
     );
@@ -54,7 +64,13 @@ describe('buildContext', () => {
     const result = buildContext(
       makeContext({
         compressionSummaries: [
-          { segmentIndex: 0, topic: 'T', keyDecisions: [], constraints: [], outcome: 'O' },
+          {
+            segmentIndex: 0,
+            topic: 'T',
+            keyDecisions: [],
+            constraints: [],
+            outcome: 'O',
+          },
         ],
       }),
     );
@@ -152,6 +168,8 @@ describe('getMessagesToCompress', () => {
     const toCompress = getMessagesToCompress(msgs);
     expect(toCompress).toHaveLength(15 - RECENT_MESSAGES_TO_KEEP);
     expect(toCompress[0].content).toBe('msg-0');
-    expect(toCompress[toCompress.length - 1].content).toBe(`msg-${15 - RECENT_MESSAGES_TO_KEEP - 1}`);
+    expect(toCompress[toCompress.length - 1].content).toBe(
+      `msg-${15 - RECENT_MESSAGES_TO_KEEP - 1}`,
+    );
   });
 });

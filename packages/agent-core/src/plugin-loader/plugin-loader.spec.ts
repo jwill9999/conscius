@@ -12,8 +12,12 @@ jest.mock(
   () => ({ plugin: { name: 'named-plugin', onTaskStart: jest.fn() } }),
   { virtual: true },
 );
-jest.mock('@coreai/test-plugin-invalid', () => ({ default: null }), { virtual: true });
-jest.mock('@coreai/test-plugin-no-name', () => ({ default: { name: 42 } }), { virtual: true });
+jest.mock('@coreai/test-plugin-invalid', () => ({ default: null }), {
+  virtual: true,
+});
+jest.mock('@coreai/test-plugin-no-name', () => ({ default: { name: 42 } }), {
+  virtual: true,
+});
 
 function makeContext(): AgentContext {
   return {
@@ -25,7 +29,10 @@ function makeContext(): AgentContext {
   };
 }
 
-function makePlugin(name: string, overrides: Partial<AgentPlugin> = {}): AgentPlugin {
+function makePlugin(
+  name: string,
+  overrides: Partial<AgentPlugin> = {},
+): AgentPlugin {
   return { name, ...overrides };
 }
 
@@ -120,8 +127,18 @@ describe('PluginLoader lifecycle hooks', () => {
   it('calls hooks on all plugins in order', async () => {
     const order: string[] = [];
     setPlugins(loader, [
-      makePlugin('first', { onSessionStart: jest.fn().mockImplementation(() => { order.push('first'); return Promise.resolve(); }) }),
-      makePlugin('second', { onSessionStart: jest.fn().mockImplementation(() => { order.push('second'); return Promise.resolve(); }) }),
+      makePlugin('first', {
+        onSessionStart: jest.fn().mockImplementation(() => {
+          order.push('first');
+          return Promise.resolve();
+        }),
+      }),
+      makePlugin('second', {
+        onSessionStart: jest.fn().mockImplementation(() => {
+          order.push('second');
+          return Promise.resolve();
+        }),
+      }),
     ]);
     await loader.runSessionStart(ctx);
     expect(order).toEqual(['first', 'second']);
@@ -132,18 +149,26 @@ describe('PluginLoader error isolation', () => {
   let loader: PluginLoader;
   const ctx = makeContext();
 
-  beforeEach(() => { loader = new PluginLoader(); });
+  beforeEach(() => {
+    loader = new PluginLoader();
+  });
 
   it('re-throws a single plugin error directly', async () => {
     const err = new Error('plugin-a failed');
-    setPlugins(loader, [makePlugin('a', { onSessionStart: jest.fn().mockRejectedValue(err) })]);
-    await expect(loader.runSessionStart(ctx)).rejects.toThrow('plugin-a failed');
+    setPlugins(loader, [
+      makePlugin('a', { onSessionStart: jest.fn().mockRejectedValue(err) }),
+    ]);
+    await expect(loader.runSessionStart(ctx)).rejects.toThrow(
+      'plugin-a failed',
+    );
   });
 
   it('runs remaining plugins even if an earlier one throws', async () => {
     const secondHook = jest.fn().mockResolvedValue(undefined);
     setPlugins(loader, [
-      makePlugin('a', { onSessionStart: jest.fn().mockRejectedValue(new Error('fail')) }),
+      makePlugin('a', {
+        onSessionStart: jest.fn().mockRejectedValue(new Error('fail')),
+      }),
       makePlugin('b', { onSessionStart: secondHook }),
     ]);
     await expect(loader.runSessionStart(ctx)).rejects.toThrow();
@@ -152,16 +177,26 @@ describe('PluginLoader error isolation', () => {
 
   it('throws AggregateError when multiple plugins fail', async () => {
     setPlugins(loader, [
-      makePlugin('a', { onSessionStart: jest.fn().mockRejectedValue(new Error('err-a')) }),
-      makePlugin('b', { onSessionStart: jest.fn().mockRejectedValue(new Error('err-b')) }),
+      makePlugin('a', {
+        onSessionStart: jest.fn().mockRejectedValue(new Error('err-a')),
+      }),
+      makePlugin('b', {
+        onSessionStart: jest.fn().mockRejectedValue(new Error('err-b')),
+      }),
     ]);
-    await expect(loader.runSessionStart(ctx)).rejects.toBeInstanceOf(AggregateError);
+    await expect(loader.runSessionStart(ctx)).rejects.toBeInstanceOf(
+      AggregateError,
+    );
   });
 
   it('AggregateError message lists all failing plugins', async () => {
     setPlugins(loader, [
-      makePlugin('a', { onSessionStart: jest.fn().mockRejectedValue(new Error('err-a')) }),
-      makePlugin('b', { onSessionStart: jest.fn().mockRejectedValue(new Error('err-b')) }),
+      makePlugin('a', {
+        onSessionStart: jest.fn().mockRejectedValue(new Error('err-a')),
+      }),
+      makePlugin('b', {
+        onSessionStart: jest.fn().mockRejectedValue(new Error('err-b')),
+      }),
     ]);
     try {
       await loader.runSessionStart(ctx);

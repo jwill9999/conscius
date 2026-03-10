@@ -2,7 +2,9 @@ import { toMessage } from './utils';
 
 describe('toMessage()', () => {
   it('returns the message for an Error instance', () => {
-    expect(toMessage(new Error('something went wrong'))).toBe('something went wrong');
+    expect(toMessage(new Error('something went wrong'))).toBe(
+      'something went wrong',
+    );
   });
 
   it('returns the string directly for a string value', () => {
