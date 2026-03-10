@@ -159,6 +159,22 @@ describe('fetchBeadsTask', () => {
     );
   });
 
+  it('throws when bd returns an object missing title', async () => {
+    mockExecFileSuccess(JSON.stringify({ id: 'x', status: 'todo' }));
+
+    await expect(fetchBeadsTask('x', repoRoot)).rejects.toThrow(
+      /unexpected response/,
+    );
+  });
+
+  it('throws when bd returns an object missing status', async () => {
+    mockExecFileSuccess(JSON.stringify({ id: 'x', title: 'T' }));
+
+    await expect(fetchBeadsTask('x', repoRoot)).rejects.toThrow(
+      /unexpected response/,
+    );
+  });
+
   it('propagates errors from bd CLI execution', async () => {
     mockExecFileError('bd: command not found');
 
