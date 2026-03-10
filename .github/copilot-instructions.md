@@ -349,3 +349,14 @@ After opening any PR, **proactively** fetch CI/CD feedback before declaring work
 ### Bot feedback to action
 - **SonarCloud**: Quality Gate must be **Passed** before merge. Fix any Bugs or Vulnerabilities. Log Code Smells as follow-up tasks if complex.
 - **Sourcery AI**: Review architectural suggestions. Fix anything flagged as a bug risk. Log suggestions as tasks if non-trivial.
+
+### Merge conflict check
+Always check `mergeable_state` from `pull_request_read` (method: `get`) alongside check runs. If it is `"dirty"`, rebase the task branch onto the base branch before recommending merge:
+```bash
+git checkout <task-branch>
+git rebase origin/<base-branch>
+# resolve any conflicts, then:
+git rebase --continue
+git push --force-with-lease
+```
+**Do not declare a PR ready to merge if `mergeable_state` is anything other than `"clean"`.**
