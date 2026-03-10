@@ -28,6 +28,7 @@
 - Add documentation skill, docs index, ADRs, guides, and API reference
 - *(planning)* Integrate Beads CLI into planning skill
 - Rewrite root README, add planning docs and workflow guide
+- *(publishing)* Add npm version badge step to post-publish checklist
 
 ### 🎨 Styling
 
@@ -67,4 +68,5 @@
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - Update SESSION.md - document context optimisation work
 - *(context)* Add git-workflow and guardrails skills with USE WHEN triggers
+- *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
