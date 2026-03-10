@@ -77,7 +77,7 @@ gh pr create --base main --title "feat: Epic {N} — {Epic Name}" --body "..."
 ```bash
 git checkout main && git pull
 git-cliff --output CHANGELOG.md
-git add CHANGELOG.md packages/*/package.json
+git add CHANGELOG.md package.json packages/*/package.json
 git commit -m "chore: update CHANGELOG.md and bump to 0.{N+1}.0-alpha.0"
 git push
 ```
@@ -110,7 +110,7 @@ Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
 
 ## Package versioning (lockstep)
 
-All `packages/*/package.json` carry the same version.
+All `package.json` (root + `packages/*/package.json`) carry the same version.
 
 | Stage              | Format          | When             |
 | ------------------ | --------------- | ---------------- |
