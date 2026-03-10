@@ -64,7 +64,12 @@ export async function fetchBeadsTask(
   // `bd show --json` returns either a single object or an array of one object.
   const raw: BdShowResult = Array.isArray(parsed) ? parsed[0] : parsed;
 
-  if (!raw || typeof raw.id !== 'string') {
+  if (
+    !raw ||
+    typeof raw.id !== 'string' ||
+    typeof raw.title !== 'string' ||
+    typeof raw.status !== 'string'
+  ) {
     throw new Error(
       `fetchBeadsTask: unexpected response from 'bd show --json ${taskId}'`,
     );
