@@ -30,6 +30,7 @@
 - *(planning)* Integrate Beads CLI into planning skill
 - Rewrite root README, add planning docs and workflow guide
 - *(publishing)* Add npm version badge step to post-publish checklist
+- Replace original specs with per-epic source-of-truth specs
 
 ### 🎨 Styling
 
@@ -74,4 +75,5 @@
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - Bump root package.json to 0.3.0-alpha.0
 - *(git-workflow)* Include root package.json in version bump commands
+- *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
