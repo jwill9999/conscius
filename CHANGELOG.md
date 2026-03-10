@@ -14,6 +14,7 @@
 - *(e3-t1)* Use manual Promise wrapper in runBdShow instead of promisify
 - *(e3-t4)* Fix typecheck errors and test infrastructure
 - *(e3-t4)* Fix path traversal check in contextLoader
+- Correct SonarCloud badge project key to jwill9999_coreai
 
 ### 📚 Documentation
 
@@ -66,3 +67,4 @@
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - Update SESSION.md - document context optimisation work
 - *(context)* Add git-workflow and guardrails skills with USE WHEN triggers
+- *(changelog)* Update CHANGELOG.md [skip ci]
