@@ -7,15 +7,15 @@ during development workflows.
 
 It captures knowledge such as:
 
--   debugging discoveries
--   tooling pitfalls
--   architecture mistakes
--   workflow improvements
+- debugging discoveries
+- tooling pitfalls
+- architecture mistakes
+- workflow improvements
 
 This prevents agents and engineers from **repeating solved problems**.\
 Mulch becomes the system's **experience memory**.
 
-------------------------------------------------------------------------
+---
 
 # Architecture Improvement --- Dual Mulch Stores
 
@@ -32,15 +32,15 @@ Stored inside the repository.
 
 Stores:
 
--   service‑specific lessons
--   repository tooling issues
--   project architecture quirks
+- service‑specific lessons
+- repository tooling issues
+- project architecture quirks
 
 Example:
 
     Nx path mapping breaks when moving libraries unless path mappings are regenerated
 
-------------------------------------------------------------------------
+---
 
 ## 2. Global Mulch
 
@@ -53,15 +53,15 @@ Example:
 
 Stores:
 
--   general engineering lessons
--   platform quirks
--   tooling issues
+- general engineering lessons
+- platform quirks
+- tooling issues
 
 Example:
 
     macOS TCC blocks writes to the .github directory from some tools
 
-------------------------------------------------------------------------
+---
 
 # Query Order
 
@@ -73,7 +73,7 @@ Agents should search Mulch in the following order:
 
 This ensures **local knowledge takes priority**.
 
-------------------------------------------------------------------------
+---
 
 # Storage Format
 
@@ -89,7 +89,7 @@ JSONL format means:
 
 Example entry:
 
-``` json
+```json
 {
   "id": "lesson-docker-001",
   "topic": "docker",
@@ -99,17 +99,19 @@ Example entry:
 }
 ```
 
-------------------------------------------------------------------------
+---
 
 # Required Fields
 
-  Field            Description
-  ---------------- ----------------------------
-  id               unique lesson identifier
-  topic            category or tool name
-  summary          description of the problem
-  recommendation   recommended solution
-  created          timestamp
+Field Description
+
+---
+
+id unique lesson identifier
+topic category or tool name
+summary description of the problem
+recommendation recommended solution
+created timestamp
 
 Optional fields:
 
@@ -118,7 +120,7 @@ Optional fields:
     tags
     service
 
-------------------------------------------------------------------------
+---
 
 # Installation
 
@@ -130,7 +132,7 @@ Verify installation:
 
     mulch --version
 
-------------------------------------------------------------------------
+---
 
 # Repository Initialisation
 
@@ -143,7 +145,7 @@ This creates:
     .mulch/
        mulch.jsonl
 
-------------------------------------------------------------------------
+---
 
 # Mulch CLI Commands
 
@@ -159,7 +161,7 @@ Result:
 
     Appends entry to mulch.jsonl
 
-------------------------------------------------------------------------
+---
 
 ## Search Lessons
 
@@ -171,7 +173,7 @@ Example:
 
 Returns relevant experience entries.
 
-------------------------------------------------------------------------
+---
 
 ## List Lessons
 
@@ -179,7 +181,7 @@ Returns relevant experience entries.
 
 Displays stored knowledge entries.
 
-------------------------------------------------------------------------
+---
 
 ## Remove Lesson
 
@@ -187,7 +189,7 @@ Displays stored knowledge entries.
 
 Removes incorrect or outdated entries.
 
-------------------------------------------------------------------------
+---
 
 # When Agents Should Use Mulch
 
@@ -203,7 +205,7 @@ Purpose:
 
     avoid rediscovering solved problems
 
-------------------------------------------------------------------------
+---
 
 ## 2. After Solving a New Problem
 
@@ -211,7 +213,7 @@ Agents record the discovery.
 
     mulch add
 
-------------------------------------------------------------------------
+---
 
 ## 3. During Implementation
 
@@ -223,7 +225,7 @@ Example:
 
     mulch search eslint
 
-------------------------------------------------------------------------
+---
 
 ## 4. During Architecture Work
 
@@ -235,7 +237,7 @@ Example:
 
 Agents should record the lesson.
 
-------------------------------------------------------------------------
+---
 
 # Integration with Other Layers
 
@@ -247,13 +249,13 @@ Example:
 
     task_id: auth-104
 
-------------------------------------------------------------------------
+---
 
 ## SESSION.md
 
 Important discoveries may be summarised in session continuity.
 
-------------------------------------------------------------------------
+---
 
 ## Skills / Instructions
 
@@ -262,7 +264,7 @@ If a lesson becomes broadly useful it may evolve into:
     updated instruction files
     updated reusable skills
 
-------------------------------------------------------------------------
+---
 
 # Context Injection
 
@@ -274,7 +276,7 @@ Instead agents should search dynamically:
 
 Only relevant lessons are injected into the context.
 
-------------------------------------------------------------------------
+---
 
 # Example Workflow
 
@@ -290,7 +292,7 @@ If the solution was newly discovered:
 
     mulch add
 
-------------------------------------------------------------------------
+---
 
 # Architecture Position
 
@@ -310,7 +312,7 @@ Mulch sits after execution as **experience memory**.
 
 Mulch captures **experience from execution**.
 
-------------------------------------------------------------------------
+---
 
 # Summary
 
@@ -320,7 +322,7 @@ Mulch provides:
 
 Benefits:
 
--   faster debugging
--   reusable engineering insights
--   cross‑session learning
--   knowledge accumulation across services
+- faster debugging
+- reusable engineering insights
+- cross‑session learning
+- knowledge accumulation across services

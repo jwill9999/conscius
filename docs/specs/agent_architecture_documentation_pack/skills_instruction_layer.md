@@ -1,6 +1,6 @@
 # Skills & Instruction Knowledge Layer
 
-*(Lightweight Architectural Guidance for Planning Agents)*
+_(Lightweight Architectural Guidance for Planning Agents)_
 
 ## Purpose
 
@@ -14,7 +14,7 @@ consider when designing or evolving the system.
 Planning agents should treat this document as **discussion prompts**,
 not rigid instructions.
 
-------------------------------------------------------------------------
+---
 
 # Architectural Context
 
@@ -23,12 +23,12 @@ The system is composed of several cooperating layers designed to support
 
 These layers separate concerns between:
 
--   execution
--   experience
--   knowledge
--   session continuity
--   conversation management
--   orchestration
+- execution
+- experience
+- knowledge
+- session continuity
+- conversation management
+- orchestration
 
 Current architecture layers:
 
@@ -41,7 +41,7 @@ Current architecture layers:
 
 Planning agents should ensure new designs respect these boundaries.
 
-------------------------------------------------------------------------
+---
 
 # Layer Overview
 
@@ -51,19 +51,19 @@ Beads manages the **task graph**.
 
 Planning agents should consider:
 
--   epics
--   tasks
--   sub-tasks
--   dependencies
--   specification linkage
+- epics
+- tasks
+- sub-tasks
+- dependencies
+- specification linkage
 
 Key questions:
 
--   What work needs to be executed?
--   What is the correct order?
--   What dependencies exist?
+- What work needs to be executed?
+- What is the correct order?
+- What dependencies exist?
 
-------------------------------------------------------------------------
+---
 
 ## Mulch --- Experience Layer
 
@@ -71,17 +71,17 @@ Mulch stores **lessons learned during development**.
 
 Planning agents should consider:
 
--   recurring problems
--   debugging insights
--   tooling discoveries
--   architecture pitfalls
+- recurring problems
+- debugging insights
+- tooling discoveries
+- architecture pitfalls
 
 Important idea:
 
     Mulch captures discoveries.
     Skills convert discoveries into reusable rules.
 
-------------------------------------------------------------------------
+---
 
 ## Skills / Instruction Knowledge Layer
 
@@ -89,20 +89,20 @@ This layer contains **reusable engineering knowledge**.
 
 Examples:
 
--   planning workflows
--   implementation workflows
--   documentation patterns
--   development conventions
+- planning workflows
+- implementation workflows
+- documentation patterns
+- development conventions
 
 Planning agents should evaluate whether new behaviours belong here.
 
 Questions to consider:
 
--   Is this knowledge reusable?
--   Should this become a skill?
--   Should the instruction layer evolve?
+- Is this knowledge reusable?
+- Should this become a skill?
+- Should the instruction layer evolve?
 
-------------------------------------------------------------------------
+---
 
 ## Session Continuity --- SESSION.md
 
@@ -110,16 +110,16 @@ SESSION.md stores **working state between sessions**.
 
 Typical contents:
 
--   current objective
--   active task
--   progress
--   decisions made
--   next steps
+- current objective
+- active task
+- progress
+- decisions made
+- next steps
 
 Planning agents should consider whether major decisions should be
 reflected in the session summary.
 
-------------------------------------------------------------------------
+---
 
 ## Conversation Compression
 
@@ -135,7 +135,7 @@ with:
 This mechanism is **runtime only** and does not create repository
 artifacts.
 
-------------------------------------------------------------------------
+---
 
 ## Context Injection Hooks
 
@@ -150,7 +150,7 @@ Possible events include:
 
 Planning agents may propose improvements to how context is injected.
 
-------------------------------------------------------------------------
+---
 
 # Planning Considerations
 
@@ -176,7 +176,7 @@ Should SESSION.md capture this decision?
 
 Will this increase conversation complexity?
 
-------------------------------------------------------------------------
+---
 
 # Evolving the System
 
@@ -184,14 +184,14 @@ This document is intentionally **open-ended**.
 
 Planning agents are encouraged to propose:
 
--   improvements to architectural layers
--   new reusable skills
--   new workflow integrations
--   refinements to memory systems
+- improvements to architectural layers
+- new reusable skills
+- new workflow integrations
+- refinements to memory systems
 
 The goal is **continuous evolution of the agent architecture**.
 
-------------------------------------------------------------------------
+---
 
 # Guiding Principle
 

@@ -8,17 +8,17 @@ workflows.
 
 This layer coordinates interaction between:
 
--   Skills / instruction knowledge
--   SESSION.md (session continuity)
--   Conversation compression summaries
--   Beads tasks
--   Specification documents
--   Mulch experience entries
+- Skills / instruction knowledge
+- SESSION.md (session continuity)
+- Conversation compression summaries
+- Beads tasks
+- Specification documents
+- Mulch experience entries
 
 Hooks automate lifecycle events so agents receive the correct context
 without manual intervention.
 
-------------------------------------------------------------------------
+---
 
 # Design Principles
 
@@ -43,7 +43,7 @@ This ensures compatibility with:
     Claude workflows
     custom LLM runtimes
 
-------------------------------------------------------------------------
+---
 
 # Hook Locations
 
@@ -60,7 +60,7 @@ Example:
     repo/.agent/hooks/session-start.sh
     repo/.agent/hooks/task-start.sh
 
-------------------------------------------------------------------------
+---
 
 ### Global Hooks
 
@@ -73,7 +73,7 @@ Example:
     ~/.agent/hooks/session-start.sh
     ~/.agent/hooks/task-start.sh
 
-------------------------------------------------------------------------
+---
 
 ### Hook Resolution Order
 
@@ -85,13 +85,13 @@ Hooks should execute in the following order:
 
 Repository hooks override global behaviour.
 
-------------------------------------------------------------------------
+---
 
 # Hook Trigger Types
 
 Hooks can be triggered by three categories of events.
 
-------------------------------------------------------------------------
+---
 
 ## 1 Command Triggers
 
@@ -107,7 +107,7 @@ Purpose:
 
     explicit lifecycle control
 
-------------------------------------------------------------------------
+---
 
 ## 2 Task Triggers
 
@@ -124,7 +124,7 @@ Purpose:
     load task context
     prepare implementation environment
 
-------------------------------------------------------------------------
+---
 
 ## 3 Runtime Triggers
 
@@ -140,7 +140,7 @@ Purpose:
 
     maintain prompt context quality
 
-------------------------------------------------------------------------
+---
 
 # Hook Types
 
@@ -161,7 +161,7 @@ Optional:
 
     recent conversation summary
 
-------------------------------------------------------------------------
+---
 
 ## TaskStart Hook
 
@@ -182,7 +182,7 @@ Purpose:
 
     ensure implementation context is available
 
-------------------------------------------------------------------------
+---
 
 ## ConversationThreshold Hook
 
@@ -200,7 +200,7 @@ Example threshold:
 
 This integrates with **Layer 4 --- Conversation Compression**.
 
-------------------------------------------------------------------------
+---
 
 ## SessionEnd Hook
 
@@ -217,7 +217,7 @@ Persist session progress.
 
 Hooks must not modify other repository files.
 
-------------------------------------------------------------------------
+---
 
 # File Write Permissions
 
@@ -228,7 +228,7 @@ Hooks are allowed to write only to the following locations:
 
 All other repository files must be treated as **read-only**.
 
-------------------------------------------------------------------------
+---
 
 # First-Run Permission Prompt
 
@@ -245,7 +245,7 @@ User approval should be stored in:
 
 Subsequent runs should proceed silently.
 
-------------------------------------------------------------------------
+---
 
 # Context Injection Order
 
@@ -266,7 +266,7 @@ This ensures the model sees:
     conversation reasoning
     execution context
 
-------------------------------------------------------------------------
+---
 
 # Hook Chaining
 
@@ -286,7 +286,7 @@ Example execution chain:
 
 Hook chaining allows modular extension of behaviour.
 
-------------------------------------------------------------------------
+---
 
 # Integration with Other Layers
 
@@ -312,7 +312,7 @@ The Context Injection Hooks Layer coordinates all architecture layers.
             ↓
     Mulch Lessons
 
-------------------------------------------------------------------------
+---
 
 # Runtime State
 
@@ -330,7 +330,7 @@ Persisted artifacts remain limited to:
     mulch.jsonl
     beads tasks
 
-------------------------------------------------------------------------
+---
 
 # Benefits
 
@@ -350,7 +350,7 @@ Compatible with multiple agent environments.
 
 Hook chaining allows incremental improvements.
 
-------------------------------------------------------------------------
+---
 
 # Summary
 

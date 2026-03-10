@@ -6,11 +6,11 @@ This document describes the recommended repository layout for the
 The architecture separates the runtime core, plugins, and optional
 stacks.
 
-------------------------------------------------------------------------
+---
 
 # Ecosystem Overview
 
-``` mermaid
+```mermaid
 flowchart TD
 
 A[agent-core] --> B[Plugin System]
@@ -25,7 +25,7 @@ C --> H[Beads CLI]
 D --> I[Mulch CLI]
 ```
 
-------------------------------------------------------------------------
+---
 
 # Recommended GitHub Organization
 
@@ -41,7 +41,7 @@ D --> I[Mulch CLI]
         agent-stack-standard
         agent-stack-minimal
 
-------------------------------------------------------------------------
+---
 
 # agent-core Repository
 
@@ -58,12 +58,12 @@ Responsible for runtime orchestration.
 
 Responsibilities:
 
--   plugin loading
--   context construction
--   hook execution
--   CLI interface
+- plugin loading
+- context construction
+- hook execution
+- CLI interface
 
-------------------------------------------------------------------------
+---
 
 # Plugin Repository Example
 
@@ -79,11 +79,11 @@ Example: **agent-plugin-beads**
 
 Responsibilities:
 
--   call `bd` CLI
--   read task metadata
--   inject task context
+- call `bd` CLI
+- read task metadata
+- inject task context
 
-------------------------------------------------------------------------
+---
 
 # Standard Stack Bundle
 
@@ -103,7 +103,7 @@ Installation:
 
     npm install -g agent-stack-standard
 
-------------------------------------------------------------------------
+---
 
 # Repository Runtime Layout
 
@@ -126,11 +126,11 @@ The repository may contain:
 
     SESSION.md
 
-------------------------------------------------------------------------
+---
 
 # Agent Runtime Flow
 
-``` mermaid
+```mermaid
 sequenceDiagram
 
 User->>Agent CLI: start session
@@ -148,13 +148,13 @@ LLM->>Guardrails: run quality checks
 Guardrails->>Beads: mark task complete
 ```
 
-------------------------------------------------------------------------
+---
 
 # Design Goals
 
 The ecosystem aims to achieve:
 
--   modular extensibility
--   minimal repository state
--   tool‑agnostic integration
--   safe autonomous workflows
+- modular extensibility
+- minimal repository state
+- tool‑agnostic integration
+- safe autonomous workflows
