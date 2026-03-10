@@ -3,7 +3,7 @@ import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createInterface } from 'node:readline';
 import { spawn } from 'node:child_process';
 import { homedir } from 'node:os';
-import { join, relative, resolve, sep } from 'node:path';
+import { dirname, join, relative, resolve, sep } from 'node:path';
 
 /** Maps AgentPlugin lifecycle method names to their hook script file names. */
 export const HOOK_NAMES: Record<keyof Omit<AgentPlugin, 'name'>, string> = {
@@ -145,7 +145,11 @@ export class HookRunner {
   private executeHook(hookPath: string, env: NodeJS.ProcessEnv): Promise<void> {
     return new Promise((res, rej) => {
       const { cmd, args } = resolveExecutor(hookPath);
-      const child = spawn(cmd, args, { env, stdio: ['ignore', 'inherit', 'inherit'] });
+      const cwd = hookPath.startsWith(resolve(this.repoRoot))
+        ? this.repoRoot
+        : dirname(hookPath);
+
+      const child = spawn(cmd, args, { env, cwd, stdio: ['ignore', 'inherit', 'inherit'] });
 
       child.on('error', rej);
       child.on('close', (code) => {
