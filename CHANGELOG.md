@@ -70,3 +70,6 @@
 - *(context)* Add git-workflow and guardrails skills with USE WHEN triggers
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
+- *(changelog)* Update CHANGELOG.md [skip ci]
+- Bump root package.json to 0.3.0-alpha.0
+- *(git-workflow)* Include root package.json in version bump commands
