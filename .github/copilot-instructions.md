@@ -62,57 +62,7 @@ main
 
 ### Workflow (follow this for every epic)
 
-1. **Start of epic** — create epic branch from `main`:
-
-   ```bash
-   git checkout main && git pull
-   git checkout -b feat/e{N}-{epic-name}
-   ```
-
-2. **Start of each task** — create task sub-branch from epic branch:
-
-   ```bash
-   git checkout feat/e{N}-{epic-name}
-   git checkout -b feat/e{N}-t{M}-{task-name}
-   ```
-
-3. **Complete a task** — commit, push, open PR to epic branch (not `main`):
-
-   ```bash
-   git add . && git commit -m "feat(e{N}-t{M}): description"
-   git push -u origin feat/e{N}-t{M}-{task-name}
-   gh pr create --base feat/e{N}-{epic-name} --title "feat(e{N}-t{M}): description"
-   ```
-
-   **Human reviews the PR.** Do not self-merge. Wait for approval before moving to next task.
-
-4. **All tasks complete → pre-merge local test** — before opening the epic PR, run the full suite locally against the epic branch:
-
-   ```bash
-   git checkout feat/e{N}-{epic-name}
-   npx nx run-many -t typecheck,lint,test,build --all
-   ```
-
-   Fix any issues before opening the PR to `main`.
-
-5. **Open epic PR to `main`**:
-
-   ```bash
-   git push -u origin feat/e{N}-{epic-name}
-   gh pr create --base main --title "feat: Epic {N} — {Epic Name}" --body "..."
-   ```
-
-   **Human reviews and merges** when satisfied.
-
-6. **After merge to main** — generate/update `CHANGELOG.md` and bump version:
-   ```bash
-   git checkout main && git pull
-   git-cliff --output CHANGELOG.md
-   # Bump all packages/*/package.json to next alpha version (e.g. 0.2.0-alpha.0)
-   git add CHANGELOG.md packages/*/package.json
-   git commit -m "chore: update CHANGELOG.md and bump to 0.{N+1}.0-alpha.0"
-   git push
-   ```
+> Full step-by-step workflow is in the **`git-workflow` skill** — load it when starting/completing an epic or task.
 
 ### Commit Message Format (Conventional Commits)
 
@@ -235,54 +185,9 @@ Lessons are stored in JSONL. Required fields: `id`, `topic`, `summary`, `recomme
 - Global lessons: `~/.mulch/mulch.jsonl`
 - Query order: project mulch → global mulch
 
-### SESSION.md
+### SESSION.md and SUMMARY.md
 
-`SESSION.md` is the **primary session handoff document** at the repo root. It must be kept up to date so any new agent session can resume without needing conversation history.
-
-#### When to update SESSION.md
-
-Update and commit `SESSION.md` at **every one of these checkpoints** — do not wait to be asked:
-
-1. **After completing an epic or task** — mark it done in the task table
-2. **Before the user takes a break** — any message indicating they are stepping away
-3. **After every commit to main** — keep the active task and next steps current
-4. **When explicitly asked** — user says "update session" or similar
-
-#### What SESSION.md must always contain
-
-- Current Objective
-- Active Task (epic/task ID currently in progress)
-- Progress Since Last Session (what was completed)
-- Decisions Made (key technical decisions)
-- Open Issues (blockers or unknowns)
-- Next Steps (the exact next task ID and what to do)
-- Full epic and task table with ✅ / ⬜ status for every task
-
-#### After updating SESSION.md always
-
-```bash
-git add SESSION.md && git commit -m "chore: update SESSION.md" && git push
-```
-
-> **Note:** Epic 5 (`agent-plugin-session`) and Epic 6 (context injection hooks) will automate this once built. Until then it is a manual checkpoint.
-
-### SUMMARY.md
-
-`SUMMARY.md` is the **compressed conversation history** at the repo root. It is **append-only** — new segments are added; past segments are never edited.
-
-Each segment maps to the `CompressionSummary` interface in `@conscius/agent-types` (topic, keyDecisions, constraints, outcome). This is the manual equivalent of what `agent-core`'s context builder will auto-generate once built (Epic 5/6).
-
-#### When to add a new segment to SUMMARY.md
-
-- When a major topic or epic completes
-- When conversation history is getting long (approaching ~30 messages in a session)
-- When explicitly asked
-
-#### After updating SUMMARY.md always
-
-```bash
-git add SUMMARY.md && git commit -m "docs: update SUMMARY.md" && git push
-```
+> Full procedures are in the **`session` skill** — load it when updating the session handoff document or adding a compression summary segment.
 
 ### Context Injection Order (prompt assembly)
 
@@ -297,29 +202,11 @@ specification file
 
 ## Planning Workflow
 
-Feature and backlog tracking lives in `docs/planning/`:
-
-- `index.md` — active features
-- `backlog.md` — backlog items
-
-Use the planning skill (`/.github/skills/planning/SKILL.md`) with slash commands: `/new-feature`, `/add-subtask`, `/update-status`, `/close-feature`, `/new-backlog`, `/move-to-feature`.
-
-Feature IDs follow the pattern: `feature-YYYY-MM-DD-NNN`. Dates use GMT (UK time).
+Feature and backlog tracking lives in `docs/planning/`. Use the **`planning` skill** with commands: `/new-epic`, `/new-feature`, `/add-task`, `/update-status`, `/close-feature`, `/new-backlog`, `/move-to-feature`, `/sync-beads`. Each action writes both markdown and a `bd` task graph entry. Feature IDs: `feature-YYYY-MM-DD-NNN` (GMT).
 
 ## Guardrails Pipeline
 
-Tasks follow: `todo → in_progress → review → done`.
-
-On entering **review**, the validation pipeline runs:
-
-1. Formatting (Prettier)
-2. Linting (ESLint)
-3. Type checking
-4. Unit tests
-5. Integration tests
-6. Agent review
-
-If any step fails: fix issues → rerun pipeline.
+Tasks follow: `todo → in_progress → review → done`. Full validation pipeline steps are in the **`guardrails` skill** — load it when a task enters review or quality checks are needed.
 
 ## Specs
 
@@ -329,39 +216,6 @@ Architecture specification documents are in `docs/specs/agent_architecture_docum
 
 - `../plans/skillshare/skillshare-agent-plan.md` — plan for a standalone `skillshare` NPM package (manifest-driven skills/instructions sync CLI). Uses `commander`, `simple-git`, manifest file `skills-config.json`, commands: `init`, `sync`, optional `pull`.
 
-## PR Review Workflow (Agent Checklist)
+## PR Review Workflow
 
-After opening any PR, **proactively** fetch CI/CD feedback before declaring work ready to merge. Do not wait to be asked.
-
-| Checkpoint                        | Action                                                                                                                            |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| After pushing a task branch       | Check CI run status via `list_workflow_runs`                                                                                      |
-| After opening a PR                | Poll `get_check_runs` until CI passes or fails                                                                                    |
-| Before recommending merge         | Read PR comments (`get_comments`) for SonarCloud quality gate result and Sourcery AI review; fix any flagged bugs/vulnerabilities |
-| Before opening an epic PR to main | Verify all task PRs merged cleanly; run full suite locally (`npx nx run-many -t typecheck,lint,test,build --all`)                 |
-
-### Tools to use
-
-- `github-mcp-server-actions_list` — list workflow runs and their status
-- `github-mcp-server-pull_request_read` with `get_check_runs` — check CI pass/fail on a PR
-- `github-mcp-server-issue_read` with `get_comments` — read SonarCloud and Sourcery bot feedback
-- `github-mcp-server-get_job_logs` — fetch logs for failed CI jobs
-
-### Bot feedback to action
-
-- **SonarCloud**: Quality Gate must be **Passed** before merge. Fix any Bugs or Vulnerabilities. Log Code Smells as follow-up tasks if complex.
-- **Sourcery AI**: Review architectural suggestions. Fix anything flagged as a bug risk. Log suggestions as tasks if non-trivial.
-
-### Merge conflict check
-
-Always check `mergeable_state` from `pull_request_read` (method: `get`) alongside check runs. If it is `"dirty"`, rebase the task branch onto the base branch before recommending merge:
-
-```bash
-git checkout <task-branch>
-git rebase origin/<base-branch>
-# resolve any conflicts, then:
-git rebase --continue
-git push --force-with-lease
-```
-
-**Do not declare a PR ready to merge if `mergeable_state` is anything other than `"clean"`.**
+> Full checklist (CI checks, SonarCloud, Sourcery, merge conflict resolution) is in the **`pr-review` skill** — load it when opening a PR, reviewing feedback, or checking if work is ready to merge.
