@@ -61,3 +61,5 @@
 - Update SESSION.md — note pre-publish dep pinning task
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
+- *(changelog)* Update CHANGELOG.md [skip ci]
+- *(context)* Add USE WHEN triggers to session+pr-review skills, trim copilot-instructions.md
