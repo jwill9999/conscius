@@ -36,7 +36,13 @@ jobs:
         run: npx nx run-many -t lint --all
 
       - name: Test
-        run: npx nx run-many -t test --all
+        run: npx nx run-many -t test --all -- --coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: jwill9999/coreai
 
       - name: Build
         run: npx nx run-many -t build --all
