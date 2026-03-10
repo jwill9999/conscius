@@ -25,6 +25,7 @@
 - *(agent-core)* Rewrite README with full setup, API, plugin interface, and docs links
 - Update README badges to live npm shield URLs and improve agent-types README
 - Add documentation skill, docs index, ADRs, guides, and API reference
+- *(planning)* Integrate Beads CLI into planning skill
 
 ### 🎨 Styling
 
@@ -57,3 +58,4 @@
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - Update SESSION.md — note pre-publish dep pinning task
+- *(changelog)* Update CHANGELOG.md [skip ci]
