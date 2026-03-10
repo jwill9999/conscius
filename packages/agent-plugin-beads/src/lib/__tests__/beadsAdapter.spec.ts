@@ -6,22 +6,29 @@ jest.mock('node:child_process');
 const mockExecFile = execFile as jest.MockedFunction<typeof execFile>;
 
 function mockExecFileSuccess(stdout: string) {
-  mockExecFile.mockImplementation((_cmd, _args, _opts, callback) => {
-    (
-      callback as (
-        err: null,
-        result: { stdout: string; stderr: string },
-      ) => void
-    )(null, { stdout, stderr: '' });
-    return {} as ReturnType<typeof execFile>;
-  });
+  mockExecFile.mockImplementation(
+    (_cmd: unknown, _args: unknown, _opts: unknown, callback: unknown) => {
+      (callback as (err: null, stdout: string, stderr: string) => void)(
+        null,
+        stdout,
+        '',
+      );
+      return {} as ReturnType<typeof execFile>;
+    },
+  );
 }
 
 function mockExecFileError(message: string) {
-  mockExecFile.mockImplementation((_cmd, _args, _opts, callback) => {
-    (callback as (err: Error) => void)(new Error(message));
-    return {} as ReturnType<typeof execFile>;
-  });
+  mockExecFile.mockImplementation(
+    (_cmd: unknown, _args: unknown, _opts: unknown, callback: unknown) => {
+      (callback as (err: Error, stdout: string, stderr: string) => void)(
+        new Error(message),
+        '',
+        '',
+      );
+      return {} as ReturnType<typeof execFile>;
+    },
+  );
 }
 
 describe('fetchBeadsTask', () => {

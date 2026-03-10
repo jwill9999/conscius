@@ -1,8 +1,5 @@
 import { execFile } from 'node:child_process';
-import { promisify } from 'node:util';
 import type { BeadsTask, BeadsTaskStatus } from '@coreai/agent-types';
-
-const execFileAsync = promisify(execFile);
 
 /** Raw shape returned by `bd show --json <id>`. */
 interface BdShowResult {
@@ -44,6 +41,23 @@ function mapToBeadsTask(raw: BdShowResult): BeadsTask {
   };
 }
 
+function runBdShow(taskId: string, repoRoot: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    execFile(
+      'bd',
+      ['show', '--json', taskId],
+      { cwd: repoRoot },
+      (err, stdout) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(String(stdout));
+        }
+      },
+    );
+  });
+}
+
 /**
  * Fetches a single Beads task by running `bd show --json <taskId>`.
  *
@@ -55,9 +69,7 @@ export async function fetchBeadsTask(
   taskId: string,
   repoRoot: string,
 ): Promise<BeadsTask> {
-  const { stdout } = await execFileAsync('bd', ['show', '--json', taskId], {
-    cwd: repoRoot,
-  });
+  const stdout = await runBdShow(taskId, repoRoot);
 
   const parsed: unknown = JSON.parse(stdout);
 
