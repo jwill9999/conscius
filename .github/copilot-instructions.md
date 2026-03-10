@@ -328,3 +328,24 @@ Architecture specification documents are in `docs/specs/agent_architecture_docum
 ## Related Projects
 
 - `../plans/skillshare/skillshare-agent-plan.md` — plan for a standalone `skillshare` NPM package (manifest-driven skills/instructions sync CLI). Uses `commander`, `simple-git`, manifest file `skills-config.json`, commands: `init`, `sync`, optional `pull`.
+
+## PR Review Workflow (Agent Checklist)
+
+After opening any PR, **proactively** fetch CI/CD feedback before declaring work ready to merge. Do not wait to be asked.
+
+| Checkpoint | Action |
+|-----------|--------|
+| After pushing a task branch | Check CI run status via `list_workflow_runs` |
+| After opening a PR | Poll `get_check_runs` until CI passes or fails |
+| Before recommending merge | Read PR comments (`get_comments`) for SonarCloud quality gate result and Sourcery AI review; fix any flagged bugs/vulnerabilities |
+| Before opening an epic PR to main | Verify all task PRs merged cleanly; run full suite locally (`npx nx run-many -t typecheck,lint,test,build --all`) |
+
+### Tools to use
+- `github-mcp-server-actions_list` — list workflow runs and their status
+- `github-mcp-server-pull_request_read` with `get_check_runs` — check CI pass/fail on a PR
+- `github-mcp-server-issue_read` with `get_comments` — read SonarCloud and Sourcery bot feedback
+- `github-mcp-server-get_job_logs` — fetch logs for failed CI jobs
+
+### Bot feedback to action
+- **SonarCloud**: Quality Gate must be **Passed** before merge. Fix any Bugs or Vulnerabilities. Log Code Smells as follow-up tasks if complex.
+- **Sourcery AI**: Review architectural suggestions. Fix anything flagged as a bug risk. Log suggestions as tasks if non-trivial.
