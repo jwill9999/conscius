@@ -67,4 +67,10 @@ describe('loadSpecContent', () => {
       /resolves outside the repository root/,
     );
   });
+
+  it('throws for a path that is a sibling directory starting with the repo name', async () => {
+    await expect(
+      loadSpecContent('/repo-sibling/evil.md', repoRoot),
+    ).rejects.toThrow(/resolves outside the repository root/);
+  });
 });

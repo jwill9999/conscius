@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import { resolve, sep } from 'node:path';
 
 /**
  * Reads the content of a spec file referenced by a Beads task.
@@ -13,9 +13,10 @@ export async function loadSpecContent(
   repoRoot: string,
 ): Promise<string | null> {
   const absolutePath = resolve(repoRoot, specPath);
+  const safeRoot = repoRoot.endsWith(sep) ? repoRoot : repoRoot + sep;
 
   // Ensure the resolved path stays within the repo root to prevent path traversal.
-  if (!absolutePath.startsWith(repoRoot)) {
+  if (!absolutePath.startsWith(safeRoot) && absolutePath !== repoRoot) {
     throw new Error(
       `loadSpecContent: specPath '${specPath}' resolves outside the repository root`,
     );
