@@ -6,42 +6,34 @@ Build the coreai agent ecosystem — a layered AI-assisted engineering workflow 
 
 ## Active Task
 
-**Epic 2 — `@coreai/agent-core`** (in progress)
+**Epic 2 — `@coreai/agent-core`** — all tasks complete, epic PR #3 open → `main`
 
-- ✅ E2-T1 complete — context builder merged into `feat/e2-agent-core`
-- ✅ E2-T2 complete — plugin loader merged into `feat/e2-agent-core`
-- ✅ E2-T3 complete — hook runner merged into `feat/e2-agent-core`
-- ✅ E2-T4 complete — CLI merged into `feat/e2-agent-core`
-- ⬜ E2-T5 next — unit tests (context builder, plugin loader, hook runner, CLI)
+- ✅ E2-T1 complete — context builder
+- ✅ E2-T2 complete — plugin loader
+- ✅ E2-T3 complete — hook runner
+- ✅ E2-T4 complete — CLI
+- ✅ E2-T5 complete — 57 unit tests (57/57 passing)
+- ✅ CI-T1 complete — GitHub Actions, Codecov, Husky hooks
+
+**Blocker before merging epic PR #3 → `main`:**  
+SonarCloud reports 1 Security Hotspot on PR #3. Must be reviewed at:  
+https://sonarcloud.io/project/security_hotspots?id=jwill9999_coreai&pullRequest=3  
+Either fix the code or mark as reviewed with justification.
 
 ## Progress Since Last Session
 
-- ✅ **Epic 1 complete** — `@coreai/agent-types` scaffolded and pushed to GitHub
-- ✅ Nx plugin tooling configured: `@nx/eslint`, `@nx/jest`, `@nx/js` (all targets inferred)
-- ✅ Node 24 / nvm pinned in `.nvmrc`
-- ✅ All quality checks passing: `typecheck` ✅ `lint` ✅ `test` ✅ `format:check` ✅
-- ✅ Repo live at https://github.com/jwill9999/coreai (`main`)
-- ✅ Branching strategy: epic branches + task sub-branches + human PR review before merge
-- ✅ `git-cliff` + `cliff.toml` configured for changelog generation on merge to main
-- ✅ Versioning: `0.1.0-alpha.0` lockstep, minor bump per epic
-- ✅ ADR-8 (monorepo structure) and ADR-9 (versioning) committed
-- ✅ SonarCloud + Sourcery AI + CodeQL active on all PRs
-- ✅ CI-T1 task added: GitHub Actions workflow deferred until after Epic 3
-- ✅ E2-T1 — context builder (`buildContext`, `shouldCompress`, `getMessagesToCompress`)
-  - Sourcery fix applied: `compressionTriggered` derived from `compressionSummaries.length`
-  - Merged into `feat/e2-agent-core` ✅
-- ✅ E2-T2 — plugin loader (`PluginLoader` class, all 4 lifecycle hook runners)
-  - Bug fix applied: plugin hook isolation via per-plugin try/catch + `AggregateError`
-  - Merged into `feat/e2-agent-core` ✅
-- ✅ E2-T3 — hook runner (`HookRunner` class, `HOOK_NAMES`, `DEFAULT_AGENT_CONFIG`)
-  - Resolves `repo/.agent/hooks/` → `~/.agent/hooks/`; `.sh` via `sh`, JS via `node`
-  - `isApprovedWrite()`, `ensureConfig()` with first-run TTY-guarded prompt
-  - Fixes applied: cross-platform path normalisation, explicit `cwd`, non-null assertions removed, negated condition
-  - Merged into `feat/e2-agent-core` ✅
-- ✅ E2-T4 — CLI (`agent start`, `agent end`, `agent task start <id>`) using `commander`
-  - `bootstrap()` helper wires `ensureConfig`, `PluginLoader`, `HookRunner`, `AgentContext`
-  - Fixes applied: variadic `wrapAction`, top-level await, `toMessage` helper (S6551)
-  - Merged into `feat/e2-agent-core` ✅
+- ✅ **E2-T5** — 57 unit tests across all agent-core modules (57/57 passing)
+  - context-builder (18), plugin-loader (18), hook-runner (17), cli/utils (5 → 7 after fixes)
+  - Fixed: `jest.resetAllMocks()` wiping `homedir` mock; `tsconfig.lib.json` excluding spec files; `tsconfig.spec.json` referencing lib project
+- ✅ **CI-T1** — GitHub Actions CI pipeline (format, typecheck, lint, test+coverage, build)
+  - Codecov integration with lcov reports and badge
+  - SonarCloud, CodeQL, Sourcery AI all active
+  - Badges added to README (CI, CodeQL, Codecov, SonarCloud Quality Gate, Security Rating)
+- ✅ **Husky git hooks** — pre-commit (lint-staged: Prettier + ESLint on staged files), pre-push (nx affected typecheck + test)
+- ✅ **utils.ts fix** — `toMessage()` guards `JSON.stringify` with try/catch for circular refs and BigInt
+- ✅ **PR #7** merged into `feat/e2-agent-core`
+- ✅ **Epic PR #3** (`feat/e2-agent-core` → `main`) open — CI mostly green
+- ⚠️ **SonarCloud security hotspot** on PR #3 — 1 hotspot flagged, must be reviewed before merge
 
 ## Decisions Made
 
@@ -53,18 +45,22 @@ Build the coreai agent ecosystem — a layered AI-assisted engineering workflow 
 - Hooks may only write to `SESSION.md` and `.mulch/mulch.jsonl`
 - Branching: task PR → human review → epic branch → local test → epic PR → main
 - All packages versioned in lockstep at `0.1.0-alpha.0`
-- GitHub Actions CI deferred until after Epic 3 (SonarCloud covers PRs until then)
+- GitHub Actions CI active from Epic 2 (CI-T1 completed, not deferred)
 - Unit tests written at end of each epic (E2-T5), not per task
+- Husky pre-commit (lint-staged) + pre-push (nx affected) for local quality gates
+- Build intentionally CI-only (too slow for local hooks)
+- SonarCloud automatic analysis mode — coverage via Codecov only (cannot push to SonarCloud in auto mode)
 
 ## Open Issues
 
-- None currently.
+- ⚠️ **SonarCloud security hotspot** on epic PR #3 — 1 hotspot must be reviewed/resolved before merging to `main`. Check: https://sonarcloud.io/project/security_hotspots?id=jwill9999_coreai&pullRequest=3
 
 ## Next Steps
 
-1. Create `feat/e2-t5-unit-tests` from `feat/e2-agent-core`
-2. Implement E2-T5 — unit tests for context builder, plugin loader, hook runner, and CLI
-3. Once merged: run full suite on epic branch, open PR to `main`, bump version to `0.2.0-alpha.0`
+1. **Review SonarCloud security hotspot** on PR #3 — fix or mark as reviewed with justification at https://sonarcloud.io/project/security_hotspots?id=jwill9999_coreai&pullRequest=3
+2. **Merge epic PR #3** (`feat/e2-agent-core` → `main`) once SonarCloud passes
+3. **Post-merge**: run `git-cliff --output CHANGELOG.md`, bump all packages to `0.2.0-alpha.0`, commit and push
+4. **Start Epic 3** — `@coreai/agent-plugin-beads` (branch: `feat/e3-agent-plugin-beads`)
 
 ---
 
@@ -79,7 +75,7 @@ Legend: ✅ done | ⬜ pending
 | E1-T1 | Scaffold `@coreai/agent-types` — all shared TS interfaces/types | ✅     |
 | E1-T2 | Configure Nx targets and Prettier across all packages           | ✅     |
 
-### Epic 2 — `@coreai/agent-core` ⬜
+### Epic 2 — `@coreai/agent-core` ✅
 
 Runtime orchestration: context builder, plugin loader, hook runner, CLI.
 | ID | Task | Status |
@@ -88,7 +84,7 @@ Runtime orchestration: context builder, plugin loader, hook runner, CLI.
 | E2-T2 | Plugin loader — loads plugins from config, calls all lifecycle hooks | ✅ |
 | E2-T3 | Hook runner — resolves `repo/.agent/hooks/` then `~/.agent/hooks/`; enforces write permissions; first-run prompt → `.agent/config.json` | ✅ |
 | E2-T4 | CLI — `agent start`, `agent end`, `agent task start <id>` using `commander` | ✅ |
-| E2-T5 | Unit tests for context builder and plugin loader | ⬜ |
+| E2-T5 | Unit tests for context builder, plugin loader, hook runner, CLI (57 tests) | ✅ |
 
 ### Epic 3 — `@coreai/agent-plugin-beads` ⬜
 
@@ -167,31 +163,34 @@ Standalone manifest-driven skills/instructions sync CLI (independent of other ep
 
 ---
 
-### CI/CD — GitHub Actions ⬜
+### CI/CD — GitHub Actions ✅
 
-| ID    | Task                                                                                                                  | Status |
-| ----- | --------------------------------------------------------------------------------------------------------------------- | ------ |
-| CI-T1 | GitHub Actions CI workflow — `nx affected` (typecheck, lint, test, build) on every PR + integration tests post-Epic 3 | ⬜     |
+| ID    | Task                                                                                                                 | Status |
+| ----- | -------------------------------------------------------------------------------------------------------------------- | ------ |
+| CI-T1 | GitHub Actions CI workflow — format, typecheck, lint, test+coverage (Codecov), build on every PR + Husky local hooks | ✅     |
 
 ---
 
 ## Build Order
 
 ```
-E1 ✅ → E2 ⬜ → E3, E4, E5, E6, E7 (parallel) → E8
+E1 ✅ → E2 ✅ → E3, E4, E5, E6, E7 (parallel) → E8
 E9 (independent, can run in parallel with any epic)
-CI-T1 (after E3 merges — adds GitHub Actions + integration tests)
+CI-T1 ✅
 ```
 
 ## Quality Gates Per PR (current)
 
-| Gate                         | Tool                    | Status             |
-| ---------------------------- | ----------------------- | ------------------ |
-| typecheck, lint, test, build | Nx (local, before push) | ✅ manual          |
-| Automated code review        | Sourcery AI             | ✅ active          |
-| Security analysis            | CodeQL                  | ✅ active          |
-| Static analysis + coverage   | SonarCloud              | ✅ active          |
-| GitHub Actions CI            | Nx affected on every PR | ⬜ CI-T1 (post-E3) |
+| Gate                                    | Tool                    | Status    |
+| --------------------------------------- | ----------------------- | --------- |
+| typecheck, lint, test, build            | Nx (local, before push) | ✅ manual |
+| Pre-commit format + lint                | Husky + lint-staged     | ✅ active |
+| Pre-push typecheck + test               | Husky + nx affected     | ✅ active |
+| CI format, typecheck, lint, test, build | GitHub Actions          | ✅ active |
+| Coverage reporting                      | Codecov                 | ✅ active |
+| Automated code review                   | Sourcery AI             | ✅ active |
+| Security analysis                       | CodeQL                  | ✅ active |
+| Static analysis                         | SonarCloud              | ✅ active |
 
 ## References
 

@@ -110,3 +110,33 @@
 | `.github/copilot-instructions.md` | Conventions, patterns, commands          | When conventions change          |
 
 **Next active task:** E2-T3 — hook runner (after E2-T2 PR is reviewed and merged)
+
+---
+
+## Segment 3 — Epic 2 Completion: Unit Tests, CI/CD & Quality Gates
+
+**Topic:** Completing Epic 2 (`@coreai/agent-core`) — unit tests, CI pipeline, and local quality hooks
+
+**Key Decisions:**
+
+- Unit tests written at epic end (E2-T5), not per-task — 57 tests across all 4 modules
+- `jest.resetAllMocks()` wipes mock factory implementations — must re-apply `mockReturnValue` in each `beforeEach`
+- `tsconfig.lib.json` must exclude `*.spec.ts` to avoid spec files entering the library build
+- GitHub Actions CI activated immediately (not deferred) — format check requires `--all` flag in CI to avoid fatal `git diff` against absent `main` ref
+- SonarCloud in automatic analysis mode — coverage goes to Codecov only; cannot push lcov to SonarCloud in this mode
+- Husky hooks: pre-commit (lint-staged: Prettier + ESLint on staged files only), pre-push (nx affected typecheck + test) — build stays CI-only
+- `toMessage()` guards `JSON.stringify` with try/catch — falls back to `String(err)` for circular refs and BigInt
+
+**Constraints:**
+
+- Never use `git commit --no-verify` or `git push --no-verify` — hooks must always run
+- SonarCloud security hotspots must be reviewed (fix or mark with justification) before merging to `main`
+- Prettier formatting must be run with `npx nx format:write --all` before pushing to avoid CI format failures
+
+**Outcome:**
+
+- E2-T5 complete: 57/57 tests passing; all 4 modules covered (context-builder, plugin-loader, hook-runner, cli/utils)
+- CI-T1 complete: GitHub Actions pipeline active with Codecov, Husky git hooks added
+- PR #7 (`feat/e2-t5-unit-tests` → `feat/e2-agent-core`) merged ✅
+- Epic PR #3 (`feat/e2-agent-core` → `main`) open — CI green except 1 SonarCloud security hotspot to resolve
+- Next: resolve SonarCloud hotspot → merge PR #3 → git-cliff changelog → bump to `0.2.0-alpha.0` → start Epic 3
