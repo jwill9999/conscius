@@ -140,3 +140,30 @@
 - PR #7 (`feat/e2-t5-unit-tests` → `feat/e2-agent-core`) merged ✅
 - Epic PR #3 (`feat/e2-agent-core` → `main`) open — CI green except 1 SonarCloud security hotspot to resolve
 - Next: resolve SonarCloud hotspot → merge PR #3 → git-cliff changelog → bump to `0.2.0-alpha.0` → start Epic 3
+
+---
+
+## Segment 5 — Housekeeping: Rename, coreai Cleanup & Beads Onboarding
+
+**Topic:** Project folder rename, stale reference cleanup, and new developer onboarding for Beads
+
+**Key Decisions:**
+
+- `coreai` references fall into two categories: (1) actionable — wrong project name in config/lock files; (2) intentional — Beads issue IDs (`coreai-*`) are live database identifiers tied to the Dolt DB name; SonarCloud project key `jwill9999_coreai` is an external identifier that cannot be renamed without recreating the project
+- Beads issue data lives in a gitignored Dolt database — new developers cannot get issue state from `git clone` alone
+- `bd init --from-jsonl` is the built-in mechanism for seeding a fresh local Dolt DB from a committed JSONL snapshot
+- `.beads/issues.jsonl` should be regenerated and committed whenever issues change significantly (new epic started, tasks closed)
+
+**Constraints:**
+
+- Never change Beads IDs (`coreai-*`) in docs — they are live database references; changing the docs would break the link to real issues
+- SonarCloud project key `jwill9999_coreai` stays as-is everywhere it appears
+- Historical CHANGELOG entries and ADR-0003 mentioning `@coreai` are correct — they document the rename event
+
+**Outcome:**
+
+- `cliff.toml` GitHub URL fixed to `jwill9999/conscius`
+- `package-lock.json` regenerated — all `@coreai/*` entries replaced with `@conscius/*`
+- `.vscode/settings.json` SonarLint connected mode config committed
+- `.beads/issues.jsonl` (49 issues) committed; `.beads/README.md` updated with `bd init --from-jsonl` onboarding step
+- All changes pushed to `main`; repo is clean and ready for Epic 4

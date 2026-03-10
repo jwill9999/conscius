@@ -12,15 +12,10 @@ Epic 3 is fully complete and merged to `main`. Version bumped to `0.3.0-alpha.0`
 
 ## Progress Since Last Session
 
-- ✅ **Context optimisation** — `copilot-instructions.md` trimmed 367 → 221 lines (40% reduction) by extracting 5 verbose sections into on-demand skills
-- ✅ **5 new skills created** — `session`, `pr-review`, `git-workflow`, `guardrails`, `docs`; all with `USE WHEN` triggers, `$ARGUMENTS`, and live shell context (`!` prefix)
-- ✅ **Planning skill rewritten** — full Beads dual-write integration; `/new-epic`, `/new-feature`, `/add-task`, `/update-status`, `/sync-beads` commands
-- ✅ **Root README rewritten** — replaced Nx stub with proper Conscius README (packages, quick start, architecture table)
-- ✅ **Docs structure scaffolded** — `docs/adr/` (3 ADRs), `docs/guides/` (getting-started, adding-a-plugin, publishing), `docs/api/` (agent-types, agent-core), `docs/planning/` (index, backlog, workflow guide)
-- ✅ **@conscius npm org created** — https://www.npmjs.com/org/conscius
-- ✅ **Epic 3 merged to `main`** — PR #10 merged, all CI green (32 tests)
-- ✅ **Version bump** — all packages → `0.3.0-alpha.0`
-- ✅ **Nx Cloud setup merged to `main`** — PR #11 merged (self-healing CI + nx.json config)
+- ✅ **Project folder renamed** — local repo renamed; git remote and workspace unaffected
+- ✅ **`coreai` reference cleanup** — `cliff.toml` GitHub URL fixed (`coreai` → `conscius`); `package-lock.json` regenerated with correct `@conscius/*` package names; `.vscode/settings.json` SonarLint connected mode config committed
+- ✅ **Beads onboarding** — exported 49 issues to `.beads/issues.jsonl` (committed); updated `.beads/README.md` with new developer setup: `bd init --from-jsonl`
+- ✅ **SESSION.md version fixed** — stale `0.2.0-alpha.0` reference corrected to `0.3.0-alpha.0`
 
 ## Decisions Made
 
