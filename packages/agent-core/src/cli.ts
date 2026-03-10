@@ -43,10 +43,16 @@ async function runLifecycle(
   await runner.runHook(HOOK_NAMES[hook], context);
 }
 
+function toMessage(err: unknown): string {
+  if (err instanceof Error) return err.message;
+  if (typeof err === 'string') return err;
+  return JSON.stringify(err);
+}
+
 function wrapAction<Args extends unknown[]>(fn: (...args: Args) => Promise<void>): (...args: Args) => void {
   return (...args: Args) => {
     fn(...args).catch((err: unknown) => {
-      console.error('agent:', err instanceof Error ? err.message : String(err));
+      console.error('agent:', toMessage(err));
       process.exit(1);
     });
   };
@@ -91,6 +97,6 @@ taskCmd
 try {
   await program.parseAsync(process.argv);
 } catch (err: unknown) {
-  console.error('agent:', err instanceof Error ? err.message : String(err));
+  console.error('agent:', toMessage(err));
   process.exit(1);
 }
