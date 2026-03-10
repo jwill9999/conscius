@@ -20,6 +20,7 @@
 - Add ADR-8 — Nx monorepo over separate repositories
 - Add branching strategy and changelog workflow to copilot-instructions
 - Expand CHANGELOG.md with full Epic 2 entries
+- *(agent-core)* Rewrite README with full setup, API, plugin interface, and docs links
 
 ### 🧪 Testing
 
@@ -38,3 +39,5 @@
 - Update SESSION.md — Epic 3 tasks complete, PRs open
 - Update SESSION.md — SonarCloud resolved, PRs ready for merge
 - Update SESSION.md — epic PR #10 open, awaiting merge to main
+- *(changelog)* Update CHANGELOG.md [skip ci]
+- Bump to 0.3.0-alpha.0 and update SESSION.md — Epic 3 complete
