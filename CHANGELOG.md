@@ -95,3 +95,5 @@
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - Add codecov.yml with carryforward flags
 - Add workflow_dispatch to allow manual CI triggers
+- *(changelog)* Update CHANGELOG.md [skip ci]
+- Fix test cache skip and Codecov files path syntax
