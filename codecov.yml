@@ -1,0 +1,20 @@
+codecov:
+  branch: main
+
+flag_management:
+  default_rules:
+    carryforward: true
+
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1%
+
+comment:
+  layout: 'reach,diff,flags,files'
+  behavior: default
+  require_changes: false
+  require_base: false
+  require_head: false
