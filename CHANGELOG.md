@@ -99,3 +99,5 @@
 - Fix test cache skip and Codecov files path syntax
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - Remove agent-types from Codecov upload
+- *(changelog)* Update CHANGELOG.md [skip ci]
+- Fix lcov source paths for Codecov in monorepo
