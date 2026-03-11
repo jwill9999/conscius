@@ -39,7 +39,7 @@ jobs:
         run: npx nx run-many -t lint --all
 
       - name: Test
-        run: npx nx run-many -t test --all -- --coverage
+        run: npx nx run-many -t test --all --no-cache -- --coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5
