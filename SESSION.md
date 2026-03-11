@@ -16,6 +16,7 @@ Epic 3 is fully complete and merged to `main`. Version bumped to `0.3.0-alpha.0`
 - ✅ **`coreai` reference cleanup** — `cliff.toml` GitHub URL fixed (`coreai` → `conscius`); `package-lock.json` regenerated with correct `@conscius/*` package names; `.vscode/settings.json` SonarLint connected mode config committed
 - ✅ **Beads onboarding** — exported 49 issues to `.beads/issues.jsonl` (committed); updated `.beads/README.md` with new developer setup: `bd init --from-jsonl`
 - ✅ **SESSION.md version fixed** — stale `0.2.0-alpha.0` reference corrected to `0.3.0-alpha.0`
+- 🔧 **Codecov debugging (unresolved)** — multiple CI fixes attempted: `workflow_dispatch` trigger added, `codecov.yml` with carryforward flags, `--no-cache` → `--skip-nx-cache`, YAML `files:` syntax fix, `agent-types` empty lcov removed, `sed` step to prefix lcov `SF:` paths for monorepo. Codecov still shows "Missing Head Report" on all main commits. Root cause unconfirmed.
 
 ## Decisions Made
 
@@ -41,18 +42,25 @@ Epic 3 is fully complete and merged to `main`. Version bumped to `0.3.0-alpha.0`
 
 - **Pre-publish: pin `"*"` inter-package deps** — `@conscius/agent-core` and `@conscius/agent-plugin-beads` both declare `"@conscius/agent-types": "*"`. Safe inside the npm workspace but must be pinned to `"^x.x.x"` before first `npm publish`. Also apply to `agent-stack-standard` when created.
 
+- **🚨 Codecov "Missing Head Report" — unresolved, urgent** — Codecov shows no coverage on every main commit. Attempts so far: `workflow_dispatch` trigger, `codecov.yml` carryforward, `--skip-nx-cache`, YAML path fix, removed empty `agent-types` lcov, added `sed` to prefix `SF:` paths. None resolved it. **Diagnostic plan for next session:** create a short-lived branch, push, open a PR, and check if Codecov picks up the report. If yes → problem is main-specific (the `[skip ci]` changelog bot commit always landing on HEAD with no coverage). If no → a config regression was introduced and a before/after comparison is needed.
+
 ## Next Steps
 
-1. **Start Epic 4** — `@conscius/agent-plugin-mulch`
+1. **Diagnose Codecov — PR branch test first**
+   - Create a throwaway branch (e.g. `fix/codecov-probe`), push it, open a PR
+   - Check if Codecov receives a coverage report on the PR
+   - If yes → problem is main-specific; investigate `[skip ci]` changelog commit on HEAD
+   - If no → config regression; compare against last known working state
+2. **Once Codecov is resolved, start Epic 4** — `@conscius/agent-plugin-mulch`
    ```bash
    git checkout main && git pull
    git checkout -b feat/e4-agent-plugin-mulch
    git checkout -b feat/e4-t1-mulch-adapter
    ```
-2. Implement E4-T1: `mulchAdapter.ts` — calls `mulch search <topic>`, parses JSONL
-3. E4-T2: `hooks.ts` — `onSessionStart` searches mulch for relevant topics
-4. E4-T3: `lessonWriter.ts` — calls `mulch add` to persist new lessons at session end
-5. E4-T4: Unit tests with mocked `mulch` CLI
+3. Implement E4-T1: `mulchAdapter.ts` — calls `mulch search <topic>`, parses JSONL
+4. E4-T2: `hooks.ts` — `onSessionStart` searches mulch for relevant topics
+5. E4-T3: `lessonWriter.ts` — calls `mulch add` to persist new lessons at session end
+6. E4-T4: Unit tests with mocked `mulch` CLI
 
 ---
 

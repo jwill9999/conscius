@@ -167,3 +167,28 @@
 - `.vscode/settings.json` SonarLint connected mode config committed
 - `.beads/issues.jsonl` (49 issues) committed; `.beads/README.md` updated with `bd init --from-jsonl` onboarding step
 - All changes pushed to `main`; repo is clean and ready for Epic 4
+
+---
+
+## Segment 6 — Codecov Integration Debugging (Unresolved)
+
+**Topic:** Diagnosing and attempting to fix "Missing Head Report" on Codecov for main branch
+
+**Key Decisions:**
+
+- `--no-cache` in Nx only prevents writing to cache, not reading — use `--skip-nx-cache` to force tests to run fresh and write coverage files
+- Nx Cloud remote cache shares results between branch CI and main CI — tests served from cache in 2s on main because the same code was already tested on the branch
+- `agent-types` is a pure type-definitions package; Jest produces a 0-byte lcov.info for it — removed from Codecov upload to avoid poisoning the batch
+- Jest generates lcov `SF:` paths relative to each package dir (e.g. `src/utils.ts`) not the repo root — added a `sed` step to prefix them with the package path before upload
+- Diagnostic approach agreed: test Codecov on a PR branch first to isolate whether the issue is main-specific or a fundamental config problem
+
+**Constraints:**
+
+- The changelog bot always creates a `[skip ci]` commit on top of every push to main — this commit becomes HEAD with no CI run and no coverage report
+- `carryforward: true` in `codecov.yml` only helps if there's a prior successful upload to carry forward from
+
+**Outcome:**
+
+- 3 CI commits pushed to main (1be62fc, 0d4a0ee, cf9e1b2); all CI runs pass but Codecov still shows "Missing Head Report"
+- Root cause unconfirmed — none of the attempted fixes resolved it
+- **Next session must start with the PR branch probe** before continuing with Epic 4
