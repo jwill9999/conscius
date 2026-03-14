@@ -101,3 +101,6 @@
 - Remove agent-types from Codecov upload
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - Fix lcov source paths for Codecov in monorepo
+- *(changelog)* Update CHANGELOG.md [skip ci]
+- Update SESSION.md and SUMMARY.md
+- Main Add to gitignore tmux
