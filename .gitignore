@@ -46,3 +46,6 @@ test-output
 # Dolt database files (added by bd init)
 .dolt/
 *.db
+
+# Local tmux debug logs
+tmux-*.log
