@@ -46,35 +46,26 @@ function parseMulchOutput(output: string, source: string): MulchLesson[] {
     return [];
   }
 
-  const nonEmptyLines = trimmed
-    .split(/\r?\n/)
-    .filter((line) => line.trim().length > 0);
-
-  if (nonEmptyLines.length > 1) {
-    return nonEmptyLines.map((line, index) =>
-      parseLesson(JSON.parse(line), `${source} line ${index + 1}`),
-    );
-  }
-
-  if (trimmed.startsWith('[')) {
+  try {
     const parsed: unknown = JSON.parse(trimmed);
 
-    if (!Array.isArray(parsed)) {
-      throw new Error(`queryMulch: expected JSON array in ${source}`);
+    if (Array.isArray(parsed)) {
+      return parsed.map((entry, index) =>
+        parseLesson(entry, `${source} entry ${index + 1}`),
+      );
     }
 
-    return parsed.map((entry, index) =>
-      parseLesson(entry, `${source} entry ${index + 1}`),
+    return [parseLesson(parsed, source)];
+  } catch {
+    // Not a single top-level JSON value — fall back to JSONL parsing below.
+  }
+
+  return trimmed
+    .split(/\r?\n/)
+    .filter((line) => line.trim().length > 0)
+    .map((line, index) =>
+      parseLesson(JSON.parse(line), `${source} line ${index + 1}`),
     );
-  }
-
-  if (trimmed.startsWith('{')) {
-    return [parseLesson(JSON.parse(trimmed), source)];
-  }
-
-  return nonEmptyLines.map((line, index) =>
-    parseLesson(JSON.parse(line), `${source} line ${index + 1}`),
-  );
 }
 
 function matchesTopic(lesson: MulchLesson, topic: string): boolean {
@@ -102,13 +93,39 @@ function isCommandNotFound(err: unknown): boolean {
     return false;
   }
 
-  const execError = err as NodeJS.ErrnoException;
+  const execError = err as NodeJS.ErrnoException & {
+    syscall?: string;
+    path?: string;
+    spawnargs?: string[];
+  };
 
-  return (
-    execError.code === 'ENOENT' ||
-    execError.message.includes('not found') ||
-    execError.message.includes('spawn mulch')
-  );
+  if (execError.code === 'ENOENT') {
+    const isSpawnSyscall =
+      execError.syscall === 'spawn mulch' || execError.syscall === 'spawn';
+    const isMulchPath = execError.path === 'mulch';
+    const isMulchSpawnArg = Array.isArray(execError.spawnargs)
+      ? execError.spawnargs[0] === 'mulch'
+      : false;
+
+    if (isSpawnSyscall && (isMulchPath || isMulchSpawnArg)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  if (typeof execError.message === 'string') {
+    const message = execError.message;
+    const mentionsMulch = message.includes('mulch');
+    const mentionsNotFound =
+      message.includes('command not found') || message.includes('ENOENT');
+
+    if (mentionsMulch && mentionsNotFound) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 async function readMulchFile(

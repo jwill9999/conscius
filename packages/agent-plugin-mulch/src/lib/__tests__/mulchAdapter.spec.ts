@@ -39,6 +39,25 @@ function mockExecFileError(error: NodeJS.ErrnoException) {
   );
 }
 
+function createMulchNotFoundError(
+  message = 'spawn mulch ENOENT',
+): NodeJS.ErrnoException & {
+  syscall?: string;
+  path?: string;
+  spawnargs?: string[];
+} {
+  const error = new Error(message) as NodeJS.ErrnoException & {
+    syscall?: string;
+    path?: string;
+    spawnargs?: string[];
+  };
+  error.code = 'ENOENT';
+  error.syscall = 'spawn';
+  error.path = 'mulch';
+  error.spawnargs = ['mulch', 'search', 'topic'];
+  return error;
+}
+
 describe('queryMulch', () => {
   let tempRoot: string;
   let tempHome: string;
@@ -99,6 +118,102 @@ describe('queryMulch', () => {
     ]);
   });
 
+  it('parses JSON array output from mulch search', async () => {
+    mockExecFileSuccess(
+      JSON.stringify([
+        {
+          id: 'lesson-1',
+          topic: 'docker',
+          summary: 'Docker cannot access localhost',
+          recommendation: 'Use service names',
+          created: '2026-03-07',
+          tags: ['containers'],
+        },
+        {
+          id: 'lesson-2',
+          topic: 'docker networking',
+          summary: 'Bridge networking needs aliases',
+          recommendation: 'Add service aliases',
+          created: '2026-03-08',
+        },
+      ]),
+    );
+
+    const lessons = await queryMulch('docker', tempRoot);
+
+    expect(lessons).toEqual([
+      {
+        id: 'lesson-1',
+        topic: 'docker',
+        summary: 'Docker cannot access localhost',
+        recommendation: 'Use service names',
+        created: '2026-03-07',
+        tags: ['containers'],
+      },
+      {
+        id: 'lesson-2',
+        topic: 'docker networking',
+        summary: 'Bridge networking needs aliases',
+        recommendation: 'Add service aliases',
+        created: '2026-03-08',
+      },
+    ]);
+  });
+
+  it('parses pretty-printed JSON array output from mulch search', async () => {
+    mockExecFileSuccess(
+      JSON.stringify(
+        [
+          {
+            id: 'lesson-1',
+            topic: 'docker',
+            summary: 'Docker cannot access localhost',
+            recommendation: 'Use service names',
+            created: '2026-03-07',
+          },
+        ],
+        null,
+        2,
+      ),
+    );
+
+    await expect(queryMulch('docker', tempRoot)).resolves.toEqual([
+      {
+        id: 'lesson-1',
+        topic: 'docker',
+        summary: 'Docker cannot access localhost',
+        recommendation: 'Use service names',
+        created: '2026-03-07',
+      },
+    ]);
+  });
+
+  it('parses single-object JSON output from mulch search', async () => {
+    mockExecFileSuccess(
+      JSON.stringify({
+        id: 'lesson-1',
+        topic: 'docker',
+        summary: 'Docker cannot access localhost',
+        recommendation: 'Use service names',
+        created: '2026-03-07',
+        tags: ['containers'],
+      }),
+    );
+
+    const lessons = await queryMulch('docker', tempRoot);
+
+    expect(lessons).toEqual([
+      {
+        id: 'lesson-1',
+        topic: 'docker',
+        summary: 'Docker cannot access localhost',
+        recommendation: 'Use service names',
+        created: '2026-03-07',
+        tags: ['containers'],
+      },
+    ]);
+  });
+
   it('calls mulch search with the expected arguments', async () => {
     mockExecFileSuccess(
       JSON.stringify({
@@ -127,9 +242,7 @@ describe('queryMulch', () => {
   });
 
   it('falls back to project and global JSONL files when mulch is unavailable', async () => {
-    const error = new Error('spawn mulch ENOENT') as NodeJS.ErrnoException;
-    error.code = 'ENOENT';
-    mockExecFileError(error);
+    mockExecFileError(createMulchNotFoundError());
 
     await mkdir(join(tempRoot, '.mulch'), { recursive: true });
     await mkdir(join(tempHome, '.mulch'), { recursive: true });
@@ -137,6 +250,13 @@ describe('queryMulch', () => {
     await writeFile(
       join(tempRoot, '.mulch', 'mulch.jsonl'),
       [
+        JSON.stringify({
+          id: 'project-non-match',
+          topic: 'python',
+          summary: 'Learn Python basics',
+          recommendation: 'Use virtual environments',
+          created: '2026-03-08',
+        }),
         JSON.stringify({
           id: 'project-1',
           topic: 'typescript',
@@ -157,6 +277,13 @@ describe('queryMulch', () => {
     await writeFile(
       join(tempHome, '.mulch', 'mulch.jsonl'),
       [
+        JSON.stringify({
+          id: 'global-non-match',
+          topic: 'ruby',
+          summary: 'Bundler installation notes',
+          recommendation: 'Use bundle exec',
+          created: '2026-03-11',
+        }),
         JSON.stringify({
           id: 'shared-1',
           topic: 'typescript',
@@ -199,12 +326,17 @@ describe('queryMulch', () => {
         created: '2026-03-12',
       },
     ]);
+    expect(lessons).toHaveLength(3);
+    expect(
+      lessons.some(
+        (lesson) =>
+          lesson.id === 'project-non-match' || lesson.id === 'global-non-match',
+      ),
+    ).toBe(false);
   });
 
   it('matches fallback lessons by topic or summary case-insensitively', async () => {
-    const error = new Error('mulch: not found') as NodeJS.ErrnoException;
-    error.code = 'ENOENT';
-    mockExecFileError(error);
+    mockExecFileError(createMulchNotFoundError('mulch: command not found'));
 
     await mkdir(join(tempHome, '.mulch'), { recursive: true });
     await writeFile(
@@ -235,6 +367,32 @@ describe('queryMulch', () => {
     ]);
   });
 
+  it('falls back when the error message indicates mulch is unavailable', async () => {
+    mockExecFileError(new Error('mulch: command not found'));
+
+    await mkdir(join(tempHome, '.mulch'), { recursive: true });
+    await writeFile(
+      join(tempHome, '.mulch', 'mulch.jsonl'),
+      JSON.stringify({
+        id: 'global-1',
+        topic: 'jest',
+        summary: 'Fallback should still work',
+        recommendation: 'Use local JSONL data',
+        created: '2026-03-14',
+      }),
+    );
+
+    await expect(queryMulch('jest', tempRoot)).resolves.toEqual([
+      {
+        id: 'global-1',
+        topic: 'jest',
+        summary: 'Fallback should still work',
+        recommendation: 'Use local JSONL data',
+        created: '2026-03-14',
+      },
+    ]);
+  });
+
   it('throws when mulch returns malformed JSONL', async () => {
     mockExecFileSuccess(
       '{"id":"ok","topic":"docker","summary":"x","recommendation":"y","created":"2026-03-07"}\nnot-json',
@@ -250,6 +408,55 @@ describe('queryMulch', () => {
         topic: 'docker',
         summary: 'Missing recommendation',
         created: '2026-03-07',
+      }),
+    );
+
+    await expect(queryMulch('docker', tempRoot)).rejects.toThrow(
+      /invalid lesson/,
+    );
+  });
+
+  it('preserves optional lesson fields when they are valid', async () => {
+    mockExecFileSuccess(
+      JSON.stringify({
+        id: 'lesson-optional',
+        topic: 'docker',
+        summary: 'Optional fields are preserved',
+        recommendation: 'Keep typed metadata',
+        created: '2026-03-15',
+        task_id: 'coreai-x3b.1',
+        tags: ['docker', 'containers'],
+        files: ['Dockerfile', 'docker-compose.yml'],
+        service: 'agent-plugin-mulch',
+      }),
+    );
+
+    await expect(queryMulch('docker', tempRoot)).resolves.toEqual([
+      {
+        id: 'lesson-optional',
+        topic: 'docker',
+        summary: 'Optional fields are preserved',
+        recommendation: 'Keep typed metadata',
+        created: '2026-03-15',
+        task_id: 'coreai-x3b.1',
+        tags: ['docker', 'containers'],
+        files: ['Dockerfile', 'docker-compose.yml'],
+        service: 'agent-plugin-mulch',
+      },
+    ]);
+  });
+
+  it('throws when optional fields have invalid shapes', async () => {
+    mockExecFileSuccess(
+      JSON.stringify({
+        id: 'lesson-bad-optionals',
+        topic: 'docker',
+        summary: 'Optional fields are wrong',
+        recommendation: 'This should fail',
+        created: '2026-03-15',
+        tags: 'not-an-array',
+        files: [1, 2],
+        service: 'agent-plugin-mulch',
       }),
     );
 
