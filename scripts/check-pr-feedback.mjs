@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-import { execFileSync } from 'node:child_process';
-
 const args = process.argv.slice(2);
+const owner = 'jwill9999';
+const repo = 'conscius';
+const token = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN ?? null;
 
 function getArg(name) {
   const index = args.indexOf(name);
@@ -13,29 +14,82 @@ function hasFlag(name) {
   return args.includes(name);
 }
 
-function runGh(args) {
-  return execFileSync('gh', args, { encoding: 'utf8' });
+function assertValidPrNumber(value) {
+  if (!/^\d+$/.test(value)) {
+    throw new Error(`Invalid PR number: ${value}`);
+  }
+
+  return Number(value);
 }
 
-function runGhJson(args) {
-  return JSON.parse(runGh(args));
+function assertValidBranchName(value) {
+  if (
+    !/^[A-Za-z0-9._/-]+$/.test(value) ||
+    value.startsWith('-') ||
+    value.endsWith('/')
+  ) {
+    throw new Error(`Invalid branch name: ${value}`);
+  }
+
+  return value;
 }
 
-function getCurrentBranch() {
-  return execFileSync('git', ['branch', '--show-current'], {
-    encoding: 'utf8',
-  }).trim();
+async function githubRequest(path) {
+  const headers = {
+    Accept: 'application/vnd.github+json',
+    'User-Agent': 'conscius-pr-feedback-script',
+  };
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const response = await fetch(`https://api.github.com${path}`, { headers });
+
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`GitHub API request failed (${response.status}): ${body}`);
+  }
+
+  return response.json();
 }
 
-function resolvePrIdentifier() {
+async function resolvePr() {
   const pr = getArg('--pr');
 
   if (pr) {
-    return pr;
+    return githubRequest(
+      `/repos/${owner}/${repo}/pulls/${assertValidPrNumber(pr)}`,
+    );
   }
 
-  const branch = getArg('--branch') ?? getCurrentBranch();
-  return branch;
+  const branch = getArg('--branch');
+
+  if (!branch) {
+    throw new Error('Pass --pr <number> or --branch <name>.');
+  }
+
+  const validatedBranch = assertValidBranchName(branch);
+  const pulls = await githubRequest(
+    `/repos/${owner}/${repo}/pulls?state=open&head=${owner}:${encodeURIComponent(validatedBranch)}`,
+  );
+  const matchingPr = pulls.find(
+    (candidate) => candidate.head?.ref === validatedBranch,
+  );
+
+  if (!matchingPr) {
+    throw new Error(`No open PR found for branch: ${validatedBranch}`);
+  }
+
+  return githubRequest(`/repos/${owner}/${repo}/pulls/${matchingPr.number}`);
+}
+
+function toCheckState(checkRun) {
+  if (checkRun.status !== 'completed') {
+    return checkRun.status.toUpperCase();
+  }
+
+  return (checkRun.conclusion ?? 'completed').toUpperCase();
 }
 
 function summarizeChecks(checks) {
@@ -89,10 +143,10 @@ function buildOutput(pr, checks, issueComments, reviewComments, reviews) {
     pr: {
       number: pr.number,
       title: pr.title,
-      url: pr.url,
-      headRefName: pr.headRefName,
-      baseRefName: pr.baseRefName,
-      reviewDecision: pr.reviewDecision ?? null,
+      url: pr.html_url,
+      headRefName: pr.head.ref,
+      baseRefName: pr.base.ref,
+      reviewDecision: null,
     },
     checks: summary,
     comments: {
@@ -107,8 +161,10 @@ function buildOutput(pr, checks, issueComments, reviewComments, reviews) {
         ['FAIL', 'FAILURE', 'ERROR', 'TIMED_OUT', 'CANCELLED'].includes(
           summary.sonarqube.state,
         ),
-      sonarMentionsSecurityHotspot: sonarComments.some((comment) =>
-        comment.body.includes('Security Hotspot'),
+      sonarMentionsSecurityHotspot: sonarComments.some(
+        (comment) =>
+          comment.body.includes('security_hotspots') ||
+          comment.body.includes('Security Hotspot'),
       ),
       sourceryHasReviewComments: sourceryReviewComments.length > 0,
     },
@@ -142,36 +198,22 @@ function printHuman(output) {
   console.log(lines.join('\n'));
 }
 
-function main() {
-  const identifier = resolvePrIdentifier();
-  const pr = runGhJson([
-    'pr',
-    'view',
-    identifier,
-    '--json',
-    'number,title,url,headRefName,baseRefName,reviewDecision',
-  ]);
-
-  const issueComments = runGhJson([
-    'api',
-    `repos/jwill9999/conscius/issues/${pr.number}/comments`,
-  ]);
-  const reviewComments = runGhJson([
-    'api',
-    `repos/jwill9999/conscius/pulls/${pr.number}/comments`,
-  ]);
-  const reviews = runGhJson([
-    'api',
-    `repos/jwill9999/conscius/pulls/${pr.number}/reviews`,
-  ]);
-  const checks = runGhJson([
-    'pr',
-    'checks',
-    String(pr.number),
-    '--json',
-    'name,state,link',
-  ]);
-
+async function main() {
+  const pr = await resolvePr();
+  const [issueComments, reviewComments, reviews, checkRunsResponse] =
+    await Promise.all([
+      githubRequest(`/repos/${owner}/${repo}/issues/${pr.number}/comments`),
+      githubRequest(`/repos/${owner}/${repo}/pulls/${pr.number}/comments`),
+      githubRequest(`/repos/${owner}/${repo}/pulls/${pr.number}/reviews`),
+      githubRequest(
+        `/repos/${owner}/${repo}/commits/${pr.head.sha}/check-runs`,
+      ),
+    ]);
+  const checks = checkRunsResponse.check_runs.map((checkRun) => ({
+    name: checkRun.name,
+    state: toCheckState(checkRun),
+    link: checkRun.details_url ?? checkRun.html_url,
+  }));
   const output = buildOutput(
     pr,
     checks,
@@ -188,4 +230,7 @@ function main() {
   printHuman(output);
 }
 
-main();
+main().catch((error) => {
+  console.error(error.message);
+  process.exitCode = 1;
+});
