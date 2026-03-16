@@ -24,6 +24,15 @@ describe('mulchPlugin', () => {
     jest.clearAllMocks();
   });
 
+  it('returns early when activeTask is absent', async () => {
+    const context = createContext();
+
+    await mulchPlugin.onSessionStart?.(context);
+
+    expect(mockQueryMulch).not.toHaveBeenCalled();
+    expect(context.promptSegments).toEqual([]);
+  });
+
   it('uses the active task description as the topic hint and injects lessons', async () => {
     const lessons: MulchLesson[] = [
       {
