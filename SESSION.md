@@ -22,6 +22,7 @@ Epic 3 is fully complete and merged to `main`. Version bumped to `0.3.0-alpha.0`
 - ✅ **E4-T1 merged** — PR #13 (`feat/e4-t1-mulch-adapter` → `feat/e4-agent-plugin-mulch`) is merged after fixing Sonar/Sourcery feedback, rerunning local IDE diagnostics plus package-level Nx checks, and resolving all satisfied review threads
 - ✅ **E4-T2 merged** — PR #16 (`feat/e4-t2-mulch-hooks` → `feat/e4-agent-plugin-mulch`) is merged after adding the missing `activeTask`-absent hook test, rerunning package-level Nx checks, and resolving the final Sourcery thread
 - ✅ **PR review workflow hardened** — GitHub PR feedback now follows a closure loop: check IDE diagnostics first, fix locally, rerun diagnostics and targeted Nx validation before push, then resolve the matching GitHub review item only after verification
+- ✅ **End-of-session checkpoint complete** — epic branch `feat/e4-agent-plugin-mulch` is clean and pushed with handoff docs updated; next session should begin from E4-T3 on a fresh task branch from this epic branch
 
 ## Decisions Made
 
