@@ -120,3 +120,5 @@
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(tooling)* Harden pr feedback workflow
 - Refresh session checkpoint
+- *(changelog)* Update CHANGELOG.md [skip ci]
+- Bump version to 0.4.0-alpha.0
