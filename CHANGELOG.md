@@ -10,6 +10,7 @@
 - *(e4-t1)* Implement mulch adapter
 - *(e4-t2)* Add mulch session hooks
 - *(agent-plugin-mulch)* Complete epic 4 implementation
+- *(agent-types)* Align MulchLesson type with upstream ml schema
 
 ### 🐛 Bug Fixes
 
@@ -125,3 +126,5 @@
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - Bump version to 0.4.0-alpha.0
 - *(changelog)* Update CHANGELOG.md [skip ci]
+- *(changelog)* Update CHANGELOG.md [skip ci]
+- *(mulch)* Stage research-first convention lesson in candidates
