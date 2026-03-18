@@ -281,3 +281,25 @@
 - Epic 9 is fully independent with no blockers but carries lower priority (P3) than Epics 5–7
 
 **Outcome:** `main` is clean at `0.4.0-alpha.0`. Epic 5 (`@conscius/agent-plugin-session`) is next on the critical path.
+
+---
+
+## Segment 11 — Mulch Type Alignment & Session Pause
+
+**Topic:** Aligning `MulchLesson` type with upstream `ml` schema; staging a research-first convention lesson
+
+**Key Decisions:**
+
+- Researched upstream `ml` CLI: it already provides `--type` (convention/pattern/failure/decision/reference/guide), `--classification` (foundational/tactical/observational), and free-form `--tag` flags
+- Replaced our custom `MULCH_LESSON_TAGS` enum (which mixed domain and type concepts) with `MULCH_LESSON_TYPES` matching upstream `ml record --type` exactly
+- Added `MULCH_LESSON_CLASSIFICATIONS` for durability levels; reverted `tags` to optional free-form `string[]`
+- `type` validation added to `lessonWriter.ts` — invalid types rejected at write time, not at the TypeScript layer alone
+- Lesson staged in `.mulch/candidates.jsonl`: always research upstream package capabilities before building an integration layer (type: convention, classification: foundational)
+- All 28 tests pass; committed and pushed to main
+
+**Constraints:**
+
+- `MulchLesson.type` is optional in the interface (read-path backward compat with legacy JSONL) but validated at write time in `lessonWriter.ts`
+- Candidates file (`.mulch/candidates.jsonl`) is the only agent-writable Mulch path; engineer promotes to live store via `ml record`
+
+**Outcome:** `main` is clean at `0.4.0-alpha.0` with no open code tasks. Epic 4 and all pre-Epic-5 design work is complete. Next session starts Epic 5 (`@conscius/agent-plugin-session`, `coreai-vq3`).

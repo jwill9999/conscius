@@ -6,24 +6,20 @@ Build the Conscius agent ecosystem — a layered AI-assisted engineering workflo
 
 ## Active Task
 
-**Epic 4 — `@conscius/agent-plugin-mulch`** — implementation is complete and pushed on `feat/e4-agent-plugin-mulch`; next repo-level step is to open the epic PR to `main` and decide the next task branch.
+**Epic 5 — `@conscius/agent-plugin-session`** — next on the critical path. No branch created yet.
 
-Epic 3 is fully complete and merged to `main`. Version bumped to `0.3.0-alpha.0`.
+Epic 4 is fully complete and merged to `main`. Version bumped to `0.4.0-alpha.0`.
 
 ## Progress Since Last Session
 
-- ✅ **Project folder renamed** — local repo renamed; git remote and workspace unaffected
-- ✅ **`coreai` reference cleanup** — `cliff.toml` GitHub URL fixed (`coreai` → `conscius`); `package-lock.json` regenerated with correct `@conscius/*` package names; `.vscode/settings.json` SonarLint connected mode config committed
-- ✅ **Beads onboarding** — exported 49 issues to `.beads/issues.jsonl` (committed); updated `.beads/README.md` with new developer setup: `bd init --from-jsonl`
-- ✅ **SESSION.md version fixed** — stale `0.2.0-alpha.0` reference corrected to `0.3.0-alpha.0`
-- 🔧 **Codecov debugging (unresolved)** — multiple CI fixes attempted: `workflow_dispatch` trigger added, `codecov.yml` with carryforward flags, `--no-cache` → `--skip-nx-cache`, YAML `files:` syntax fix, `agent-types` empty lcov removed, `sed` step to prefix lcov `SF:` paths for monorepo. Codecov still shows "Missing Head Report" on all main commits. Root cause unconfirmed.
-- ✅ **Epic 4 started** — committed and pushed the latest documentation/tooling updates to `main`, created `feat/e4-agent-plugin-mulch`, then created task branch `feat/e4-t1-mulch-adapter`
-- ✅ **E4-T1 complete locally** — scaffolded `packages/agent-plugin-mulch` with Nx, implemented `queryMulch()` with CLI + JSONL/file fallback, aligned package config with `agent-plugin-beads`, and validated with `npx nx run-many -t typecheck,lint,test,build --projects=@conscius/agent-plugin-mulch`
-- ✅ **E4-T1 merged** — PR #13 (`feat/e4-t1-mulch-adapter` → `feat/e4-agent-plugin-mulch`) is merged after fixing Sonar/Sourcery feedback, rerunning local IDE diagnostics plus package-level Nx checks, and resolving all satisfied review threads
-- ✅ **E4-T2 merged** — PR #16 (`feat/e4-t2-mulch-hooks` → `feat/e4-agent-plugin-mulch`) is merged after adding the missing `activeTask`-absent hook test, rerunning package-level Nx checks, and resolving the final Sourcery thread
-- ✅ **PR review workflow hardened** — GitHub PR feedback now follows a closure loop: check IDE diagnostics first, fix locally, rerun diagnostics and targeted Nx validation before push, then resolve the matching GitHub review item only after verification
-- ✅ **Epic 4 completed locally** — implemented explicit `lessonWriter.ts`, `pendingMulchLessons` session-end wiring, upstream-`ml`-aligned write permissions, Mulch skill/docs updates, and synced/closed the Epic 4 Beads tasks
-- ✅ **Epic 4 branch pushed** — `feat/e4-agent-plugin-mulch` now includes the completed Epic 4 implementation commit and is up to date with origin
+- ✅ **Epic 4 PR #17 merged** — Sourcery review fixed: `never[]` → concrete types in `cli.ts`; static `access` import in `mulchAdapter.ts`; ISO 8601 regex in `lessonWriter.ts`
+- ✅ **Version bumped to `0.4.0-alpha.0`** — all 4 packages updated in lockstep
+- ✅ **All Beads tasks closed for Epics 1–4** — confirmed in `bd list`
+- ✅ **Mulch lesson staging implemented** — agent writes to `.mulch/candidates.jsonl` (not live store); engineer promotes via `ml record` after review; human-in-the-loop safety model
+- ✅ **`MulchLesson` type aligned with upstream `ml` schema** — replaced custom `MULCH_LESSON_TAGS` with `MULCH_LESSON_TYPES` (`convention | pattern | failure | decision | reference | guide`), added `MULCH_LESSON_CLASSIFICATIONS` (`foundational | tactical | observational`), reverted `tags` to free-form `string[]`. All 28 tests pass.
+- ✅ **Type validation added to `lessonWriter.ts`** — rejects unknown `type` values at write time
+- ✅ **Research-first convention lesson staged** — `.mulch/candidates.jsonl` contains: always research upstream package capabilities before building an integration layer
+- ✅ **Beads task `coreai-wzy` closed** — taxonomy alignment complete
 
 ## Decisions Made
 
@@ -32,9 +28,9 @@ Epic 3 is fully complete and merged to `main`. Version bumped to `0.3.0-alpha.0`
 - `tsconfig.spec.json` must set `"customConditions": null` (avoids TS5098 with Jest/node10)
 - Node 24 via nvm; ESLint 8 using legacy `.eslintrc.*` format
 - Do NOT fork `bd` (Beads) or `mulch` — adapter plugins only
-- Hooks may write to `SESSION.md`, canonical upstream `.mulch/expertise/`, and legacy `.mulch/mulch.jsonl`
+- Hooks may write to `SESSION.md`, canonical upstream `.mulch/expertise/`, and legacy `.mulch/mulch.jsonl`; agents stage lessons to `.mulch/candidates.jsonl` for human review
 - Branching: task PR → human review → epic branch → local test → epic PR → main
-- All packages versioned in lockstep; current version: `0.3.0-alpha.0`
+- All packages versioned in lockstep; current version: `0.4.0-alpha.0`
 - GitHub Actions CI active from Epic 2 (CI-T1 completed)
 - Unit tests written at end of each epic, not per task
 - Husky pre-commit (lint-staged) + pre-push (nx affected) for local quality gates
@@ -45,6 +41,8 @@ Epic 3 is fully complete and merged to `main`. Version bumped to `0.3.0-alpha.0`
 - **`tsconfig.spec.json` with relative imports**: must include `src/**/*.ts` AND `references: [{path: './tsconfig.lib.json'}]` — see agent-plugin-beads as pattern
 - **`promisify(execFile)` + Jest mocks**: don't use — loses `util.promisify.custom` symbol; use manual Promise wrapper instead
 - **PR feedback loop**: before the final push, rerun local IDE diagnostics and targeted Nx checks so Sonar/Sourcery regressions are caught before a new commit; after the push, resolve the corresponding GitHub thread only once the rerun feedback is clean
+- **`MulchLesson.type`** maps to `ml record --type`; **`classification`** to `ml record --classification`; **`tags`** is free-form `string[]` matching `ml record --tag`
+- **Research rule**: always read local skill docs, project markdown, and web sources before assuming upstream package capabilities
 
 ## Open Issues
 
@@ -52,14 +50,14 @@ Epic 3 is fully complete and merged to `main`. Version bumped to `0.3.0-alpha.0`
 
 - **🚨 Codecov "Missing Head Report" — unresolved, on hold** — Codecov shows no coverage on every main commit. Attempts so far: `workflow_dispatch` trigger, `codecov.yml` carryforward, `--skip-nx-cache`, YAML path fix, removed empty `agent-types` lcov, added `sed` to prefix `SF:` paths. None resolved it. **Resume with the diagnostic PR-branch probe:** create a short-lived branch, push, open a PR, and check if Codecov picks up the report. If yes → problem is main-specific (the `[skip ci]` changelog bot commit always landing on HEAD with no coverage). If no → a config regression was introduced and a before/after comparison is needed.
 
-- **Mulch auto-learning design still needs planning** — the current plugin only persists explicit `pendingMulchLessons`; we still need to decide whether high-confidence conversation-derived lessons should be auto-queued before MVP or deferred until after release.
-
 ## Next Steps
 
-1. **Open the Epic 4 PR to `main`** — `feat/e4-agent-plugin-mulch` is pushed and ready for review
-2. **Discuss Mulch auto-learning scope** — decide whether high-confidence lesson candidates should be auto-queued before MVP or planned for a later release
-3. **Choose the next task branch** — likely from ready Epic 9 work (`coreai-yfl.8`, `coreai-yfl.9`, or `coreai-yfl.1`)
-4. **Codecov remains on hold** — resume later with the PR-branch probe
+1. **Start Epic 5** — create branch `feat/e5-agent-plugin-session`; claim `coreai-vq3` in Beads
+2. **E5-T1** — `sessionReader.ts`: reads and parses `SESSION.md` from repo root
+3. **E5-T2** — `sessionWriter.ts`: writes structured `SESSION.md`; validates under 500 words
+4. **E5-T3** — `hooks.ts`: `onSessionStart` (load) and `onSessionEnd` (write)
+5. **E5-T4** — unit tests
+6. **Codecov remains on hold** — resume later with the PR-branch probe
 
 ---
 
