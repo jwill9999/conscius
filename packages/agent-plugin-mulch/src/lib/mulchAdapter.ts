@@ -1,6 +1,6 @@
 import { execFile } from 'node:child_process';
 import { constants } from 'node:fs';
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { delimiter, join } from 'node:path';
 import type { MulchLesson } from '@conscius/agent-types';
@@ -129,9 +129,7 @@ async function resolveMulchExecutable(): Promise<string> {
     const candidate = join(directory, 'mulch');
 
     try {
-      await import('node:fs/promises').then(({ access }) =>
-        access(candidate, constants.X_OK),
-      );
+      await access(candidate, constants.X_OK);
       return candidate;
     } catch {
       // Keep searching PATH entries for an executable mulch binary.

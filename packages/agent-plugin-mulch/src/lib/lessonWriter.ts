@@ -24,7 +24,9 @@ function validateLesson(lesson: MulchLesson): void {
   assertRequiredString(lesson.recommendation, 'recommendation');
   assertRequiredString(lesson.created, 'created');
 
-  if (Number.isNaN(Date.parse(lesson.created))) {
+  const ISO_8601_RE =
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$/;
+  if (!ISO_8601_RE.test(lesson.created)) {
     throw new Error(
       'writeMulchLesson: created must be a valid ISO 8601 string',
     );
