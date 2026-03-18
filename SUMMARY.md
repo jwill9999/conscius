@@ -262,3 +262,22 @@
 - `SUMMARY.md` is append-only, so this note records the follow-up discussion rather than rewriting the Epic 4 completion segment
 
 **Outcome:** Add a future planning discussion to review whether Mulch auto-learning belongs in the MVP release scope or should be scheduled as a post-release enhancement.
+
+---
+
+## Segment 10 — Epic 4 Merged & Version Bumped to 0.4.0-alpha.0
+
+**Topic:** Landing Epic 4 to main and advancing the lockstep version
+
+**Key Decisions:**
+
+- PR #17 (`feat/e4-agent-plugin-mulch` → `main`) merged after fixing three Sourcery review items: `never[]` → concrete types in `cli.ts`; static `access` import in `mulchAdapter.ts`; ISO 8601 regex replacing `Date.parse` in `lessonWriter.ts`
+- All four packages bumped in lockstep: `0.3.0-alpha.0` → `0.4.0-alpha.0`
+- Epic 9 (Skillshare) is independent (P3) and can run at any time; Epic 5 (agent-plugin-session) is P2 and on the critical path to Epic 8
+
+**Constraints:**
+
+- Beads shows 30 open issues across Epics 5–9; Epics 5/6/7 are parallel P2 work; Epic 8 is blocked until all three complete
+- Epic 9 is fully independent with no blockers but carries lower priority (P3) than Epics 5–7
+
+**Outcome:** `main` is clean at `0.4.0-alpha.0`. Epic 5 (`@conscius/agent-plugin-session`) is next on the critical path.
