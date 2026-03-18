@@ -52,12 +52,18 @@ Epic 4 is fully complete and merged to `main`. Version bumped to `0.4.0-alpha.0`
 
 ## Next Steps
 
-1. **Start Epic 5** — create branch `feat/e5-agent-plugin-session`; claim `coreai-vq3` in Beads
-2. **E5-T1** — `sessionReader.ts`: reads and parses `SESSION.md` from repo root
-3. **E5-T2** — `sessionWriter.ts`: writes structured `SESSION.md`; validates under 500 words
-4. **E5-T3** — `hooks.ts`: `onSessionStart` (load) and `onSessionEnd` (write)
-5. **E5-T4** — unit tests
-6. **Codecov remains on hold** — resume later with the PR-branch probe
+> ⚠️ **Do NOT start Epic 5 yet.** Complete `coreai-8ji` first — it closes the Mulch write pipeline and must not bleed into E5 scope.
+
+1. **`coreai-8ji` — Mulch candidate review** (P1, do this first)
+   - Branch: `feat/mulch-candidate-review`
+   - Surface staged candidates at session end; implement `promoteMulchLesson()` and `rejectMulchLesson()` in `lessonWriter.ts`; wire into `onSessionEnd` in `hooks.ts`
+   - CLI-first / file-fallback pattern for promotion (consistent with `queryMulch`)
+2. **Then start Epic 5** — create branch `feat/e5-agent-plugin-session`; claim `coreai-vq3` in Beads
+3. **E5-T1** — `sessionReader.ts`: reads and parses `SESSION.md` from repo root
+4. **E5-T2** — `sessionWriter.ts`: writes structured `SESSION.md`; validates under 500 words
+5. **E5-T3** — `hooks.ts`: `onSessionStart` (load) and `onSessionEnd` (write)
+6. **E5-T4** — unit tests
+7. **Codecov remains on hold** — resume later with the PR-branch probe
 
 ---
 
