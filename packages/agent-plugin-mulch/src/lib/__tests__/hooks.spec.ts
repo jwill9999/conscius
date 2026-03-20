@@ -68,6 +68,17 @@ describe('ensureMlReady', () => {
     expect(mockRunMlInit).toHaveBeenCalledWith('/usr/local/bin/ml', '/repo');
   });
 
+  it('calls ml init when access fails with non-ENOENT error', async () => {
+    mockAccess.mockRejectedValue(
+      Object.assign(new Error('permission denied'), { code: 'EACCES' }),
+    );
+    mockRunMlInit.mockResolvedValue(undefined);
+
+    await ensureMlReady('/repo');
+
+    expect(mockRunMlInit).toHaveBeenCalledWith('/usr/local/bin/ml', '/repo');
+  });
+
   it('throws when ml is not installed', async () => {
     mockResolveMl.mockRejectedValue(
       new Error(

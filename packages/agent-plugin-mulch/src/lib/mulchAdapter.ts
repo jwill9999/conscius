@@ -51,11 +51,19 @@ function execMl(
       args,
       { cwd, timeout: EXEC_TIMEOUT_MS },
       (err, stdout, stderr) => {
+        const stdoutStr = stdout != null ? String(stdout) : '';
+        const stderrStr = stderr != null ? String(stderr) : '';
+
         if (err) {
-          reject(err instanceof Error ? err : new Error(String(err)));
-        } else {
-          resolve({ stdout: String(stdout), stderr: String(stderr) });
+          const parts = [
+            err.message,
+            stderrStr && `stderr: ${stderrStr}`,
+          ].filter(Boolean);
+          reject(new Error(parts.join('\n')));
+          return;
         }
+
+        resolve({ stdout: stdoutStr, stderr: stderrStr });
       },
     );
   });
@@ -70,8 +78,13 @@ export async function assertMlRunnable(mlPath: string): Promise<void> {
     await execMl(mlPath, ['--version'], process.cwd());
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
+    const isBunMissing =
+      message.includes('bun') ||
+      (err instanceof Error &&
+        (err as NodeJS.ErrnoException).code === 'ENOENT' &&
+        (err as NodeJS.ErrnoException).syscall?.startsWith('spawn'));
 
-    if (message.includes('bun') || message.includes('ENOENT')) {
+    if (isBunMissing) {
       throw new Error(
         'agent-plugin-mulch: ml requires Bun to run, but Bun was not found.\n' +
           'Install Bun: curl -fsSL https://bun.sh/install | bash\n' +
@@ -93,9 +106,9 @@ export async function runMlInit(
   try {
     await execMl(mlPath, ['init'], repoRoot);
   } catch (err) {
-    const stderr = err instanceof Error ? err.message : String(err);
+    const errorMessage = err instanceof Error ? err.message : String(err);
     throw new Error(
-      `agent-plugin-mulch: ml init failed in ${repoRoot}\n${stderr}`,
+      `agent-plugin-mulch: ml init failed in ${repoRoot}\n${errorMessage}`,
     );
   }
 }
@@ -111,8 +124,8 @@ export async function runMlPrime(
     const { stdout } = await execMl(mlPath, ['prime'], repoRoot);
     return stdout;
   } catch (err) {
-    const stderr = err instanceof Error ? err.message : String(err);
-    throw new Error(`agent-plugin-mulch: ml prime failed\n${stderr}`);
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    throw new Error(`agent-plugin-mulch: ml prime failed\n${errorMessage}`);
   }
 }
 

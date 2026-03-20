@@ -11,8 +11,8 @@ At `onSessionStart`, the plugin:
 
 1. Resolves `ml` on `$ throws with install instructions if missing.PATH`
 2. Verifies Bun is installed (required to run ` throws with Bun install instructions if missing.ml`)
-3. Auto-initialises `.mulch/` via `ml init` if the directory is absent.
-4. Runs `ml prime` (all domains, 4000 tokens) and pushes the formatted markdown output directly into `context.promptSegments`.limited
+3. Auto-initialises `.mulch/` via `ml init` if `mulch.config.yaml` is absent.
+4. Runs `ml prime` (all domains, budget-limited ~4000 tokens) and pushes the formatted markdown output directly into `context.promptSegments`.
 
 The plugin has **no ` lesson recording is the engineer's responsibility (see below).onSessionEnd`**
 
@@ -34,7 +34,7 @@ curl -fsSL https://bun.sh/install | bash
 # 2. Install the  @os-eco/mulch-cli is bundledpackage
 npm install @conscius/agent-plugin-mulch
 
-# 3. ml init runs automatically when .mulch/ is absent on first onSessionStart
+# 3. ml init runs automatically when mulch.config.yaml is absent on first onSessionStart
 ```
 
 ## Usage

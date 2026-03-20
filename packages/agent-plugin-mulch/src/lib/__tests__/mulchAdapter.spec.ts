@@ -108,8 +108,10 @@ describe('assertMlRunnable', () => {
   });
 
   it('throws with bun install instructions on ENOENT', async () => {
-    const error = Object.assign(new Error('spawn ENOENT'), {
+    const error = Object.assign(new Error('spawn bun ENOENT'), {
       code: 'ENOENT',
+      syscall: 'spawn',
+      path: 'bun',
     });
     mockExecFileError(error);
 
@@ -132,7 +134,7 @@ describe('runMlInit', () => {
     jest.clearAllMocks();
   });
 
-  it('calls ml init with the correct cwd', async () => {
+  it('calls ml init with the correct cwd and timeout', async () => {
     mockExecFileSuccess('');
 
     await runMlInit('/usr/local/bin/ml', '/repo');
@@ -140,7 +142,7 @@ describe('runMlInit', () => {
     expect(mockExecFile).toHaveBeenCalledWith(
       '/usr/local/bin/ml',
       ['init'],
-      expect.objectContaining({ cwd: '/repo' }),
+      expect.objectContaining({ cwd: '/repo', timeout: 10_000 }),
       expect.any(Function),
     );
   });
@@ -222,5 +224,35 @@ describe('queryMulch', () => {
 
     const result = await queryMulch('/repo');
     expect(result).toBe('## Lessons\n\nContent');
+  });
+
+  it('propagates ml prime failures', async () => {
+    let callCount = 0;
+    mockExecFile.mockImplementation(
+      (_cmd: unknown, _args: unknown, _opts: unknown, callback: unknown) => {
+        callCount++;
+        if (callCount === 1) {
+          (callback as (err: null, stdout: string, stderr: string) => void)(
+            null,
+            '0.6.3',
+            '',
+          );
+        } else {
+          const error = Object.assign(new Error('no expertise files found'), {
+            code: 1,
+          });
+          (callback as (err: Error, stdout: string, stderr: string) => void)(
+            error,
+            '',
+            'no expertise files found',
+          );
+        }
+        return {} as ReturnType<typeof execFile>;
+      },
+    );
+
+    await expect(queryMulch('/repo')).rejects.toThrow(
+      /agent-plugin-mulch: ml prime failed[\s\S]*no expertise files found/,
+    );
   });
 });
