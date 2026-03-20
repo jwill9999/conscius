@@ -1,6 +1,6 @@
 # Backlog
 
-Items not yet promoted to an active epic. Managed by the `planning` skill — use `/new-backlog` and `/move-to-feature` to maintain this list in sync with the [Beads task graph](../../SESSION.md).
+Items not yet promoted to an active epic. Managed by the `planning` skill — use `/new-backlog` and `/move-to-feature` to maintain this list in sync with the Beads task graph (`bd` CLI).
 
 ---
 
@@ -12,7 +12,7 @@ Items not yet promoted to an active epic. Managed by the `planning` skill — us
 **Created:** 10/03/2026 (GMT)
 **Priority:** medium
 **Effort:** small
-**Description:** Replace `"@conscius/agent-types": "*"` wildcard in `agent-core` and `agent-plugin-beads` `package.json` with a pinned concrete version (e.g. `"^0.3.0-alpha.0"`) before the first `npm publish`. The wildcard resolves correctly inside the npm workspace but is unsafe for public consumers.
+**Description:** Replace `"@conscius/agent-types": "*"` wildcard in `agent-core` and `agent-plugin-beads` `package.json` with a pinned concrete version (e.g. `"^0.4.0-alpha.0"`) before the first `npm publish`. The wildcard resolves correctly inside the npm workspace but is unsafe for public consumers.
 **Dependencies:** Must be done before any `npm publish` run
 **Related Docs:** [Publishing guide](../guides/publishing.md)
 
@@ -27,7 +27,7 @@ Items not yet promoted to an active epic. Managed by the `planning` skill — us
 **Priority:** high
 **Effort:** medium
 **Description:** Plugin that reads and writes `SESSION.md` — automates the session handoff document that is currently maintained manually.
-**Related Docs:** [Session continuity spec](../specs/agent_architecture_documentation_pack/session_continuity_layer_spec_v2.md)
+**Related Docs:** [Session continuity spec](../specs/archive/session_continuity_layer_spec_v2.md)
 
 ---
 
@@ -40,7 +40,7 @@ Items not yet promoted to an active epic. Managed by the `planning` skill — us
 **Priority:** high
 **Effort:** medium
 **Description:** Plugin implementing ephemeral conversation compression — summarises older segments to reduce prompt size while preserving decision history. Never writes to disk.
-**Related Docs:** [Conversation compression spec](../specs/agent_architecture_documentation_pack/layer4_conversation_compression_spec.md)
+**Related Docs:** [Conversation compression spec](../specs/archive/layer4_conversation_compression_spec.md)
 
 ---
 
@@ -53,7 +53,7 @@ Items not yet promoted to an active epic. Managed by the `planning` skill — us
 **Priority:** medium
 **Effort:** medium
 **Description:** Validation pipeline plugin — runs format → lint → typecheck → test on entering review state. Implements Layer 7.
-**Related Docs:** [Guardrails spec](../specs/agent_architecture_documentation_pack/layer7_guardrails_quality_gates.md)
+**Related Docs:** [Guardrails spec](../specs/archive/layer7_guardrails_quality_gates.md)
 
 ---
 
@@ -66,7 +66,7 @@ Items not yet promoted to an active epic. Managed by the `planning` skill — us
 **Priority:** low
 **Effort:** small
 **Description:** Bundle package that installs all common plugins in one dependency — simplifies consumer setup.
-**Related Docs:** [Ecosystem structure](../specs/agent_architecture_documentation_pack/ECOSYSTEM_REPO_STRUCTURE.md)
+**Related Docs:** [Ecosystem structure](../specs/archive/ECOSYSTEM_REPO_STRUCTURE.md)
 
 ---
 
@@ -78,4 +78,4 @@ Items not yet promoted to an active epic. Managed by the `planning` skill — us
 **Created:** 10/03/2026 (GMT)
 **Priority:** low
 **Effort:** small
-**Description:** Bundle package that installs all common plugins in one dependency — simplifies consumer setup.
+**Description:** Standalone `skillshare` package and CLI for syncing reusable skills/instructions from manifests across repositories.

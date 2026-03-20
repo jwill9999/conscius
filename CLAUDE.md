@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Conscius** is a plugin-based framework that gives AI agents persistent cognition — memory, session awareness, task context, and reusable skills. It's structured as an **Nx monorepo** with 3 publishable packages under the `@conscius` scope.
+**Conscius** is a plugin-based framework that gives AI agents persistent cognition — memory, session awareness, task context, and reusable skills. It's structured as an **Nx monorepo** with 4 publishable packages under the `@conscius` scope.
 
 ## Commands
 
@@ -132,7 +132,7 @@ packages/
 
 - **TypeScript:** strict mode, ESM (`"type": "module"`), `module: nodenext`, `.js` extensions in all imports
 - **Node 24** via nvm (`.nvmrc`)
-- **All packages versioned in lockstep** (currently `0.3.0-alpha.0`)
+- **All packages versioned in lockstep** (currently `0.4.0-alpha.0`)
 - **Do not mock `util.promisify`** — use manual Promise wrappers with Jest mocks (loses `util.promisify.custom` symbol)
 - **`tsconfig.spec.json`** must include `src/**/*.ts` + `references: [{path: './tsconfig.lib.json'}]`
 - **ESLint 8 legacy format** (`.eslintrc.js`, not `eslint.config.mjs`)

@@ -30,7 +30,7 @@ Before first publish, replace the `"*"` wildcard with a pinned version:
 // packages/agent-core/package.json
 {
   "dependencies": {
-    "@conscius/agent-types": "^0.3.0-alpha.0"
+    "@conscius/agent-types": "^0.4.0-alpha.0"
   }
 }
 ```

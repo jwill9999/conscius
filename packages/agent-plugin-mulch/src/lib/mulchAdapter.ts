@@ -51,8 +51,8 @@ function execMl(
       args,
       { cwd, timeout: EXEC_TIMEOUT_MS },
       (err, stdout, stderr) => {
-        const stdoutStr = stdout != null ? String(stdout) : '';
-        const stderrStr = stderr != null ? String(stderr) : '';
+        const stdoutStr = String(stdout ?? '');
+        const stderrStr = String(stderr ?? '');
 
         if (err) {
           const parts = [

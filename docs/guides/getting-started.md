@@ -23,7 +23,7 @@ Run the full quality suite to confirm everything is wired correctly:
 npx nx run-many -t typecheck,lint,test,build --all
 ```
 
-All three packages should pass: `@conscius/agent-types`, `@conscius/agent-core`, `@conscius/agent-plugin-beads`.
+All four packages should pass: `@conscius/agent-types`, `@conscius/agent-core`, `@conscius/agent-plugin-beads`, `@conscius/agent-plugin-mulch`.
 
 ## Workspace layout
 
@@ -50,5 +50,5 @@ packages/
 ## Next steps
 
 - [Add a plugin](./adding-a-plugin.md) — scaffold a new `@conscius` plugin package
-- [Plugin interface spec](../specs/agent_architecture_documentation_pack/agent_plugin_interface.md) — understand the `AgentPlugin` lifecycle
-- [Architecture overview](../specs/agent_architecture_documentation_pack/agent_architecture_overview.md) — the 7-layer system design
+- [Plugin interface spec](../specs/archive/agent_plugin_interface.md) — understand the `AgentPlugin` lifecycle
+- [Architecture overview](../specs/archive/agent_architecture_overview.md) — the 7-layer system design

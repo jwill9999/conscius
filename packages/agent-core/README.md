@@ -257,14 +257,14 @@ npx nx run-many -t typecheck,lint,test,build --projects=agent-core
 
 ## Documentation
 
-| Doc                                                                                                                   | Description                             |
-| --------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| [Architecture overview](../../docs/specs/agent_architecture_documentation_pack/agent_architecture_overview.md)        | System layers and design decisions      |
-| [Runtime flow](../../docs/specs/agent_architecture_documentation_pack/AGENT_RUNTIME_FLOW.md)                          | End-to-end lifecycle walkthrough        |
-| [Plugin interface spec](../../docs/specs/agent_architecture_documentation_pack/agent_plugin_interface.md)             | Plugin contract and responsibilities    |
-| [Hook specification](../../docs/specs/agent_architecture_documentation_pack/layer6_context_injection_hooks_spec.md)   | Hook resolution order and env injection |
-| [Compression spec](../../docs/specs/agent_architecture_documentation_pack/layer4_conversation_compression_spec.md)    | Conversation compression strategy       |
-| [Session continuity spec](../../docs/specs/agent_architecture_documentation_pack/session_continuity_layer_spec_v2.md) | SESSION.md lifecycle and format         |
+| Doc                                                                                     | Description                             |
+| --------------------------------------------------------------------------------------- | --------------------------------------- |
+| [Architecture overview](../../docs/specs/archive/agent_architecture_overview.md)        | System layers and design decisions      |
+| [Runtime flow](../../docs/specs/archive/AGENT_RUNTIME_FLOW.md)                          | End-to-end lifecycle walkthrough        |
+| [Plugin interface spec](../../docs/specs/archive/agent_plugin_interface.md)             | Plugin contract and responsibilities    |
+| [Hook specification](../../docs/specs/archive/layer6_context_injection_hooks_spec.md)   | Hook resolution order and env injection |
+| [Compression spec](../../docs/specs/archive/layer4_conversation_compression_spec.md)    | Conversation compression strategy       |
+| [Session continuity spec](../../docs/specs/archive/session_continuity_layer_spec_v2.md) | SESSION.md lifecycle and format         |
 
 ---
 

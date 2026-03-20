@@ -5,7 +5,7 @@ This guide walks through scaffolding a new Conscius plugin package and wiring it
 ## Prerequisites
 
 - Working monorepo install (see [Getting started](./getting-started.md))
-- Familiarity with the [AgentPlugin interface](../specs/agent_architecture_documentation_pack/agent_plugin_interface.md)
+- Familiarity with the [AgentPlugin interface](../specs/archive/agent_plugin_interface.md)
 
 ## 1. Scaffold the package
 
@@ -86,6 +86,6 @@ npx nx run-many -t typecheck,lint,test --projects=agent-plugin-<name>
 
 ## Related
 
-- [AgentPlugin interface spec](../specs/agent_architecture_documentation_pack/agent_plugin_interface.md)
+- [AgentPlugin interface spec](../specs/archive/agent_plugin_interface.md)
 - [`@conscius/agent-types` API reference](../api/agent-types.md)
 - [`@conscius/agent-core` API reference](../api/agent-core.md)

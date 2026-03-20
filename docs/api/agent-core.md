@@ -117,5 +117,5 @@ const DEFAULT_AGENT_CONFIG: AgentConfig;
 ## Related
 
 - [`@conscius/agent-types` API reference](./agent-types.md) — all shared interfaces
-- [Plugin interface spec](../specs/agent_architecture_documentation_pack/agent_plugin_interface.md)
-- [Agent runtime flow](../specs/agent_architecture_documentation_pack/AGENT_RUNTIME_FLOW.md)
+- [Plugin interface spec](../specs/archive/agent_plugin_interface.md)
+- [Agent runtime flow](../specs/archive/AGENT_RUNTIME_FLOW.md)

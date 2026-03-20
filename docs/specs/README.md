@@ -25,7 +25,7 @@ Per-epic implementation specifications. These are the **single source of truth**
 | [E1 — agent-types](./e1-agent-types.md)                           | `@conscius/agent-types`              | as-built ✅          | coreai-1ra |
 | [E2 — agent-core](./e2-agent-core.md)                             | `@conscius/agent-core`               | as-built ✅          | coreai-nsn |
 | [E3 — agent-plugin-beads](./e3-agent-plugin-beads.md)             | `@conscius/agent-plugin-beads`       | as-built ✅          | coreai-e2o |
-| [E4 — agent-plugin-mulch](./e4-agent-plugin-mulch.md)             | `@conscius/agent-plugin-mulch`       | implementation brief | coreai-x3b |
+| [E4 — agent-plugin-mulch](./e4-agent-plugin-mulch.md)             | `@conscius/agent-plugin-mulch`       | as-built ✅          | coreai-x3b |
 | [E5 — agent-plugin-session](./e5-agent-plugin-session.md)         | `@conscius/agent-plugin-session`     | implementation brief | coreai-vq3 |
 | [E6 — agent-plugin-compression](./e6-agent-plugin-compression.md) | `@conscius/agent-plugin-compression` | implementation brief | coreai-mbp |
 | [E7 — agent-plugin-guardrails](./e7-agent-plugin-guardrails.md)   | `@conscius/agent-plugin-guardrails`  | implementation brief | coreai-7mm |

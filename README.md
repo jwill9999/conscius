@@ -1,6 +1,6 @@
 # Conscius
 
-![version](https://img.shields.io/badge/version-0.3.0--alpha.0-blue)
+![version](https://img.shields.io/badge/version-0.4.0--alpha.0-blue)
 [![CI](https://github.com/jwill9999/conscius/actions/workflows/ci.yml/badge.svg)](https://github.com/jwill9999/conscius/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/jwill9999/conscius/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/jwill9999/conscius/actions/workflows/github-code-scanning/codeql)
 [![codecov](https://codecov.io/gh/jwill9999/conscius/graph/badge.svg)](https://codecov.io/gh/jwill9999/conscius)
@@ -20,6 +20,7 @@ Most AI agents are stateless. Conscius bridges that gap by providing a structure
 | [`@conscius/agent-types`](./packages/agent-types)               | Shared TypeScript interfaces — `AgentPlugin`, `AgentContext`, `BeadsTask`, `MulchLesson` |
 | [`@conscius/agent-core`](./packages/agent-core)                 | Core runtime — context builder, plugin loader, hook runner, CLI                          |
 | [`@conscius/agent-plugin-beads`](./packages/agent-plugin-beads) | Plugin: injects active task context from the Beads task graph                            |
+| [`@conscius/agent-plugin-mulch`](./packages/agent-plugin-mulch) | Plugin: injects Mulch lessons via `ml prime` during session start                        |
 
 ---
 
@@ -39,17 +40,17 @@ npx nx run-many -t typecheck,lint,test,build --all
 
 ## Documentation
 
-| Section                                                                                                    | Description                                                  |
-| ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| [Documentation index](./docs/README.md)                                                                    | Full navigation — all guides, specs, ADRs, and API reference |
-| [Getting started](./docs/guides/getting-started.md)                                                        | Install, configure, and run the workspace                    |
-| [Adding a plugin](./docs/guides/adding-a-plugin.md)                                                        | Scaffold and register a new Conscius plugin                  |
-| [Publishing](./docs/guides/publishing.md)                                                                  | Pre-publish checklist and npm publish workflow               |
-| [API reference — agent-types](./docs/api/agent-types.md)                                                   | All exported types and interfaces                            |
-| [API reference — agent-core](./docs/api/agent-core.md)                                                     | Context builder, plugin loader, hook runner                  |
-| [Architecture overview](./docs/specs/agent_architecture_documentation_pack/agent_architecture_overview.md) | 7-layer system design                                        |
-| [Architecture Decision Records](./docs/adr/)                                                               | Why key decisions were made                                  |
-| [Planning](./docs/planning/index.md)                                                                       | Epics, features, and tasks in progress                       |
+| Section                                                                      | Description                                                  |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| [Documentation index](./docs/README.md)                                      | Full navigation — all guides, specs, ADRs, and API reference |
+| [Getting started](./docs/guides/getting-started.md)                          | Install, configure, and run the workspace                    |
+| [Adding a plugin](./docs/guides/adding-a-plugin.md)                          | Scaffold and register a new Conscius plugin                  |
+| [Publishing](./docs/guides/publishing.md)                                    | Pre-publish checklist and npm publish workflow               |
+| [API reference — agent-types](./docs/api/agent-types.md)                     | All exported types and interfaces                            |
+| [API reference — agent-core](./docs/api/agent-core.md)                       | Context builder, plugin loader, hook runner                  |
+| [Architecture overview](./docs/specs/archive/agent_architecture_overview.md) | 7-layer system design                                        |
+| [Architecture Decision Records](./docs/adr/)                                 | Why key decisions were made                                  |
+| [Planning](./docs/planning/index.md)                                         | Epics, features, and tasks in progress                       |
 
 ---
 
