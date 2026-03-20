@@ -128,3 +128,9 @@
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(mulch)* Stage research-first convention lesson in candidates
+- *(changelog)* Update CHANGELOG.md [skip ci]
+- Update SESSION.md and SUMMARY.md — Epic 4 complete, Epic 5 next
+- Update SESSION.md — coreai-8ji before E5
+- Update SESSION.md and SUMMARY.md — end of refinement session
+- Update SESSION.md and SUMMARY.md — mulch plugin review complete
+- *(mulch)* Stage storage-triage lesson in candidates.jsonl
