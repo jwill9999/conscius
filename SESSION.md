@@ -52,6 +52,8 @@ Epic 4 is fully complete and merged to `main`. Version bumped to `0.4.0-alpha.0`
 
 - **🚨 Codecov "Missing Head Report" — unresolved, on hold** — Codecov shows no coverage on every main commit. Attempts so far: `workflow_dispatch` trigger, `codecov.yml` carryforward, `--skip-nx-cache`, YAML path fix, removed empty `agent-types` lcov, added `sed` to prefix `SF:` paths. None resolved it. **Resume with the diagnostic PR-branch probe:** create a short-lived branch, push, open a PR, and check if Codecov picks up the report. If yes → problem is main-specific (the `[skip ci]` changelog bot commit always landing on HEAD with no coverage). If no → a config regression was introduced and a before/after comparison is needed.
 
+- **Re-evaluate `agent-plugin-beads` dependency approach after `coreai-f7m`** — The mulch plugin refactor bundles `@os-eco/mulch-cli` as a package dependency to eliminate a separate global install step for users. Once `coreai-f7m` lands, review whether `agent-plugin-beads` should adopt the same pattern (bundling the `bd` CLI as a dependency rather than requiring a separate global install). Goal: minimize manual setup steps and improve onboarding UX, especially for non-developer users.
+
 ## Next Steps
 
 > ⚠️ **Do NOT start Epic 5 yet.** Complete `coreai-f7m` first — it replaces the non-functional mulch adapter and must not bleed into E5 scope.
