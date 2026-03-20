@@ -47,7 +47,7 @@ describe('ensureMlReady', () => {
     mockAssertRunnable.mockResolvedValue(undefined);
   });
 
-  it('skips ml init when .mulch/ exists', async () => {
+  it('skips ml init when mulch.config.yaml exists', async () => {
     mockAccess.mockResolvedValue(undefined);
 
     await ensureMlReady('/repo');
@@ -57,7 +57,7 @@ describe('ensureMlReady', () => {
     expect(mockRunMlInit).not.toHaveBeenCalled();
   });
 
-  it('calls ml init when .mulch/ is absent', async () => {
+  it('calls ml init when mulch.config.yaml is absent', async () => {
     mockAccess.mockRejectedValue(
       Object.assign(new Error('not found'), { code: 'ENOENT' }),
     );

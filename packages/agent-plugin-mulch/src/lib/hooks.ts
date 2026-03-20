@@ -18,10 +18,12 @@ export async function ensureMlReady(repoRoot: string): Promise<void> {
   const mlPath = await resolveMlExecutable();
   await assertMlRunnable(mlPath);
 
-  const mulchDir = join(repoRoot, '.mulch');
+  // Check for mulch.config.yaml — the file ml init creates.
+  // A bare .mulch/ directory without this config causes ml prime to fail.
+  const mulchConfig = join(repoRoot, '.mulch', 'mulch.config.yaml');
 
   try {
-    await access(mulchDir);
+    await access(mulchConfig);
   } catch {
     await runMlInit(mlPath, repoRoot);
   }
