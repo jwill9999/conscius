@@ -1,5 +1,4 @@
-import type { HostRuntimeContext } from './public-types.js';
-import type { Plugin } from './public-types.js';
+import type { HostRuntimeContext, Plugin } from './public-types.js';
 import { PluginLoader } from './plugin-loader.js';
 import { buildPromptContext } from './memory-pipeline.js';
 

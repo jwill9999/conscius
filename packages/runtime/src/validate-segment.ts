@@ -29,10 +29,9 @@ export function normaliseSegmentSource(
   seg: MemorySegment,
   pluginName: string,
 ): void {
-  if (!seg.source?.trim()) {
+  seg.source ??= pluginName;
+  if (!seg.source.trim()) {
     seg.source = pluginName;
   }
-  if (seg.priority === undefined) {
-    seg.priority = 0;
-  }
+  seg.priority ??= 0;
 }

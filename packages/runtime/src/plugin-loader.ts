@@ -1,5 +1,4 @@
-import type { HostRuntimeContext } from './public-types.js';
-import type { Plugin } from './public-types.js';
+import type { HostRuntimeContext, Plugin } from './public-types.js';
 import { definePlugin } from './define-plugin.js';
 import { validateAllMemorySegments } from './memory-pipeline.js';
 import { normaliseSegmentSource } from './validate-segment.js';

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports -- Jest preset is CommonJS */
-const path = require('path');
+const path = require('node:path');
 
 const nxPreset = require('@nx/jest/preset').default;
 
