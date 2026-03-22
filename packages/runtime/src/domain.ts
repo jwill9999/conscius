@@ -112,6 +112,22 @@ export interface CompressionSummary {
  * the prompt. Omitted fields mean no limit. No LLM use — drop lowest-priority
  * segments first, then hard-truncate a single oversized segment if needed.
  */
+/**
+ * MVP memory guardrails: substring checks only, no network / ML.
+ * Enable with `{ enabled: true }` to apply built-in deny phrases plus optional extras.
+ */
+export interface MemoryGuardrailsConfig {
+  /** When true, segments matching built-in or custom deny substrings are dropped. */
+  enabled?: boolean;
+  /** Additional deny substrings (substring match). */
+  denySubstrings?: string[];
+  /**
+   * When true (default), custom `denySubstrings` are matched case-insensitively.
+   * Built-in patterns are always case-insensitive.
+   */
+  caseInsensitive?: boolean;
+}
+
 export interface MemoryPromptLimits {
   /**
    * Max segments after sort + adjacent dedupe. Segments at the end of the ordered
@@ -139,4 +155,6 @@ export interface AgentConfig {
   approvedWrites?: Record<string, boolean>;
   /** Optional caps on memory segments before prompt build (MVP compression). */
   memoryPromptLimits?: MemoryPromptLimits;
+  /** Optional substring guardrails on memory segments before prompt build (MVP). */
+  memoryGuardrails?: MemoryGuardrailsConfig;
 }
