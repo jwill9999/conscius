@@ -31,11 +31,14 @@
 - *(agent-plugin-mulch)* Check mulch.config.yaml not .mulch/ dir for init guard
 - *(agent-plugin-mulch)* Address Sourcery PR feedback
 - *(runtime)* Address PR #19 Copilot review (plugins, docs, tsconfig)
+- *(verify)* Capture expect_nonzero output to avoid stderr false alarms
+- *(verify)* Use grep -Fq for literal assert_contains substrings
 
 ### 💼 Other
 
 - *(cursor)* Remove SonarCloud token from mcp.json; document env-based auth
 - Wire Epic 11 Beads issues to MVP alignment spec
+- *(main)* Resolve mulch verify conflicts — keep extended smoke test
 
 ### 🚜 Refactor
 
@@ -82,6 +85,7 @@
 - *(e3-t4)* Add unit tests for agent-plugin-beads (26 tests)
 - *(e3-t4)* Update tests for improved contextLoader and beadsAdapter
 - *(e4-t2)* Cover missing activeTask hook case
+- *(dx)* Extend mulch-record verify — multi-domain + all types
 - *(dx)* Smoke-verify mulch-record-interactive in CI
 
 ### ⚙️ Miscellaneous Tasks
@@ -176,6 +180,9 @@
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
+- *(changelog)* Update CHANGELOG.md [skip ci]
+- *(verify)* Satisfy Sonar shell rules (explicit return, shared literals)
+- *(verify)* Explicit return 0 branch in run_in_fixture for Sonar S7682
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
