@@ -60,6 +60,7 @@
 - Add segment 10 — Epic 4 merge and version bump
 - *(agent-plugin-mulch)* Sync docs and review follow-ups
 - *(agents)* Replace obsolete bd sync with bd dolt pull/push notes
+- Refresh README, SESSION, SUMMARY for runtime v3 on main (0.5.0-alpha.0)
 
 ### 🎨 Styling
 
@@ -155,3 +156,4 @@
 - Feat/runtime-v3-mvp-alignment fix sonarqube issues
 - Feat/runtime-v3-mvp-alignment add curser configs
 - *(cursor)* Wire Sonar MCP token via ${env:SONARQUBE_TOKEN} in mcp.json
+- *(changelog)* Update CHANGELOG.md [skip ci]
