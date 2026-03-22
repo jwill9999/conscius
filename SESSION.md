@@ -2,11 +2,11 @@
 
 ## Current Objective
 
-**`main` carries runtime v3 (0.5.0-alpha.0), CI green.** **DX P0 done:** `.github/skills` mirrored to `.cursor/skills` (`coreai-na7`, pushed). **Next priority:** **`coreai-6n8`** — interactive Mulch `ml record` helper + `make mulch-record` + `.mulch/README.md`. In parallel on the product track when ready: **Epic 5** — `@conscius/agent-plugin-session` (`coreai-vq3`).
+**`main` carries runtime v3 (0.5.0-alpha.0), CI green.** **DX tooling:** skills mirror (`coreai-na7`) and interactive **`make mulch-record`** / `scripts/mulch-record-interactive.sh` (`coreai-6n8`) are **done**. **Next product focus when ready:** **Epic 5** — `@conscius/agent-plugin-session` (`coreai-vq3`).
 
 ## Active Task
 
-**`coreai-6n8` — Interactive Mulch record helper** (claimed in Beads). Deliver `scripts/mulch-record-interactive.sh`, root **Makefile** target **`mulch-record`**, docs in `.mulch/README.md`.
+**None.** Pick up **Epic 5** on branch `feat/e5-agent-plugin-session` and claim `coreai-vq3` / subtasks in Beads when starting session plugin work.
 
 Recent `main` themes (already landed):
 
@@ -21,6 +21,7 @@ Recent `main` themes (already landed):
 - ✅ **Docs** — mulch README, E4 spec, `plugin-contract.md`, beads `tsconfig` reference to `runtime`.
 - ✅ **Tooling/security** — MCP Sonar config + SESSION/SUMMARY/README alignment (this update).
 - ✅ **Cursor skills parity** — `coreai-na7` closed; `.cursor/skills/` synced from `.github/skills/`; planning `docs/planning/index.md` DX row updated.
+- ✅ **Mulch record helper** — `coreai-6n8` closed; `make mulch-record`, `scripts/mulch-record-interactive.sh`, `.mulch/README.md` + mulch skill table row.
 
 ## Decisions Made
 
@@ -46,11 +47,10 @@ Recent `main` themes (already landed):
 
 ## Next Steps
 
-1. **`coreai-6n8`** — interactive `ml record` script, `make mulch-record`, `.mulch/README.md` (in progress).
-2. **Epic 5 (`coreai-vq3`)** — `@conscius/agent-plugin-session`: `sessionReader`, `sessionWriter`, hooks, tests (branch `feat/e5-agent-plugin-session` when picked up).
-3. **Epic 11 (`coreai-2f5`)** — runtime MVP hardening tasks (parallel) when prioritized vs plugin work.
-4. **Codecov probe** — when time allows, PR-branch experiment (see Open Issues).
-5. **Beads** — after issue changes, commit updated `.beads/issues.jsonl` per `.beads/README.md` when your workflow exports issues to git.
+1. **Epic 5 (`coreai-vq3`)** — `@conscius/agent-plugin-session`: `sessionReader`, `sessionWriter`, hooks, tests (branch `feat/e5-agent-plugin-session` when picked up).
+2. **Epic 11 (`coreai-2f5`)** — runtime MVP hardening tasks (parallel) when prioritized vs plugin work.
+3. **Codecov probe** — when time allows, PR-branch experiment (see Open Issues).
+4. **Beads** — after issue changes, commit updated `.beads/issues.jsonl` per `.beads/README.md` when your workflow exports issues to git.
 
 ---
 

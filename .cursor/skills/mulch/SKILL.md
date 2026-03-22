@@ -72,25 +72,26 @@ ml prime testing
 
 ## Core commands
 
-| Command                            | Use                                                      |
-| ---------------------------------- | -------------------------------------------------------- |
-| `ml init`                          | Create `.mulch/` for the current project                 |
-| `ml add <domain>`                  | Create a new expertise domain                            |
-| `ml record <domain> --type <type>` | Add a record to a domain                                 |
-| `ml edit <domain> <id>`            | Edit an existing record                                  |
-| `ml delete <domain> [id]`          | Delete records                                           |
-| `ml query [domain]`                | View expertise for one domain or all domains             |
-| `ml prime [domains...]`            | Output agent-optimized context for prompt injection      |
-| `ml search [query]`                | Search across domains                                    |
-| `ml compact [domain]`              | Analyze or apply compaction                              |
-| `ml ready`                         | Show recently added or updated records                   |
-| `ml status`                        | Show expertise freshness and counts                      |
-| `ml validate`                      | Validate schemas                                         |
-| `ml doctor`                        | Run health checks and optionally fix issues              |
-| `ml sync`                          | Validate, stage, and commit `.mulch/` changes            |
-| `ml learn`                         | Suggest domains for new learnings based on changed files |
-| `ml onboard`                       | Generate AGENTS.md / CLAUDE.md snippets                  |
-| `ml setup [provider]`              | Install provider-specific hooks                          |
+| Command                            | Use                                                               |
+| ---------------------------------- | ----------------------------------------------------------------- |
+| `ml init`                          | Create `.mulch/` for the current project                          |
+| `ml add <domain>`                  | Create a new expertise domain                                     |
+| `ml record <domain> --type <type>` | Add a record to a domain                                          |
+| `make mulch-record` (repo root)    | Interactive prompts + quoted `ml record` (see `.mulch/README.md`) |
+| `ml edit <domain> <id>`            | Edit an existing record                                           |
+| `ml delete <domain> [id]`          | Delete records                                                    |
+| `ml query [domain]`                | View expertise for one domain or all domains                      |
+| `ml prime [domains...]`            | Output agent-optimized context for prompt injection               |
+| `ml search [query]`                | Search across domains                                             |
+| `ml compact [domain]`              | Analyze or apply compaction                                       |
+| `ml ready`                         | Show recently added or updated records                            |
+| `ml status`                        | Show expertise freshness and counts                               |
+| `ml validate`                      | Validate schemas                                                  |
+| `ml doctor`                        | Run health checks and optionally fix issues                       |
+| `ml sync`                          | Validate, stage, and commit `.mulch/` changes                     |
+| `ml learn`                         | Suggest domains for new learnings based on changed files          |
+| `ml onboard`                       | Generate AGENTS.md / CLAUDE.md snippets                           |
+| `ml setup [provider]`              | Install provider-specific hooks                                   |
 
 All commands support `--json` for structured output. Prefer `--json` when the result will be parsed or fed back into tooling.
 
