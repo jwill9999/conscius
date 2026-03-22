@@ -35,7 +35,6 @@
       "env": {
         "SONARQUBE_ORG": "jwill9999",
         "SONARQUBE_CLOUD_URL": "https://sonarcloud.io",
-        "SONARQUBE_TOKEN": "6a23ac2efb31d16ab59cf12153f080983085fcfc",
         "SONARQUBE_IDE_PORT": "64120"
       }
     }
