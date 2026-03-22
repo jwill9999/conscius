@@ -1,6 +1,9 @@
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+
 import { createHostRuntimeContext } from './host-context.js';
-import type { Plugin } from './public-types.js';
-import { PluginLoader } from './plugin-loader.js';
+import type { MemorySegment, Plugin } from './public-types.js';
+import { PluginLoader, resolvePluginSpecifier } from './plugin-loader.js';
 
 jest.mock(
   '@conscius/test-plugin-default',
@@ -142,6 +145,70 @@ describe('PluginLoader lifecycle hooks', () => {
     ]);
     await loader.runSessionStart(ctx);
     expect(order).toEqual(['first', 'second']);
+  });
+
+  it('tags pre-existing segments without source as host and only new segments with the plugin', async () => {
+    const preExisting: MemorySegment = {
+      type: 'context',
+      content: 'from host',
+    };
+    const ctx = createHostRuntimeContext({
+      repoRoot: '/repo',
+      config: {},
+      memorySegments: [preExisting],
+    });
+    setPlugins(loader, [
+      makePlugin('p1', {
+        onSessionStart: jest.fn().mockImplementation((c) => {
+          c.memorySegments.push({ type: 'context', content: 'from p1' });
+          return Promise.resolve();
+        }),
+      }),
+      makePlugin('p2', {
+        onSessionStart: jest.fn().mockImplementation((c) => {
+          c.memorySegments.push({ type: 'context', content: 'from p2' });
+          return Promise.resolve();
+        }),
+      }),
+    ]);
+    await loader.runSessionStart(ctx);
+    expect(preExisting.source).toBe('host');
+    expect(
+      ctx.memorySegments.find((s) => s.content === 'from p1')?.source,
+    ).toBe('p1');
+    expect(
+      ctx.memorySegments.find((s) => s.content === 'from p2')?.source,
+    ).toBe('p2');
+  });
+});
+
+describe('resolvePluginSpecifier', () => {
+  it('returns bare package specifiers unchanged', () => {
+    expect(resolvePluginSpecifier('@conscius/foo', '/repo')).toBe(
+      '@conscius/foo',
+    );
+    expect(resolvePluginSpecifier('lodash', '/repo')).toBe('lodash');
+  });
+
+  it('resolves ./ and ../ against repoRoot to a file URL', () => {
+    const root = '/repo/root';
+    expect(resolvePluginSpecifier('./plugins/x.js', root)).toBe(
+      pathToFileURL(resolve(root, 'plugins/x.js')).href,
+    );
+    expect(resolvePluginSpecifier('../outside/p.js', root)).toBe(
+      pathToFileURL(resolve(root, '../outside/p.js')).href,
+    );
+  });
+
+  it('converts absolute filesystem paths to file URLs', () => {
+    expect(resolvePluginSpecifier('/abs/p.js', '/repo')).toBe(
+      pathToFileURL('/abs/p.js').href,
+    );
+  });
+
+  it('passes through existing file: URLs', () => {
+    const url = 'file:///tmp/x.js';
+    expect(resolvePluginSpecifier(url, '/repo')).toBe(url);
   });
 });
 

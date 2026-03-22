@@ -40,10 +40,15 @@ npm install @conscius/agent-plugin-mulch
 ## Usage
 
 ```ts
+import { createRuntime } from '@conscius/runtime';
 import { mulchPlugin } from '@conscius/agent-plugin-mulch';
 
-// Register with agent-core
-const agent = createAgent({ plugins: [mulchPlugin] });
+// In-process registration
+const runtime = createRuntime({ plugins: [mulchPlugin] });
+
+// Or load module paths from `.agent/config.json` (relative paths resolve from repo root):
+// const runtime = createRuntime();
+// await runtime.loadFromConfig(config.plugins ?? [], repoRoot);
 ```
 
 Export surface:

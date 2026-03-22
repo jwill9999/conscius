@@ -22,7 +22,7 @@ async function bootstrap(opts: BootstrapOptions = {}) {
   const config = await HookRunner.ensureConfig(repoRoot);
 
   const runtime = createRuntime();
-  await runtime.loadFromConfig(config.plugins ?? []);
+  await runtime.loadFromConfig(config.plugins ?? [], repoRoot);
 
   const hookRunner = new HookRunner(repoRoot, config);
 

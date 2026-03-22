@@ -1,4 +1,5 @@
 export { createRuntime } from './create-runtime.js';
+export { PluginLoader, resolvePluginSpecifier } from './plugin-loader.js';
 export type { CreateRuntimeOptions } from './create-runtime.js';
 export { definePlugin } from './define-plugin.js';
 export { createHostRuntimeContext, toPluginContext } from './host-context.js';

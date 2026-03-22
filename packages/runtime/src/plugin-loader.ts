@@ -1,8 +1,28 @@
+import { isAbsolute, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+
 import type { HostRuntimeContext, Plugin } from './public-types.js';
 import { definePlugin } from './define-plugin.js';
 import { validateAllMemorySegments } from './memory-pipeline.js';
 import { normaliseSegmentSource } from './validate-segment.js';
 import { toPluginContext } from './host-context.js';
+
+/** Bare package specifiers use `import()` as-is; file paths resolve from `repoRoot`. */
+export function resolvePluginSpecifier(
+  specifier: string,
+  repoRoot: string,
+): string {
+  if (specifier.startsWith('file:')) {
+    return specifier;
+  }
+  if (isAbsolute(specifier)) {
+    return pathToFileURL(specifier).href;
+  }
+  if (specifier.startsWith('./') || specifier.startsWith('../')) {
+    return pathToFileURL(resolve(repoRoot, specifier)).href;
+  }
+  return specifier;
+}
 
 export class PluginLoader {
   private plugins: Plugin[] = [];
@@ -16,11 +36,15 @@ export class PluginLoader {
    * Each path can be an npm package name or a file path.
    * Expects default export or named `plugin` export; passes through `definePlugin`.
    */
-  async load(pluginPaths: string[]): Promise<void> {
+  async load(
+    pluginPaths: string[],
+    repoRoot: string = process.cwd(),
+  ): Promise<void> {
     this.plugins = [];
 
-    for (const path of pluginPaths) {
-      const mod = await import(path);
+    for (const specifier of pluginPaths) {
+      const resolved = resolvePluginSpecifier(specifier, repoRoot);
+      const mod = await import(resolved);
       const raw = mod.default ?? mod.plugin;
       let plugin: Plugin;
       try {
@@ -28,13 +52,13 @@ export class PluginLoader {
       } catch (err: unknown) {
         const msg = err instanceof Error ? err.message : String(err);
         throw new Error(
-          `Plugin at "${path}" does not export a valid plugin: ${msg}`,
+          `Plugin at "${resolved}" does not export a valid plugin: ${msg}`,
         );
       }
 
       if (!plugin || typeof plugin.name !== 'string') {
         throw new Error(
-          `Plugin at "${path}" does not export a valid plugin. ` +
+          `Plugin at "${resolved}" does not export a valid plugin. ` +
             `Expected a default export or named "plugin" export.`,
         );
       }
@@ -74,13 +98,20 @@ export class PluginLoader {
     const errors: Array<{ plugin: string; error: unknown }> = [];
     const pluginCtx = toPluginContext(ctx);
 
+    for (const seg of ctx.memorySegments) {
+      if (!seg.source?.trim()) {
+        normaliseSegmentSource(seg, 'host');
+      }
+    }
+
     for (const plugin of this.plugins) {
       const fn = plugin[hook];
       if (typeof fn === 'function') {
         try {
+          const countBefore = ctx.memorySegments.length;
           await fn.call(plugin, pluginCtx);
-          for (const seg of ctx.memorySegments) {
-            normaliseSegmentSource(seg, plugin.name);
+          for (let i = countBefore; i < ctx.memorySegments.length; i++) {
+            normaliseSegmentSource(ctx.memorySegments[i], plugin.name);
           }
         } catch (error) {
           errors.push({ plugin: plugin.name, error });

@@ -17,8 +17,11 @@ export function createRuntime(options: CreateRuntimeOptions = {}) {
       return loader.getPlugins();
     },
 
-    async loadFromConfig(pluginPaths: string[]): Promise<void> {
-      await loader.load(pluginPaths);
+    async loadFromConfig(
+      pluginPaths: string[],
+      repoRoot: string = process.cwd(),
+    ): Promise<void> {
+      await loader.load(pluginPaths, repoRoot);
     },
 
     async runSessionStart(ctx: HostRuntimeContext): Promise<void> {
