@@ -61,6 +61,7 @@
 - *(agent-plugin-mulch)* Sync docs and review follow-ups
 - *(agents)* Replace obsolete bd sync with bd dolt pull/push notes
 - Refresh README, SESSION, SUMMARY for runtime v3 on main (0.5.0-alpha.0)
+- *(planning)* Add developer experience & tooling section with standalone tasks and priorities
 
 ### 🎨 Styling
 
@@ -158,4 +159,5 @@
 - *(cursor)* Wire Sonar MCP token via ${env:SONARQUBE_TOKEN} in mcp.json
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - Main: save mulch lesson
+- *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
