@@ -20,6 +20,11 @@ export {
   COMPRESSION_THRESHOLD,
   RECENT_MESSAGES_TO_KEEP,
 } from './memory-pipeline.js';
+export {
+  applyMemorySegmentGuardrails,
+  memorySegmentContentBlocked,
+  MVP_MEMORY_GUARDRAIL_DENY_SUBSTRINGS,
+} from './memory-guardrails.js';
 export type { BuiltContext } from './memory-pipeline.js';
 export { adaptLegacyPromptArrays } from './legacy-adapter.js';
 export {
@@ -38,6 +43,7 @@ export type {
 
 export type {
   AgentConfig,
+  MemoryGuardrailsConfig,
   MemoryPromptLimits,
   BeadsTask,
   BeadsTaskStatus,

@@ -8,6 +8,7 @@ import type {
   MemorySegment,
   MemorySegmentType,
 } from './public-types.js';
+import { applyMemorySegmentGuardrails } from './memory-guardrails.js';
 import { validateMemorySegment } from './validate-segment.js';
 
 /** Threshold at which older conversation segments are compressed. */
@@ -29,6 +30,8 @@ export interface BuiltContext {
   compressionApplied: boolean;
   /** True when `memoryPromptLimits` dropped or truncated memory segments. */
   memorySegmentTrimApplied: boolean;
+  /** Count of memory segments dropped by `memoryGuardrails` before assembly. */
+  guardrailsMemorySegmentsDropped: number;
   messageCount: number;
 }
 
@@ -165,6 +168,13 @@ function formatCompressionSummary(summary: CompressionSummary): string {
  * then recent conversation — same ordering spirit as v2 `buildContext`.
  */
 export function buildPromptContext(ctx: HostRuntimeContext): BuiltContext {
+  const gr = applyMemorySegmentGuardrails(
+    ctx.memorySegments,
+    ctx.config.memoryGuardrails,
+  );
+  ctx.memorySegments = gr.segments;
+  const guardrailsMemorySegmentsDropped = gr.droppedCount;
+
   const sorted = dedupeAdjacentSegments(sortMemorySegments(ctx.memorySegments));
   const { segments: memoryForPrompt, applied: memorySegmentTrimApplied } =
     trimMemorySegmentsForLimits(sorted, ctx.config.memoryPromptLimits);
@@ -194,6 +204,7 @@ export function buildPromptContext(ctx: HostRuntimeContext): BuiltContext {
     prompt,
     compressionApplied: (ctx.compressionSummaries?.length ?? 0) > 0,
     memorySegmentTrimApplied,
+    guardrailsMemorySegmentsDropped,
     messageCount: ctx.conversation.length,
   };
 }
