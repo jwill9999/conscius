@@ -2,16 +2,17 @@
 
 ## Current Objective
 
-**`main` carries runtime v3 (0.5.0-alpha.0), CI green.** Continue with **Epic 5** — `@conscius/agent-plugin-session` (`coreai-vq3`).
+**`main` carries runtime v3 (0.5.0-alpha.0), CI green.** **DX P0 done:** `.github/skills` mirrored to `.cursor/skills` (`coreai-na7`, pushed). **Next priority:** **`coreai-6n8`** — interactive Mulch `ml record` helper + `make mulch-record` + `.mulch/README.md`. In parallel on the product track when ready: **Epic 5** — `@conscius/agent-plugin-session` (`coreai-vq3`).
 
 ## Active Task
 
-**None — merge to `main` complete.** Pick up Epic 5 when ready: branch `feat/e5-agent-plugin-session`, claim `coreai-vq3` in Beads.
+**`coreai-6n8` — Interactive Mulch record helper** (claimed in Beads). Deliver `scripts/mulch-record-interactive.sh`, root **Makefile** target **`mulch-record`**, docs in `.mulch/README.md`.
 
 Recent `main` themes (already landed):
 
 - Runtime v3 MVP (`@conscius/runtime`, `conscius` CLI); PR **#19** Copilot items addressed (plugin `source` attribution, `resolvePluginSpecifier` + `repoRoot`, docs/tsconfig).
 - `.cursor` hygiene: Sonar token out of git; `SONARQUBE_TOKEN` via `${env:SONARQUBE_TOKEN}`; `AGENTS.md` uses `bd dolt pull`/`push` instead of non-existent `bd sync`.
+- **Skills:** `.cursor/skills/` now mirrors `.github/skills/` (planning + sections, pr-review, guardrails, docs, git-workflow, mulch, session); canonical source + sync rule documented in `AGENTS.md` / `CLAUDE.md` (`coreai-na7`).
 
 ## Progress Since Last Session
 
@@ -19,6 +20,7 @@ Recent `main` themes (already landed):
 - ✅ **Plugin loader** — host segments without `source` → `host`; only newly pushed segments get the current plugin name; relative plugin paths resolve from `repoRoot`.
 - ✅ **Docs** — mulch README, E4 spec, `plugin-contract.md`, beads `tsconfig` reference to `runtime`.
 - ✅ **Tooling/security** — MCP Sonar config + SESSION/SUMMARY/README alignment (this update).
+- ✅ **Cursor skills parity** — `coreai-na7` closed; `.cursor/skills/` synced from `.github/skills/`; planning `docs/planning/index.md` DX row updated.
 
 ## Decisions Made
 
@@ -44,9 +46,11 @@ Recent `main` themes (already landed):
 
 ## Next Steps
 
-1. **Epic 5 (`coreai-vq3`)** — `@conscius/agent-plugin-session`: `sessionReader`, `sessionWriter`, hooks, tests.
-2. **Codecov probe** — when time allows, PR-branch experiment (see Open Issues).
-3. **Beads** — after issue changes, commit updated `.beads/issues.jsonl` per `.beads/README.md`.
+1. **`coreai-6n8`** — interactive `ml record` script, `make mulch-record`, `.mulch/README.md` (in progress).
+2. **Epic 5 (`coreai-vq3`)** — `@conscius/agent-plugin-session`: `sessionReader`, `sessionWriter`, hooks, tests (branch `feat/e5-agent-plugin-session` when picked up).
+3. **Epic 11 (`coreai-2f5`)** — runtime MVP hardening tasks (parallel) when prioritized vs plugin work.
+4. **Codecov probe** — when time allows, PR-branch experiment (see Open Issues).
+5. **Beads** — after issue changes, commit updated `.beads/issues.jsonl` per `.beads/README.md` when your workflow exports issues to git.
 
 ---
 

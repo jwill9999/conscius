@@ -57,12 +57,12 @@ Active epics and features for the Conscius project. Managed by the `planning` sk
 
 ## Developer experience & tooling
 
-Standalone tasks that are not tied to a runtime epic. **`coreai-na7`** (skills → `.cursor`) is **done**; next up is **priority 1** Mulch helper (`coreai-6n8`).
+Standalone tasks that are not tied to a runtime epic. **`coreai-na7`** (skills → `.cursor`) is **done**; **`coreai-6n8`** (interactive Mulch `ml record` + `make mulch-record`) is **in progress**.
 
 | Work item                                                           | Planning ID                   | Beads ID   | Status      | Priority | Mode       | Depends On (context)         | Created    |
 | ------------------------------------------------------------------- | ----------------------------- | ---------- | ----------- | -------- | ---------- | ---------------------------- | ---------- |
 | Migrate `.github/skills` → `.cursor/skills` + doc strategy          | task-2026-03-22-skills-cursor | coreai-na7 | done        | 0        | sequential | —                            | 22/03/2026 |
-| Interactive Mulch `ml record` helper (script + `make mulch-record`) | task-2026-03-22-mulch-record  | coreai-6n8 | not started | 1        | sequential | discovered-from `coreai-na7` | 22/03/2026 |
+| Interactive Mulch `ml record` helper (script + `make mulch-record`) | task-2026-03-22-mulch-record  | coreai-6n8 | in progress | 1        | sequential | discovered-from `coreai-na7` | 22/03/2026 |
 
 **`coreai-6n8` — description:** Interactive shell script prompts for Mulch record type and required fields (per `ml record --help`), defaults domain from `.mulch/mulch.config.yaml` when unambiguous, optional tags / files / evidence-bead; root **Makefile** target **`mulch-record`**; document in `.mulch/README.md`. **Acceptance:** `make mulch-record` works from repo root; README updated; non-zero exit on validation failure.
 
