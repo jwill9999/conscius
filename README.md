@@ -42,19 +42,20 @@ npx nx run-many -t typecheck,lint,test,build --all
 
 ## Documentation
 
-| Section                                                                      | Description                                                  |
-| ---------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| [Documentation index](./docs/README.md)                                      | Full navigation — all guides, specs, ADRs, and API reference |
-| [Getting started](./docs/guides/getting-started.md)                          | Install, configure, and run the workspace                    |
-| [Adding a plugin](./docs/guides/adding-a-plugin.md)                          | Scaffold and register a new Conscius plugin                  |
-| [Publishing](./docs/guides/publishing.md)                                    | Pre-publish checklist and npm publish workflow               |
-| [API reference — runtime](./docs/api/runtime.md)                             | Engine, types, hooks, memory pipeline                        |
-| [API reference — cli](./docs/api/cli.md)                                     | `conscius` binary                                            |
-| [API reference — agent-types (archived)](./docs/api/agent-types.md)          | Redirect: types merged into `@conscius/runtime`              |
-| [API reference — agent-core (archived)](./docs/api/agent-core.md)            | Redirect: split into `runtime` + `cli`                       |
-| [Architecture overview](./docs/specs/archive/agent_architecture_overview.md) | 7-layer system design                                        |
-| [Architecture Decision Records](./docs/adr/)                                 | Why key decisions were made                                  |
-| [Planning](./docs/planning/index.md)                                         | Epics, features, and tasks in progress                       |
+| Section                                                                      | Description                                                           |
+| ---------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| [Documentation index](./docs/README.md)                                      | Full navigation — all guides, specs, ADRs, and API reference          |
+| [Getting started](./docs/guides/getting-started.md)                          | Install, configure, and run the workspace                             |
+| [Adding a plugin](./docs/guides/adding-a-plugin.md)                          | Scaffold and register a new Conscius plugin                           |
+| [Publishing](./docs/guides/publishing.md)                                    | Pre-publish checklist and npm publish workflow                        |
+| [API reference — runtime](./docs/api/runtime.md)                             | Engine, types, hooks, memory pipeline                                 |
+| [API reference — cli](./docs/api/cli.md)                                     | `conscius` binary                                                     |
+| [API reference — agent-types (archived)](./docs/api/agent-types.md)          | Redirect: types merged into `@conscius/runtime`                       |
+| [API reference — agent-core (archived)](./docs/api/agent-core.md)            | Redirect: split into `runtime` + `cli`                                |
+| [Architecture overview](./docs/specs/archive/agent_architecture_overview.md) | 7-layer system design                                                 |
+| [Architecture Decision Records](./docs/adr/)                                 | Why key decisions were made                                           |
+| [Planning](./docs/planning/index.md)                                         | Epics, features, and tasks in progress                                |
+| [Mulch in this repo](./.mulch/README.md)                                     | `.mulch/` layout, **`make mulch-record`**, CLI install / `PATH` notes |
 
 ---
 
@@ -94,6 +95,8 @@ npx nx run-many -t typecheck,lint,test --all
 # Check only affected packages (CI mode)
 npx nx affected -t typecheck,lint,test
 ```
+
+Repo **Makefile** (optional): run **`make help`** for targets. **`make mulch-record`** starts the interactive Mulch lesson flow after **`npm install`** — details, required fields, and how the CLI is resolved on `PATH` are in **[.mulch/README.md](./.mulch/README.md)**.
 
 ---
 
