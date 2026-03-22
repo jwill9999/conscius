@@ -2,6 +2,7 @@
 
 ### 🚀 Features
 
+- *(e11-mvp-3)* `conscius run --input` — full config + plugin + hook cycle, print assembled prompt (`@conscius/cli`)
 - *(e11-mvp-2)* Runtime `memoryGuardrails` — opt-in substring denylist for memory segments before prompt build (`@conscius/runtime`)
 - *(e11-mvp-1)* Runtime `memoryPromptLimits` — segment count + approximate token caps before prompt build (`@conscius/runtime`)
 - *(epic-1)* Scaffold @coreai/agent-types and monorepo foundation
