@@ -79,6 +79,7 @@
 - *(e3-t4)* Add unit tests for agent-plugin-beads (26 tests)
 - *(e3-t4)* Update tests for improved contextLoader and beadsAdapter
 - *(e4-t2)* Cover missing activeTask hook case
+- *(dx)* Smoke-verify mulch-record-interactive in CI
 
 ### ⚙️ Miscellaneous Tasks
 
@@ -168,6 +169,7 @@
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(skills)* Mirror .github/skills into .cursor/skills for Cursor
+- *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
