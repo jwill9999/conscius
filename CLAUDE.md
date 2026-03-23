@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Conscius** is a plugin-based framework that gives AI agents persistent cognition — memory, session awareness, task context, and reusable skills. It's structured as an **Nx monorepo** with publishable packages under the `@conscius` scope.
 
+**`main`:** Runtime v3 plus Epic 11 MVP — `memoryPromptLimits`, `memoryGuardrails`, `conscius run --input`, `createRuntime().run()`, and the memory-only prompt contract (see `docs/specs/runtime-v3.md`).
+
 **Agent skills:** Project skills live in `.github/skills/` and `.cursor/skills/`; keep them in sync when editing. See `AGENTS.md` (**Project agent skills**) for layout, canonical source, and how to interpret Copilot-oriented placeholders (`!`-prefixed shell snippets and `$ARGUMENTS`).
 
 ## Commands

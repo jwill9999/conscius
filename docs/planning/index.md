@@ -2,7 +2,7 @@
 
 Active epics and features for the Conscius project. Managed by the `planning` skill — use `/new-epic`, `/new-feature`, `/add-task`, `/update-status`, and `/close-feature` to keep this in sync with the Beads task graph (`bd` CLI).
 
-**Priority vs roadmap:** In Beads, **Epic 11** (`coreai-2f5`) is **P1** and **Epic 5** (`coreai-vq3` and children) is **P2**. `SESSION.md` and this index follow that ordering unless you change priorities in Beads.
+**Priority vs roadmap:** **Epic 11** (`coreai-2f5`) is **complete on `main`**. **Epic 5** (`coreai-vq3` and children) is the next **P2** focus unless reprioritised in Beads. `SESSION.md` and this index follow Beads ordering.
 
 ---
 
@@ -37,14 +37,15 @@ Active epics and features for the Conscius project. Managed by the `planning` sk
 
 **Planning ID:** feature-2026-03-21-002  
 **Beads ID:** coreai-2f5  
-**Beads priority:** P1 (do before Epic 5 session plugin unless reprioritized in Beads)  
-**Status:** open  
+**Beads status:** `closed` (merged to `main`; verify with `bd show coreai-2f5`)  
+**Status:** done  
 **Created:** 21/03/2026 (GMT)  
+**Completed:** 23/03/2026 (GMT)  
 **Mode:** parallel (tasks can be sequenced by implementer)  
 **Description:** Close v3 MVP gaps: runtime compression and limits, basic guardrails, CLI full cycle + `runtime.run()`, strict memory-only prompt influence from plugins.  
-**Dependencies:** Epic 10 complete — Beads `coreai-d6k` (Runtime v3 merge); no open blockers on paper.  
-**Execution order (current):** sequential MVP passes — `coreai-tfx` → `coreai-5dw` → `coreai-uld` → `coreai-0ga` → `coreai-9ts`. (Parallel workstreams can be replanned later in Beads + this index.)  
-**Branching:** integration branch `feat/e11-runtime-mvp-hardening` from `main`; each MVP task uses its own `feat/e11-mvp-*` branch off the integration branch, merged into integration after human review; epic merges to `main` when Epic 11 closes.  
+**Dependencies:** Epic 10 complete — Beads `coreai-d6k` (Runtime v3 merge).  
+**Execution order (delivered):** MVP passes `coreai-tfx` → `coreai-5dw` → `coreai-uld` → `coreai-0ga` → `coreai-9ts`, integrated via `feat/e11-runtime-mvp-hardening`, merged to `main`.  
+**Branching (historical):** integration branch `feat/e11-runtime-mvp-hardening`; per-MVP `feat/e11-mvp-*` branches; epic merged to `main` when complete.  
 **Related Docs:** [Beads MVP alignment (v3)](./beads-mvp-alignment-v3.md) (canonical Epic 11 spec + task constraints), [Runtime v3 spec](../specs/runtime-v3.md) (platform behavior). Beads `spec_id` on `coreai-2f5` and MVP tasks points at `docs/planning/beads-mvp-alignment-v3.md`.
 
 **Definition of Done (MVP):** Same bullet list as in Beads on `coreai-2f5` and in [beads-mvp-alignment-v3.md](./beads-mvp-alignment-v3.md#definition-of-done-mvp) — final prompt via `runtime.run(input: string): string`, deterministic ordering and compression, string-only guardrails, `conscius run --input` full cycle, plugins only via `memorySegments`; no extra scope.

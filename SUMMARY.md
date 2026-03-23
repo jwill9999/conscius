@@ -365,6 +365,27 @@
 
 ---
 
+## Segment 15 — Epic 11 Runtime MVP Hardening merged to `main`
+
+**Topic:** Closing v3 MVP gaps after Runtime v3 (Epic 10): deterministic compression limits, basic guardrails, CLI full cycle, `createRuntime().run()`, and strict memory-only prompt influence.
+
+**Key Decisions:**
+
+- **MVP-1 (`memoryPromptLimits`):** segment count + approximate token caps before `buildPromptContext` — no LLM summarisation.
+- **MVP-2 (`memoryGuardrails`):** opt-in substring denylist for segments before prompt build — simple string checks only.
+- **MVP-3:** **`conscius run --input`** prints the final assembled prompt (full plugin + shell hook cycle).
+- **MVP-4:** **`createRuntime().run(input, repoRoot?)`** returns the same style of prompt string for programmatic hosts; loads `config.plugins` from disk each call.
+- **MVP-5:** Contract tests + runtime v3 spec language — `buildPromptContext` ignores `activeTask` / `pendingMulchLessons` unless reflected in `memorySegments`, compression summaries, or `conversation`.
+- **Integration:** work shipped via `feat/e11-runtime-mvp-hardening` and task branches; epic merged to **`main`**; Beads epic **`coreai-2f5`** closed.
+
+**Constraints:**
+
+- No extra scope beyond the published Definition of Done for Epic 11; session plugin remains **Epic 5** (P2).
+
+**Outcome:** `main` reflects full Epic 11 MVP. Next focus: **Epic 5** (`coreai-vq3`), starting with **`coreai-vq3.1`**.
+
+---
+
 ## Current State (rolling)
 
 | Document                          | Purpose                                    | Update when                        |
@@ -373,4 +394,4 @@
 | `SUMMARY.md`                      | Append-only segment history                | When a theme of work completes     |
 | `.github/copilot-instructions.md` | Standing conventions                       | When conventions change            |
 
-**Next focus:** Epic 5 — `@conscius/agent-plugin-session` (`coreai-vq3`).
+**Next focus:** Epic 5 — `@conscius/agent-plugin-session` (`coreai-vq3`); Epic 11 (`coreai-2f5`) complete on `main`.

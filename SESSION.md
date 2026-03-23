@@ -2,16 +2,15 @@
 
 ## Current Objective
 
-**`main` carries runtime v3 (0.5.0-alpha.0), CI green.** **Next engineering priority (Beads P1):** **Epic 11** — **`coreai-2f5`** (Runtime MVP hardening). **Epic 5** (`coreai-vq3` / `coreai-vq3.1` …) is **P2** — pick up after Epic 11 unless Beads priorities change. **Recently merged:** PR **#22** — `scripts/verify-mulch-record-interactive.sh`, **`npm run test:mulch-record-interactive`**, CI smoke step, `.mulch/README.md` automated check docs.
+**`main` carries runtime v3 + Epic 11 MVP hardening (0.5.0-alpha.0), CI green.** **Epic 11** (`coreai-2f5`) is **closed** in Beads — MVP-1–5 landed (`memoryPromptLimits`, `memoryGuardrails`, `conscius run --input`, `createRuntime().run()`, memory-only prompt contract). **Next engineering priority:** **Epic 5** (`coreai-vq3` / **`coreai-vq3.1`** …) — **P2** session plugin unless Beads priorities change.
 
 ## Active Task
 
-**Epic 11** — Claim the next open MVP task under **`coreai-2f5`** (e.g. **`coreai-tfx`** compression, **`coreai-5dw`** guardrails, **`coreai-uld`** CLI cycle, **`coreai-0ga`** `runtime.run()`, **`coreai-9ts`** memory-only contract). Scope and DoD: [docs/planning/beads-mvp-alignment-v3.md](./docs/planning/beads-mvp-alignment-v3.md).
-
-**Queued (P2):** **`coreai-vq3.1`** — `sessionReader.ts` per [docs/specs/e5-agent-plugin-session.md](./docs/specs/e5-agent-plugin-session.md); branch **`feat/e5-agent-plugin-session`** when opening that PR.
+**Epic 5 — `@conscius/agent-plugin-session`** — start with **`coreai-vq3.1`** (`sessionReader.ts` + tests) per [docs/specs/e5-agent-plugin-session.md](./docs/specs/e5-agent-plugin-session.md); use branch **`feat/e5-agent-plugin-session`** when opening the PR. Planning: [docs/planning/index.md](./docs/planning/index.md).
 
 Recent `main` themes (already landed):
 
+- **Epic 11 MVP** — compression limits, string guardrails, **`conscius run --input`**, **`createRuntime().run()`**, memory-only `buildPromptContext` contract (merged from `feat/e11-runtime-mvp-hardening`).
 - Runtime v3 MVP (`@conscius/runtime`, `conscius` CLI); PR **#19** Copilot items addressed (plugin `source` attribution, `resolvePluginSpecifier` + `repoRoot`, docs/tsconfig).
 - `.cursor` hygiene: Sonar token out of git; `SONARQUBE_TOKEN` via `${env:SONARQUBE_TOKEN}`; `AGENTS.md` uses `bd dolt pull`/`push` instead of non-existent `bd sync`.
 - **Skills:** `.cursor/skills/` now mirrors `.github/skills/` (planning + sections, pr-review, guardrails, docs, git-workflow, mulch, session); canonical source + sync rule documented in `AGENTS.md` / `CLAUDE.md` (`coreai-na7`).
@@ -28,11 +27,12 @@ Recent `main` themes (already landed):
 - ✅ **Mulch record helper** — `coreai-6n8` closed; `make mulch-record`, `scripts/mulch-record-interactive.sh`, `.mulch/README.md` + mulch skill table row.
 - ✅ **Mulch adapter refactor** — `coreai-f7m` closed (ml prime + Bun guard; matches `main`).
 - ✅ **Mulch interactive CI verify** — merged PR **#22**; `npm run test:mulch-record-interactive` + workflow step.
-- ⬜ **Epic 5** — `coreai-vq3.1` is **open** in Beads (not claimed); **Epic 11** is **P1** ahead of Epic 5 (**P2**).
+- ✅ **Epic 11** — `coreai-2f5` **closed**; MVP tasks merged to `main`.
+- ⬜ **Epic 5** — `coreai-vq3.1` is **open** in Beads (not claimed); **P2** after Epic 11.
 
 ## Decisions Made
 
-- **Work order:** Beads **priority** is the source of truth for what to do next; **SESSION.md** and **docs/planning/** stay aligned with it (currently Epic 11 **P1**, Epic 5 **P2**).
+- **Work order:** Beads **priority** is the source of truth; **SESSION.md** and **docs/planning/** stay aligned (Epic 11 **done on `main`**; next focus **Epic 5 P2** unless Beads changes).
 - Nx monorepo — prefer `npx nx add @nx/<plugin>` over manual config where applicable
 - TypeScript: `module: nodenext`, strict mode, `.js` extensions in imports
 - `tsconfig.spec.json` must set `"customConditions": null` (avoids TS5098 with Jest/node10)
@@ -55,10 +55,9 @@ Recent `main` themes (already landed):
 
 ## Next Steps
 
-1. **Epic 11 (`coreai-2f5`)** — MVP hardening: `coreai-tfx`, `coreai-5dw`, `coreai-uld`, `coreai-0ga`, `coreai-9ts` (see [beads-mvp-alignment-v3.md](./docs/planning/beads-mvp-alignment-v3.md)).
-2. **Epic 5 (`coreai-vq3`)** — after Epic 11 or if Beads priorities change: **`coreai-vq3.1`** `sessionReader.ts` + tests, then **`coreai-vq3.2`–`coreai-vq3.4`** (E5 spec).
-3. **Codecov probe** — when time allows, PR-branch experiment (see Open Issues).
-4. **Beads** — after issue changes, `bd export -o .beads/issues.jsonl` (use a temp file + `mv` if the DB is flaky) and commit per `.beads/README.md`.
+1. **Epic 5 (`coreai-vq3`)** — **`coreai-vq3.1`** `sessionReader.ts` + tests, then **`coreai-vq3.2`–`coreai-vq3.4`** (E5 spec).
+2. **Codecov probe** — when time allows, PR-branch experiment (see Open Issues).
+3. **Beads** — after issue changes, `bd export -o .beads/issues.jsonl` (use a temp file + `mv` if the DB is flaky) and commit per `.beads/README.md`.
 
 ---
 
@@ -107,7 +106,15 @@ Read-only Mulch: `ml prime` → `memorySegments` at `onSessionStart`; no `onSess
 | E4-T3 | `lessonWriter` | ✅     |
 | E4-T4 | Unit tests     | ✅     |
 
-### Epic 5 — `@conscius/agent-plugin-session` ⬜ (Beads P2)
+### Epic 10 — Runtime v3 merge ✅
+
+Planning index: [docs/planning/index.md](./docs/planning/index.md) (`coreai-d6k`). Delivered `@conscius/runtime`, `conscius` CLI, `memorySegments`, migrated plugins.
+
+### Epic 11 — Runtime MVP hardening ✅
+
+Beads **`coreai-2f5`** closed. On `main`: `memoryPromptLimits`, `memoryGuardrails`, **`conscius run --input`**, **`createRuntime().run()`**, tests + spec for memory-only prompt influence. Spec: [docs/planning/beads-mvp-alignment-v3.md](./docs/planning/beads-mvp-alignment-v3.md).
+
+### Epic 5 — `@conscius/agent-plugin-session` ⬜ (Beads P2 — next focus)
 
 | ID    | Task            | Status |
 | ----- | --------------- | ------ |

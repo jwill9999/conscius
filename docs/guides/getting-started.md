@@ -29,23 +29,25 @@ All packages should pass: `@conscius/runtime`, `@conscius/cli`, `@conscius/agent
 
 ```
 packages/
-  agent-types/        # Shared TypeScript types — AgentPlugin, AgentContext, etc.
-  agent-core/         # Core runtime — context builder, plugin loader, CLI
-  agent-plugin-beads/ # Plugin: wraps the bd CLI for task graph context injection
+  runtime/              # @conscius/runtime — engine, types, memory pipeline, hooks
+  cli/                  # @conscius/cli — conscius binary
+  agent-plugin-beads/   # Plugin: Beads / bd task context
+  agent-plugin-mulch/   # Plugin: Mulch / ml prime experience injection
 ```
 
 ## Common commands
 
-| Task              | Command                                  |
-| ----------------- | ---------------------------------------- |
-| Build all         | `npx nx run-many -t build --all`         |
-| Typecheck all     | `npx nx run-many -t typecheck --all`     |
-| Lint all          | `npx nx run-many -t lint --all`          |
-| Test all          | `npx nx run-many -t test --all`          |
-| Build one package | `npx nx build @conscius/runtime`         |
-| Run affected only | `npx nx affected -t typecheck,lint,test` |
-| Format check      | `npx nx format:check`                    |
-| Format write      | `npx nx format:write`                    |
+| Task              | Command                                                                |
+| ----------------- | ---------------------------------------------------------------------- |
+| One-shot prompt   | `npx conscius run --input "Hello"` (needs `.agent/config.json` in cwd) |
+| Build all         | `npx nx run-many -t build --all`                                       |
+| Typecheck all     | `npx nx run-many -t typecheck --all`                                   |
+| Lint all          | `npx nx run-many -t lint --all`                                        |
+| Test all          | `npx nx run-many -t test --all`                                        |
+| Build one package | `npx nx build @conscius/runtime`                                       |
+| Run affected only | `npx nx affected -t typecheck,lint,test`                               |
+| Format check      | `npx nx format:check`                                                  |
+| Format write      | `npx nx format:write`                                                  |
 
 ## Next steps
 

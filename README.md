@@ -11,18 +11,18 @@
 
 Most AI agents are stateless. Conscius bridges that gap by providing a structured runtime that agents can use to reason about past actions, understand current work, and plan future steps.
 
-**`main` baseline:** runtime **v3** — types and orchestration live in `@conscius/runtime`; the published CLI is `conscius` (`@conscius/cli`). Legacy `agent-core` / standalone `agent-types` packages are not in this workspace.
+**`main` baseline:** runtime **v3** plus **Epic 11 MVP hardening** — types and orchestration in `@conscius/runtime`; CLI **`conscius`** (`@conscius/cli`). Includes **`memoryPromptLimits`** and **`memoryGuardrails`**, **`createRuntime().run(input)`** (full compose cycle → prompt string), **`conscius run --input`**, and the documented **memory-only prompt contract** (`buildPromptContext` ignores host-only fields such as `activeTask` unless reflected in segments / compression / conversation). Legacy `agent-core` / standalone `agent-types` packages are not in this workspace.
 
 ---
 
 ## Packages
 
-| Package                                                         | Description                                                                               |
-| --------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| [`@conscius/runtime`](./packages/runtime)                       | Unified runtime v3 — `createRuntime`, `definePlugin`, memory pipeline, hook runner, types |
-| [`@conscius/cli`](./packages/cli)                               | `conscius` CLI — thin consumer of `@conscius/runtime`                                     |
-| [`@conscius/agent-plugin-beads`](./packages/agent-plugin-beads) | Plugin: injects active task context from the Beads task graph                             |
-| [`@conscius/agent-plugin-mulch`](./packages/agent-plugin-mulch) | Plugin: injects Mulch lessons via `ml prime` during session start                         |
+| Package                                                         | Description                                                                                        |
+| --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| [`@conscius/runtime`](./packages/runtime)                       | Unified runtime v3 — `createRuntime`, `definePlugin`, `run()`, memory pipeline, hook runner, types |
+| [`@conscius/cli`](./packages/cli)                               | `conscius` CLI — `run --input`, `start` / `end` / `task start`; thin runtime consumer              |
+| [`@conscius/agent-plugin-beads`](./packages/agent-plugin-beads) | Plugin: injects active task context from the Beads task graph                                      |
+| [`@conscius/agent-plugin-mulch`](./packages/agent-plugin-mulch) | Plugin: injects Mulch lessons via `ml prime` during session start                                  |
 
 ---
 
@@ -34,6 +34,12 @@ cd conscius
 nvm use
 npm install
 npx nx run-many -t typecheck,lint,test,build --all
+```
+
+With `.agent/config.json` in the working directory (same layout the runtime expects in real repos), you can try a one-shot compose cycle:
+
+```bash
+npx conscius run --input "Hello"
 ```
 
 → Full setup guide: [docs/guides/getting-started.md](./docs/guides/getting-started.md)
@@ -103,3 +109,5 @@ Repo **Makefile** (optional): run **`make help`** for targets. **`make mulch-rec
 ## Contributing
 
 See [SESSION.md](./SESSION.md) for epic status, open housekeeping items, and next steps. [SUMMARY.md](./SUMMARY.md) holds compressed session history for agents.
+
+**Badges:** CI, Codecov, and CodeQL target this repo (**`jwill9999/conscius`**). SonarCloud still uses the historical project key **`jwill9999_coreai`** in URLs — quality gate links remain valid.
