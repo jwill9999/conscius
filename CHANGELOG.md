@@ -2,11 +2,6 @@
 
 ### 🚀 Features
 
-- *(e11-mvp-5)* Contract tests + spec: final prompt from `buildPromptContext` ignores `activeTask` / `pendingMulchLessons` unless reflected in segments, compression, or conversation (`@conscius/runtime`)
-- *(e11-mvp-4)* `createRuntime().run(input, repoRoot?)` — full session-start + memory-compose cycle, returns prompt string only (`@conscius/runtime`)
-- *(e11-mvp-3)* `conscius run --input` — full config + plugin + hook cycle, prints assembled prompt (`@conscius/cli`)
-- *(e11-mvp-2)* Runtime `memoryGuardrails` — opt-in substring denylist for memory segments before prompt build (`@conscius/runtime`)
-- *(e11-mvp-1)* Runtime `memoryPromptLimits` — segment count + approximate token caps before prompt build (`@conscius/runtime`)
 - *(epic-1)* Scaffold @coreai/agent-types and monorepo foundation
 - *(e3-t1)* Scaffold @coreai/agent-plugin-beads with beadsAdapter, hooks, contextLoader
 - *(nx-cloud)* Setup nx cloud workspace
@@ -18,6 +13,10 @@
 - *(agent-types)* Align MulchLesson type with upstream ml schema
 - *(runtime)* Runtime v3, conscius CLI, and MVP planning alignment
 - *(dx)* Interactive Mulch record via make mulch-record
+- *(runtime)* MVP-1 memory prompt limits before buildPromptContext
+- *(runtime)* MVP-2 opt-in memory guardrails before prompt build
+- *(runtime)* Add createRuntime().run and prompt isolation contract
+- *(cli)* Conscius run --input full cycle to stdout
 
 ### 🐛 Bug Fixes
 
@@ -38,12 +37,14 @@
 - *(runtime)* Address PR #19 Copilot review (plugins, docs, tsconfig)
 - *(verify)* Capture expect_nonzero output to avoid stderr false alarms
 - *(verify)* Use grep -Fq for literal assert_contains substrings
+- *(runtime)* Avoid aliasing when memory guardrails are disabled
 
 ### 💼 Other
 
 - *(cursor)* Remove SonarCloud token from mcp.json; document env-based auth
 - Wire Epic 11 Beads issues to MVP alignment spec
 - *(main)* Resolve mulch verify conflicts — keep extended smoke test
+- *(feat/e11-runtime-mvp-hardening)* Resolve MVP-3/4/5 doc and Beads conflicts
 
 ### 🚜 Refactor
 
@@ -188,6 +189,7 @@
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(verify)* Satisfy Sonar shell rules (explicit return, shared literals)
 - *(verify)* Explicit return 0 branch in run_in_fixture for Sonar S7682
+- *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
 - *(changelog)* Update CHANGELOG.md [skip ci]
